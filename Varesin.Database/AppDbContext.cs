@@ -21,6 +21,8 @@ namespace Varesin.Database
         public DbSet<PostFile> PostFiles { get; set; }
         public DbSet<News> News { get; set; }
         public DbSet<NewsFile> NewsFiles { get; set; }
+        public DbSet<Event> Events { get; set; }
+        public DbSet<EventFile> EventFiles { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -110,6 +112,29 @@ namespace Varesin.Database
             newsFile.Property(c => c.Title).HasMaxLength(128).IsRequired(true);
 
             newsFile.HasOne(c => c.News).WithMany(c => c.Files).HasForeignKey(c => c.NewsId).OnDelete(DeleteBehavior.Cascade);
+
+            var eventEntity = builder.Entity<Event>();
+
+            eventEntity.HasKey(c => c.Id);
+
+            eventEntity.Property(c => c.Title)
+                .HasMaxLength(128)
+                .IsRequired(true);
+
+            eventEntity.Property(c => c.PrimaryPicture)
+               .HasMaxLength(128)
+               .IsRequired(true);
+
+            eventEntity.Property(c => c.Description)
+               .IsRequired(false);
+
+            var eventFile = builder.Entity<EventFile>();
+
+            eventFile.HasKey(c => c.Id);
+            eventFile.Property(c => c.FileName).HasMaxLength(128).IsRequired(true);
+            eventFile.Property(c => c.Title).HasMaxLength(128).IsRequired(true);
+
+            eventFile.HasOne(c => c.Event).WithMany(c => c.Files).HasForeignKey(c => c.EventId).OnDelete(DeleteBehavior.Cascade);
 
         }
     }

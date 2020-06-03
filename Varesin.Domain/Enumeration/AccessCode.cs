@@ -49,5 +49,12 @@
         ViewNews = 3004,
         NewsFileManagement = 3005,
 
+        EventManagement = 4000,
+        CreateEvent = 4001,
+        DeleteEvent = 4002,
+        EditEvent = 4003,
+        ViewEvent = 4004,
+        EventFileManagement = 4005,
+
     }
 }
