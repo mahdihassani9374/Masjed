@@ -182,12 +182,6 @@ namespace Varesin.Services
             return await _userManager.AddToRolesAsync(user, roles);
         }
 
-        public async Task<List<UserDto>> GetAllInterviewers()
-        {
-            var users = await _userManager.GetUsersInRoleAsync(AccessCode.Interviewer.ToString());
-            return users.ToList().ToDto();
-        }
-
         public string GetFullName(string userId)
         {
             return _context.Users.Where(c => c.Id.Equals(userId)).Select(c => c.FullName).FirstOrDefault();

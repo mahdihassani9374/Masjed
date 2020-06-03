@@ -12,38 +12,6 @@
         ViewUser = 103,
         EditUser = 104,
         AccessManagement = 105,
-        //
-
-        // مدیریت پروژه ها
-        ProjectManagement = 200,
-        CreateProject = 201,
-        ViewProject = 202,
-        EditProject = 203,
-        DeleteProject = 204,
-        AttachReport = 205,
-        ViewProjectPayment = 206,
-        ProjectTypeManagement = 207,
-
-        //
-        WorkingGroupManagement = 300,
-        CreateWorkingGroup = 301,
-        DeleteWorkingGroup = 302,
-        EditWorkingGroup = 303,
-        ViewWorkingGroup = 304,
-
-        //
-
-        ReportManagement = 400,
-        CreateReport = 401,
-        DeleteReport = 402,
-        EditReport = 403,
-        ViewReport = 404,
-        ReportFileManagement = 405,
-
-        // 
-        InterViewManagement = 500,
-        Interviewer = 501,
-        PrimaryResponsibble = 502,
 
         //
         SlideShowManagement = 600,

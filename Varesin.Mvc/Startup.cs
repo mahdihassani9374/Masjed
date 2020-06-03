@@ -16,7 +16,7 @@ namespace Varesin.Mvc
         public void ConfigureServices(IServiceCollection services)
         {
             // local
-            var con = @"Data Source=185.51.200.186\SQL2014,2014;Initial Catalog=varesin_Db;Persist Security Info=True;User ID=mhageyfge; Password=#J4j4g2v; MultipleActiveResultSets=True";
+            var con = @"Data Source=185.51.200.186\SQL2014,2014;Initial Catalog=Masjed;Persist Security Info=True;User ID=Masjed_mobin; Password=*t9iI4v2; MultipleActiveResultSets=True";
 
             services.AddDbContext<AppDbContext>(options =>
             {
