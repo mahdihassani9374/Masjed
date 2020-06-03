@@ -1,0 +1,57 @@
+﻿@using Varesin.Mvc.Models.WorkingGroup
+@using Varesin.Domain.Enumeration
+@using Varesin.Mvc.Services
+@model WorkingGroupViewModel
+@{
+    ViewData["Title"] = "ویرایش کارگروه - پنل مدیریتی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        @if (UserAccessService.UserIsInRole(User, AccessCode.ViewWorkingGroup))
+        {
+            <li class="breadcrumb-item" aria-current="page"><a asp-action="Index" asp-area="Admin" asp-controller="WorkingGroup">مشاهده کارگروه های سامانه</a></li>
+        }
+        <li class="breadcrumb-item active" aria-current="page">ویرایش کارگروه </li>
+    </ol>
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">ویرایش کارگروه </div>
+    <div class="panel-body">
+        <form method="post">
+            <input type="hidden" asp-for="Id" />
+            @Html.AntiForgeryToken()
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="alert alert-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required">   عنوان کارگروه را وارد نمایید :  </label>
+                        <input type="text" asp-for="Title" placeholder="عنوان کارگروه" class="form-control" id="pwd">
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+               <div class="col-md-4">
+                    <div class="form-group">                
+                        <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">ثبت</span>
+                        </button>
+                    </div>
+               </div>
+           </div>
+        </form>
+    </div>
+</div>

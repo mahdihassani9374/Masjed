@@ -1,0 +1,68 @@
+﻿
+@{
+    ViewData["Title"] = "پنل مدیریتی گروه جهادی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .panel-heading > i, .panel-heading > span,
+    .panel-body > i, .panel-body > span {
+        font-size: 16px;
+        font-weight: 600;
+    }
+</style>
+
+<div class="row">
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <span style="margin-right:10px">تعداد بازدید کننده سایت (امروز) </span>
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-users" aria-hidden="true"></i>
+                <span style="margin-right:10px"> @ViewBag.CountViewToday بازدید </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <span style="margin-right:10px">تعداد بازدید کننده سایت (هفته اخیر) </span>
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-users" aria-hidden="true"></i>
+                <span style="margin-right:10px"> @ViewBag.CountViewLastWeek بازدید </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="panel panel-danger">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <span style="margin-right:10px">تعداد بازدید کننده سایت (دوهفته اخیر) </span>
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-users" aria-hidden="true"></i>
+                <span style="margin-right:10px">@ViewBag.CountViewTwoLastWeek بازدید </span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3 col-sm-6 col-xs-12">
+        <div class="panel panel-warning">
+            <div class="panel-heading">
+                <i class="fa fa-bar-chart" aria-hidden="true"></i>
+                <span style="margin-right:10px">تعداد بازدید کننده سایت (یکماه اخیر)</span>
+            </div>
+            <div class="panel-body">
+                <i class="fa fa-users" aria-hidden="true"></i>
+                <span style="margin-right:10px">@ViewBag.CountViewLastMonth بازدید </span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<div class="alert alert-success">به پنل ادمین گروه جهادی وارثین خوش آمدید </div>

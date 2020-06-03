@@ -1,0 +1,89 @@
+﻿@using Varesin.Mvc.Models.Payment
+@model PaymentCreateViewModel
+@{
+    ViewData["Title"] = "مساعدت مالی - گروه جهادی وارثین";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    int? id = (int?)ViewBag.id;
+    Varesin.Domain.Enumeration.PaymentType? type = ViewBag.type;
+}
+
+<div class="bread">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bread__item">
+                <div class="">شما این جا هستید :</div>
+                <ul class="breadcrumb">
+                    <li><a href="/">صفحه اصلی</a></li>
+                    <li class="active">مساعدت مالی</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="">
+    <div style="overflow: hidden;padding: 40px 0;">
+        <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+            <div class="login">
+                <div class="login__title"> مساعدت مالی </div>
+                <div class="login__desc"> از این قسمت می توانید مساعدت مالی انجام دهید</div>
+                <div class="text-center">
+                    <div class="text-center">
+                        <img src="~/img/pay.jpg" alt="گروه جهادی وارثین" style="width: 200px;margin: 10px 0;border-radius: 10px;" class="img-responsive" />
+                    </div>
+                </div>
+
+                <hr />
+                <form method="post">
+                    @if (ViewData.ModelState.ErrorCount > 0)
+                    {
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="alert alert-danger">
+                                    @Html.ValidationSummary()
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="Type" value="@(type)" />
+                    <input type="hidden" name="RecordId" value="@(id)" />
+                    <div class="form-group">
+                        <label class="required" style="display:block">
+                            مبلغ را وارد نمایید :
+                            <span style="float:left" id="price-seperator"></span>
+                        </label>
+                        <input type="number" class="form-control" placeholder="مبلغ مورد نظر"
+                               asp-for="Price" onkeyup="numberWithCommas()" required>
+                    </div>
+                    <div class="form-group">
+                        <label>اگر تمایل دارید شماره همراه خود را وارد نمایید : </label>
+                        <input type="number" class="form-control" placeholder="شماره همراه"
+                               asp-for="PhoneNumber">
+                    </div>
+                    <div class="form-group">
+                        <label>اگر تمایل دارید نام و نام خانوداگی خود را وارد نمایید : </label>
+                        <input type="text" class="form-control" placeholder="نام و نام خانوداگی"
+                               asp-for="FullName">
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">پرداخت </span>
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>    
+
+        function numberWithCommas() {           
+            var x = document.getElementById('Price').value;
+            var pattern = /(-?\d+)(\d{3})/;
+            while (pattern.test(x))
+                x = x.replace(pattern, "$1,$2");
+            return document.getElementById('price-seperator').innerText = x + ' تومان ';
+    }
+</script>

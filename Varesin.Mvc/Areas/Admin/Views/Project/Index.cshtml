@@ -1,0 +1,159 @@
+﻿@using Varesin.Mvc.Models.Project
+@using Varesin.Mvc.Models
+@using Varesin.Mvc.Models.Pagination
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Varesin.Domain.Enumeration
+@using Varesin.Mvc.Services
+@using DNTPersianUtils.Core
+
+@model SearchModel<ProjectSearchViewModel, PaginationViewModel<ProjectViewModel>>
+@{
+    ViewData["Title"] = "مشاهده پروژه های سامانه - پنل مدیریتی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var pafeSizeSelector = (List<SelectListItem>)ViewBag.PageSizeSelector;
+    var projectTypeSelector = (List<SelectListItem>)ViewBag.ProjectTypeSelector;
+    var projectStateSelector = (List<SelectListItem>)ViewBag.ProjectStateSelector;
+
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        <li class="breadcrumb-item active" aria-current="page">مشاهده پروژه های سامانه</li>
+    </ol>
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">مشاهده پروژه های سامانه</div>
+    <div class="panel-body">
+        <form>
+            <div class="row flex-end">
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="pwd">عنوان پروژه : </label>
+                        <input name="Title" value="@(Model?.Search?.Title)" type="text" placeholder="عنوان" class="form-control" id="pwd">
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="pwd">نوع پروژه : </label>
+                        <select name="TypeId" asp-items="@projectTypeSelector" class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="pwd">وضعیت پروژه : </label>
+                        <select name="State" asp-items="@projectStateSelector" class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="pwd">تعداد آیتم نمایشی : </label>
+                        <select name="PageSize" asp-items="@pafeSizeSelector" class="form-control"></select>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">جستجو <i class="fa fa-search"></i></span>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <a asp-action="Index" asp-controller="Project" asp-area="Admin" class="btn btn-danger btn-block">
+                            حذف فیلتر <i class="fa fa-times"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr />
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>عنوان پروژه</th>
+                        <th>نوع پروژه</th>
+                        <th>وضعیت پروژه</th>
+                        <th>برآورد هزینه پروژه</th>
+                        <th>هزینه جمع آوری شده</th>
+                        <th>گزارش متصل شده</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model.Data.Data)
+                    {
+                    <tr>
+                        <td>@item.Title?.ToPersianNumbers()</td>
+                        <td>@item.Type?.Title?.ToPersianNumbers()</td>
+                        <td>
+                            @if (item.State == ProjectState.Doing)
+                            {
+                                <label class="label label-warning">در حال انجام</label>
+                            }
+                            else if (item.State == ProjectState.Funding)
+                            {
+                                <label class="label label-info">درحال تأمین اعتبار</label>
+                            }
+                            else
+                            {
+                                <label class="label label-success">اتمام یافته</label>
+                            }
+                        </td>
+                        <td>
+                            @if (item.CostEstimation.HasValue)
+                            {
+                                <span>@item.CostEstimation?.ToString("#,##").ToPersianNumbers() تومان</span>
+                            }
+                        </td>
+                        <td>
+                            @if (item.CostCollected.HasValue)
+                            {
+                                <span>@item.CostCollected?.ToString("#,##").ToPersianNumbers() تومان</span>
+                            }
+                        </td>
+
+                        <td>@item.Report?.Title</td>
+                        <td>
+                            @if (UserAccessService.UserIsInRole(User, AccessCode.EditProject))
+                            {
+                                <a asp-action="Edit" asp-controller="Project" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-success">ویرایش</a>
+                            }
+                            @if (UserAccessService.UserIsInRole(User, AccessCode.DeleteProject))
+                            {
+                                <a data-role="confirm" asp-action="Delete" asp-controller="Project" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-danger">حذف</a>
+                            }
+                            @if (UserAccessService.UserIsInRole(User, AccessCode.AttachReport))
+                            {
+                                @if (item.State == ProjectState.End)
+                                {
+                                    @if (item.Report == null)
+                                    {
+                                        <a asp-action="Report" asp-controller="Project" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-info">الصاق گزارش</a>
+                                    }
+                                    else
+                                    {
+                                        <a asp-action="Report" asp-controller="Project" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-info">مشاهده و ویرایش گزارش الصاق شده</a>
+                                    }
+                                }
+                            }
+                            @if (UserAccessService.UserIsInRole(User, AccessCode.ViewProjectPayment))
+                            {
+                                <a asp-action="Payment" asp-controller="Project" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-default">مشاهده پرداخت های پروژه</a>
+                            }
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+        @Html.Partial("_Pagination", Model.Data)
+    </div>
+</div>
+
+

@@ -1,0 +1,56 @@
+﻿@using Varesin.Mvc.Models.User
+@using Varesin.Mvc.Models.Project
+@using Varesin.Mvc.Models.Pagination
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Varesin.Domain.Enumeration
+@using Varesin.Mvc.Services
+
+@model List<ProjectTypeViewModel>
+@{
+    ViewData["Title"] = "مشاهده نوع پروژه های سامانه - پنل مدیریتی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        <li class="breadcrumb-item active" aria-current="page">مشاهده نوع پروژه های سامانه</li>
+    </ol>
+</nav>
+
+<div class="row" style="margin-bottom:15px;">
+    <div class="col-md-12">
+        <a class="btn btn-primary" asp-action="Create" asp-area="Admin" asp-controller="ProjectType">اضافه نمودن نوع پروژه</a>
+    </div>
+</div>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">مشاهده نوع پروژه های سامانه</div>
+    <div class="panel-body">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>عنوان</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@item.Title</td>
+                            <td>
+                                <a asp-action="Edit" asp-controller="ProjectType" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-success">ویرایش</a>
+                                <a data-role="confirm" asp-action="Delete" asp-controller="ProjectType" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-danger">حذف</a>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,60 @@
+﻿@using Varesin.Mvc.Services
+@inject InfoService infoServie
+@{
+    ViewData["Title"] = "درباره ما - گروه جهادی وارثین";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var info = infoServie.Get();
+}
+
+<div class="bread">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bread__item">
+                <div class="">شما این جا هستید :</div>
+                <ul class="breadcrumb">
+                    <li><a href="/">صفحه اصلی</a></li>
+                    <li class="active">درباره ما</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="detail">
+        <div class="title">بیوگرافی گروه جهادی وارثین :  </div>
+        <div class="desc" style="line-height: 30px;text-align: justify;">
+            @info.AboutUs
+        </div>
+        <hr />
+        <form>
+            <div class="row">
+                <div class="col-md-12">
+                    <p style="font-weight: 600;"> گروه جهادی وارثین را در شبکه های مجازی دنبال کنید </p>
+                    <img src="~/img/logo.jpg" class="img-responsive" alt="گروه جهادی وارثین" style="width: 150px;" />
+                    <hr />
+                    <div>
+                        <a href="@(info.BaleAccount)" target="_blank">
+                            <img style="max-width: 32px;" src="~/img/bale.png">
+                        </a>
+                        <a href="@info.SoroushAccount" target="_blank">
+                            <img style="max-width: 32px;" src="~/img/soroosh.png">
+                        </a>
+                        <a href="@info.TelegramAccount" target="_blank">
+                            <img style="max-width: 32px;" src="~/img/telegram.png">
+                        </a>
+                        <a href="@info.InstagramAccount" target="_blank">
+                            <img style="max-width: 32px;" src="~/img/insta.png">
+                        </a>
+                    </div>
+                    <p style="font-weight: 600;margin-top: 10px;">
+                        @info.Address
+                    </p>
+                    <p style="font-weight: 600;">شماره های تماس :  @(infoServie.GetPhoneNumbers(info))</p>
+                    <p style="font-weight: 600;">کانال تلگرام : @(info.TelegramAccount)</p>
+                    <p style="font-weight: 600;">کانال بله : @(info.BaleAccount)</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

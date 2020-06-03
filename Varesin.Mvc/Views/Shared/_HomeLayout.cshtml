@@ -1,0 +1,107 @@
+﻿@using Varesin.Mvc.Services
+@inject InfoService infoServie
+@{
+    var info = infoServie.Get();
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link rel="shortcut icon" type="image/png" href="~/img/icon.png">
+    <meta property="og:type" content="place">
+    <meta property="og:title" content="گروه جهادی وارثین">
+    <meta property="og:url" content="http://j-varesin.ir/">
+    <meta property="og:image" content="~/img/logo.png">
+    <meta name="keywords" content="گروه جهادی وارثین">
+    <meta name="description" content="گروه جهادی وارثین">
+
+    <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.rtl.css">
+    <link rel="stylesheet" href="~/fonts/font-fa.css" />
+    <link rel="stylesheet" href="~/css/styles.css?v=0.0.2" />
+    <link rel="stylesheet" href="~/css/styleoverride.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-touch-slider.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/lib/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+    <link rel="stylesheet" href="~/css/icons.min.css" />
+    <link rel="stylesheet" href="~/lib/slick/slick.css" />
+    <link href="~/lib/toaster/toastr.min.css" rel="stylesheet" />
+    <link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/persian-datePicker/persian-datepicker.min.css" />
+    <link rel="stylesheet" href="~/lib/laddaButton/ladda-themeless.min.css" />
+
+</head>
+<body dir="rtl">
+
+    <div>
+        @RenderBody()
+    </div>
+
+    <div class="seperator"></div>
+
+    <div class="komak">
+        <div class="komak__title">حمایت مالی از گروه جهادی وارثین</div>
+        <div class="komak__desc">
+            ما برای دستیافتن به هدف های کوتاه مدت و بلند مدت خود نیازمند کمک های شما هستیم تا مرکز اسلامی پایدار بماند.
+        </div>
+        <div class="text-center" style="position: relative;">
+            <a asp-action="Index" asp-controller="FinancialSupport" class="btn btn-primary">حمایت مالی </a>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="text-center">
+                <p>محفل وارثین : @(info.Address)</p>
+                <p>شماره های تماس : @(infoServie.GetPhoneNumbers(info))</p>
+                <p>شبکه های اجتماعی گروه جهادی وارثین</p>
+            </div>
+            <div class="text-center">
+                <a href="@(info.BaleAccount)" target="_blank">
+                    <img src="~/img/bale.png">
+                </a>
+                @*<a href="@(info.SoroushAccount)" target="_blank">
+                    <img src="~/img/soroosh.png">
+                </a>*@
+                <a href="@(info.TelegramAccount)" target="_blank">
+                    <img src="~/img/telegram.png">
+                </a>
+                <a href="@(info.InstagramAccount)" target="_blank">
+                    <img src="~/img/insta.png">
+                </a>
+            </div>
+            <hr>
+            <div class="text-center">
+                <a href="http://mobinmahdi.ir" target="_blank">طراحی سایت : مهدی و مبین حسنی </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery-3.1.1/jquery-3.1.1.min.js"></script>
+    <script src="~/lib/bootstrap/bootstrap.min.js"></script>
+    <script src="~/js/bootstrap-touch-slider-min.js"></script>
+    <script src="~/js/jquery.touchSwipe.min.js"></script>
+    <script src="~/lib/slick/slick.js"></script>
+    <script src="~/lib/toaster/toastr.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/lib/persian-datePicker/persian-date.min.js"></script>
+    <script src="~/lib/persian-datePicker/persian-datepicker.min.js"></script>
+    <script src="~/lib/laddaButton/spin.min.js"></script>
+    <script src="~/lib/laddaButton/ladda.min.js"></script>
+    <script src="~/js/script.js"></script>
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-120605683-12"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+
+        gtag('config', 'UA-120605683-12');
+    </script>
+</body>
+</html>
+@Html.Partial("_Swal.cshtml")

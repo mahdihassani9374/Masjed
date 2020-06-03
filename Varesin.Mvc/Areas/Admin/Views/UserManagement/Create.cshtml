@@ -1,0 +1,80 @@
+﻿@using Varesin.Mvc.Models
+@using Varesin.Domain.Enumeration
+@using Varesin.Mvc.Services
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "ایجاد کاربر جدید - پنل مدیریتی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        @if (UserAccessService.UserIsInRole(User, AccessCode.ViewUser))
+        {
+            <li class="breadcrumb-item active" aria-current="page"><a asp-action="Index" asp-controller="UserManagement" asp-area="Admin">مشاهده کاربران سامانه</a></li>
+        }
+        <li class="breadcrumb-item active" aria-current="page">ایجاد کاربر جدید </li>
+    </ol>
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">ایجاد کاربر جدید</div>
+    <div class="panel-body">
+        <form method="post">
+            @Html.AntiForgeryToken()
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                </div>
+            }
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required">شماره تلفن  کاربر را وارد کنید : </label>
+                        <input type="number" required asp-for="PhoneNumber" placeholder="شماره تلفن" class="form-control" id="pwd">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required">نام و نام خانوادگی کاربر را وارد کنید  : </label>
+                        <input type="text" required asp-for="FullName" placeholder="نام و نام خانوادگی" class="form-control" id="pwd">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required">رمز عبور کاربر را وارد کنید : </label>
+                        <input type="text" required asp-for="Password" placeholder="رمز عبور" class="form-control" id="pwd">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required">جنسیت کاربر را انتخاب کنید : </label>
+                        <label class="radio-inline">
+                            <input type="radio" required asp-for="Gender" value="@(Varesin.Database.Identity.Entities.GenderType.Man)">مرد
+                        </label>
+
+                        <label class="radio-inline">
+                            <input type="radio" required asp-for="Gender" value="@(Varesin.Database.Identity.Entities.GenderType.Female)" />زن
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">ثبت</span>
+                        </button>
+                    </div>
+                </div>
+            </div>           
+        </form>
+    </div>
+</div>

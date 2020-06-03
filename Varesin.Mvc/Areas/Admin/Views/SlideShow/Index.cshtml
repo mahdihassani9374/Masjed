@@ -1,0 +1,72 @@
+﻿@using Varesin.Mvc.Models.SlideShow
+@using Varesin.Mvc.Models
+@using Varesin.Mvc.Models.Pagination
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Varesin.Domain.Enumeration
+@using Varesin.Mvc.Services
+@using DNTPersianUtils.Core
+
+@model List<SlideShowViewModel>
+@{
+    ViewData["Title"] = "مشاهده اسلایدشو های سامانه - پنل مدیریتی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        <li class="breadcrumb-item active" aria-current="page">مشاهده اسلایدشو های سامانه</li>
+    </ol>
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">مشاهده اسلایدشو های سامانه</div>
+    <div class="panel-body">
+       
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>عکس </th>
+                        <th>عنوان </th>
+                        <th>لینک</th>
+                        <th>عملیات</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Count == 0)
+                    {
+                        <tr>
+                            <td colspan="4">داده ای وجود ندارد</td>
+                        </tr>
+                    }
+                    else
+                    {
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="~/Files/SlideShow/@(item.FileName)" class="img-thumbnail" style="width:60px;height:60px;" />
+                                </td>
+                                <td>@item.Title?.ToPersianNumbers()</td>
+                                <td>@item.Link</td>
+
+                                <td>
+                                    @if (UserAccessService.UserIsInRole(User, AccessCode.EditSlideShow))
+                                    {
+                                        <a asp-action="Edit" asp-controller="SlideShow" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-success">ویرایش</a>
+                                    }
+                                    @if (UserAccessService.UserIsInRole(User, AccessCode.DeleteSlideShow))
+                                    {
+                                        <a data-role="confirm" asp-action="Delete" asp-controller="SlideShow" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-danger">حذف</a>
+                                    }
+                                </td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

@@ -1,0 +1,96 @@
+﻿@using Varesin.Mvc.Models.Profile
+@using Varesin.Domain.Enumeration
+@using Varesin.Mvc.Services
+@model ChangeProfileViewModel
+@{
+    ViewData["Title"] = "ویرایش پروفایل - پنل مدیریتی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        <li class="breadcrumb-item active" aria-current="page">ویرایش پروفایل</li>
+    </ol>
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">ویرایش پروفایل</div>
+    <div class="panel-body">
+        <form method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            <input type="hidden" asp-for="Id" />
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <p>عکس پروفایل نباید بیش از 200 کیلو بایت باشد</p>
+                        <p>اگر عکس پروفایل را دوباره انتخاب کنید جایگزین عکس قبلی می شود</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+
+                    @if (string.IsNullOrEmpty(Model.ImageName))
+                    {
+                        <p style="font-weight: 600;color:red;">عکسی تاکنون برای پروفایل خود انتخاب نکرده اید</p>
+                    }
+                    else
+                    {
+                        <p style="font-weight: 600;">عکس کنونی پروفایل شما :  </p>
+                        <p><img src="~/Files/Profile/@(Model.ImageName)" class="img-thumbnail" style="width:200px;" /></p>
+                    }
+
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="required">شماره تلفن   را وارد کنید : </label>
+                        <input type="number" required asp-for="PhoneNumber" placeholder="شماره تلفن" class="form-control" id="pwd">
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label class="required">نام و نام خانوادگی  را وارد کنید  : </label>
+                        <input type="text" required asp-for="FullName" placeholder="نام و نام خانوادگی" class="form-control" id="pwd">
+                    </div>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label>عکس پروفایل خود را انتخاب کنید : </label>
+                        <input type="file" name="file" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">ثبت</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

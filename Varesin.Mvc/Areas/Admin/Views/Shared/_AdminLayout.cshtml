@@ -1,0 +1,120 @@
+﻿@{
+    var accesses = Varesin.Mvc.Services.UserAccessService.GetAccess(User.Claims);
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+
+    <link rel="shortcut icon" type="image/png" href="~/img/icon.png">
+
+    <link rel="stylesheet" href="~/lib/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.rtl.css">
+    <link rel="stylesheet" href="~/fonts/font-fa.css" />
+    <link rel="stylesheet" href="~/css/styles.css?v=0.0.2" />
+    <link rel="stylesheet" href="~/css/styleoverride.css" />
+    <link rel="stylesheet" href="~/css/bootstrap-touch-slider.css" />
+    <link rel="stylesheet" href="~/css/animate.css" />
+    <link rel="stylesheet" href="~/lib/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
+    <link rel="stylesheet" href="~/css/icons.min.css" />
+    <link rel="stylesheet" href="~/lib/slick/slick.css" />
+
+    <link href="~/lib/toaster/toastr.min.css" rel="stylesheet" />
+    <link href="~/lib/sweetalert2/sweetalert2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/lib/persian-datePicker/persian-datepicker.min.css" />
+    <link rel="stylesheet" href="~/lib/laddaButton/ladda-themeless.min.css" />
+
+    <script src="~/lib/jquery-3.1.1/jquery-3.1.1.min.js"></script>
+    <script src="~/lib/bootstrap/bootstrap.min.js"></script>
+    <script src="~/js/bootstrap-touch-slider-min.js"></script>
+    <script src="~/js/jquery.touchSwipe.min.js"></script>
+    <script src="~/lib/slick/slick.js"></script>
+    <script src="~/lib/toaster/toastr.min.js"></script>
+    <script src="~/lib/sweetalert2/sweetalert2.min.js"></script>
+    <script src="~/lib/persian-datePicker/persian-date.min.js"></script>
+    <script src="~/lib/persian-datePicker/persian-datepicker.min.js"></script>
+    <script src="~/lib/laddaButton/spin.min.js"></script>
+    <script src="~/lib/laddaButton/ladda.min.js"></script>
+    <script src="~/lib/ckeditor/ckeditor.js"></script>
+    <script src="~/lib/ckeditor/samples/js/sample.js"></script>
+    <script src="~/js/script.js"></script>
+</head>
+<body dir="rtl">
+    <div>
+        <div class="admin">
+            <div class="admin__header">
+                <div>
+                    <a href="#"><i class="fa fa-diamond"></i></a>
+                    <a href="/admin">پنل ادمین  وارثین  </a>
+                </div>
+                <div class="dropdown">
+                    <span class="dropdown-toggle" data-toggle="dropdown">
+                        @Varesin.Mvc.Services.UserAccessService.GetFullName(User.Claims) عزیز خوش آمدید !
+                        <span class="caret"></span>
+                        @if (string.IsNullOrEmpty(Varesin.Mvc.Services.UserAccessService.GetImageName(User.Claims)))
+                        {
+                            <img src="~/img/user.png" class="img-circle" style="width: 40px;height:40px" />
+                        }
+                        else
+                        {
+                            <img src="~/Files/Profile/@Varesin.Mvc.Services.UserAccessService.GetImageName(User.Claims)" class="img-circle" style="width: 40px;height:40px" />
+                        }
+
+                    </span>
+                    <ul class="dropdown-menu">
+                        <li><a asp-action="ChangeProfile" asp-area="Admin" asp-controller="Profile">ویرایش پروفایل </a></li>
+                        <li><a asp-action="ChangePassword" asp-area="Admin" asp-controller="Profile">تغییر رمز عبور</a></li>
+                        <li><a href="/Account/Logout">خروج</a></li>
+                    </ul>
+                </div>
+                <div class="collapse-toggle">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+            </div>
+            <div class="sidebar collapse" id="myNavbar">
+                <div class="sidebar__profile">
+                    <div class="sidebar__profile__img">
+                        @if (string.IsNullOrEmpty(Varesin.Mvc.Services.UserAccessService.GetImageName(User.Claims)))
+                        {
+                            <img src="~/img/user.png" class="img-circle img-responsive" />
+                        }
+                        else
+                        {
+                            <img src="~/Files/Profile/@Varesin.Mvc.Services.UserAccessService.GetImageName(User.Claims)" class="img-circle img-responsive" />
+                        }
+
+                    </div>
+                    <div class="sidebar__profile__title">
+                        @Varesin.Mvc.Services.UserAccessService.GetFullName(User.Claims)
+                    </div>
+                </div>
+                <div class="scroll-panel" style="direction:rtl">
+                    <div id="scroll">
+                        @foreach (var access in accesses)
+                        {
+                            <a href="/@access.AreaName/@access.ControllerName/@access.ActionName">
+                                <i style="position: relative;top:1px;left:5px" class="fa fa-snowflake-o" aria-hidden="true"></i> @access.Title
+                            </a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="content">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script>
+        initSample();
+    </script>
+</body>
+</html>
+@Html.Partial("_Swal.cshtml")

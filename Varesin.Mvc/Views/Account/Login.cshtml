@@ -1,0 +1,55 @@
+﻿@using Varesin.Mvc.Models
+@model LoginViewModel
+@{
+    ViewData["Title"] = "ورود - گروه جهادی وارثین";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="bread">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bread__item">
+                <div class="">شما این جا هستید :</div>
+                <ul class="breadcrumb">
+                    <li><a href="/">صفحه اصلی</a></li>
+                    <li class="active">ورود به سایت </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post">
+    @Html.AntiForgeryToken()
+     <div class="">
+        <div style="overflow: hidden;padding: 40px 0;">
+            <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3">
+                <div class="login">
+                    <div class="login__title"> ورود به سایت گروه جهادی وارثین</div>
+                    <div class="login__desc">از این قسمت می توانید وارد پنل کاربری خود شوید</div>
+                    <div class="text-center">
+                        <div class="login__icon">
+                            <i class="fa fa-unlock-alt"></i>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>نام کاربری یا شماره همراه خود را وارد کنید</label>
+                        <input required="" asp-for="PhoneNumber"  type="text" class="form-control" placeholder="نام کاربری یا شماره همراه"
+                            data-val="true" data-val-required="نام کاربری نمی تواند فاقد مقدار باشد"
+                              />
+                    </div>
+                    <div class="form-group">
+                        <label>رمز عبور خود را وارد کنید</label>
+                        <input required="" asp-for="Password" type="password" class="form-control" placeholder="رمز عبور" data-val="true"
+                            data-val-required="رمزعبور نمی تواند فاقد مقدار باشد">
+                    </div>
+                    <div class="form-group">
+                         <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">ورود به پنل</span>
+                        </button>                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

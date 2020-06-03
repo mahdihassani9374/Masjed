@@ -1,0 +1,95 @@
+﻿@using Varesin.Mvc.Models.ContactUs
+@using Varesin.Mvc.Services
+@inject InfoService infoServie
+@model ContactUsCreateViewModel
+@{
+    ViewData["Title"] = "تماس با ما - گروه جهادی وارثین ";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var info = infoServie.Get();
+}
+
+
+<div class="bread">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bread__item">
+                <div class="">شما این جا هستید :</div>
+                <ul class="breadcrumb">
+                    <li><a href="/">صفحه اصلی</a></li>
+                    <li class="active">تماس با ما</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="detail">
+        <div class="title">انتقادات و پیشنهادات</div>
+        <div class="desc">کاربر گرامی از طریق فرم زیر می توانید انتقادات و پیشنهادات خود را به ما برسانید </div>
+        <hr />
+        <form method="post">
+            @Html.AntiForgeryToken()
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>اگر تمایل داشتید نا و نام خانوداگی خود را وارد نمایید : </label>
+                                <input asp-for="FullName" type="text" class="form-control"
+                                       placeholder="نام و نام خانوادگی">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>اگر تمایل داشتید شماره همراه خود را وارد نمایید :  </label>
+                                <input asp-for="PhoneNumber" type="text" class="form-control" placeholder="شماره تماس ">
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="required">انتقادات و پیشنهادات خود را وارد کنید </label>
+                                <textarea asp-for="Text" required="" rows="7" class="form-control"
+                                          placeholder="انتقادات و پیشنهادات"></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <button class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                                    <span class="ladda-label">ثبت اطلاعات </span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <p style="font-weight: 600;"> گروه جهادی وارثین را در شبکه های مجازی دنبال کنید </p>
+                    <img src="~/img/logo.jpg" class="img-responsive" alt="گروه جهادی وارثین" style="width: 150px;" />
+                    <hr />
+                    <div>
+                        <a href="@(info.BaleAccount)" target="_blank">
+                            <img style="max-width: 32px;" src="~/img/bale.png">
+                        </a>
+                        <a href="@(info.SoroushAccount)" target="_blank">
+                            <img style="max-width: 32px;" src="~/img/soroosh.png">
+                        </a>
+                        <a href="@(info.TelegramAccount)" target="_blank">
+                            <img style="max-width: 32px;" src="~/img/telegram.png">
+                        </a>
+                        <a href="@(info.InstagramAccount)" target="_blank">
+                            <img style="max-width: 32px;" src="~/img/insta.png">
+                        </a>
+                    </div>
+                    <p style="font-weight: 600;margin-top: 10px;">
+                        محفل وارثین : @(info.Address))
+                    </p>
+                    <p style="font-weight: 600;">شماره های تماس :  @(infoServie.GetPhoneNumbers(info))</p>
+                    <p style="font-weight: 600;">کانال تلگرام : @(info.TelegramAccount)</p>
+                    <p style="font-weight: 600;">کانال بله : @(info.BaleAccount)</p>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -1,0 +1,88 @@
+﻿@using Varesin.Mvc.Models.SlideShow
+@using Varesin.Domain.Enumeration
+@using Varesin.Mvc.Services
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model SlideShowCreateViewModel
+@{
+    ViewData["Title"] = "ایجاد اسلایدشو جدید - پنل مدیریتی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        @if (UserAccessService.UserIsInRole(User, AccessCode.ViewSlideShow))
+        {
+            <li class="breadcrumb-item active" aria-current="page"><a asp-action="Index" asp-controller="SlideShow" asp-area="Admin">مشاهده اسلایدشو های سامانه</a></li>
+        }
+        <li class="breadcrumb-item active" aria-current="page">ایجاد اسلایدشو جدید </li>
+    </ol>
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">ایجاد اسلایدشو جدید</div>
+    <div class="panel-body">
+        <form method="post" enctype="multipart/form-data">
+            @Html.AntiForgeryToken()
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <p>عکس  برای اسلایدشو نباید بیش از 500 کیلو بایت باشد</p>
+                        <p>عکس  برای اسلایدشو نباید بیش از 500 کیلو بایت باشد</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required">عنوان اسلایدشو را وارد نمایید : </label>
+                        <input required type="text" asp-for="Title" placeholder="عنوان" class="form-control" id="pwd">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>لینک اسلایدشو را وارد نمایید : </label>
+                        <input  type="text" asp-for="Link" placeholder="http://mobinmahdi.ir" class="form-control" id="pwd">
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label class="required">عکس اسلایدشو را انتخاب کنید : </label>
+                        <input type="file" name="File" required />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="pwd">توضیحات گزارش را وارد نمایید : </label>
+                        <textarea asp-for="Description" placeholder="توضیحات گزارش" class="form-control" id="pwd" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">ثبت</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

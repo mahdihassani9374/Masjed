@@ -1,0 +1,214 @@
+﻿@using Varesin.Mvc.Models.Project
+@using Varesin.Mvc.Models
+@using Varesin.Mvc.Models.Pagination
+
+@model SearchModel<ProjectUserSearchViewModel, PaginationViewModel<ProjectViewModel>>
+@{
+    ViewData["Title"] = "پروژه ها - گروه جهادی وارثین نون ولم";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pafeSizeSelector = (List<SelectListItem>)ViewBag.PageSizeSelector;
+    var projectTypeSelector = (List<SelectListItem>)ViewBag.ProjectTypeSelector;
+    var projectStateSelector = (List<SelectListItem>)ViewBag.ProjectStateSelector;
+}
+
+
+
+<div class="bread">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bread__item">
+                <div class="">شما این جا هستید :</div>
+                <ul class="breadcrumb">
+                    <li><a href="/">صفحه اصلی</a></li>
+                    <li class="active">پروژه های گروه جهادی وارثین </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="project" style="background-color: #fff;">
+    <div class="container">
+        <fieldset>
+            <legend>جستجو در پروژه ها : </legend>
+            <form>
+                <div class="row flex-end">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label>نام پروژه : </label>
+                            <input name="Title" value="@(Model?.Search?.Title)" type="text" class="form-control" placeholder="جستجو بر اساس نام پروژه" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label for="pwd">نوع پروژه : </label>
+                            <select name="TypeId" asp-items="@projectTypeSelector" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label for="pwd">وضعیت پروژه : </label>
+                            <select name="State" asp-items="@projectStateSelector" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label for="pwd">تعداد آیتم نمایشی : </label>
+                            <select name="PageSize" asp-items="@pafeSizeSelector" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                                <span class="ladda-label">جستجو <i class="fa fa-search"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <a asp-action="Index" asp-controller="Project" class="btn btn-danger btn-block">
+                                حذف فیلتر <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+
+        <hr />
+        <div class="row">
+            @if (Model.Data.Data.Count == 0)
+            {
+                <div class="col-md-12 alert alert-danger">
+                    <p class="text-center">داده ای یافت نشد</p>
+                </div>
+            }
+            else
+            {
+                foreach (var item in Model.Data.Data)
+                {
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="project__item" style="margin:10px 0;">
+                            <div class="project__item__img">
+                                <img src="@(item.RelativeImage)" alt="گروه جهادی وارثین" class="img-responsive" />
+                            </div>
+                            <div class="project__item__title">
+                                @(item.Title)
+                            </div>
+                            <div class="project__item__desc">
+                                <div class="row">
+                                    <div class="col-xs-6 text-left">
+                                        <span>
+                                            نوع پروژه :
+
+                                        </span>
+                                        <span>@(item.Type?.Title)</span>
+                                        <!-- <i class="pe-7s-home"></i> -->
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <span>
+                                            وضعیت :
+                                        </span>
+                                        @if (item.State == Varesin.Domain.Enumeration.ProjectState.Doing)
+                                        {
+                                            <span class="label label-primary">در حال انجام</span>
+                                        }
+                                        else if (item.State == Varesin.Domain.Enumeration.ProjectState.End)
+                                        {
+                                            <span class="label label-success ">به اتمام رسیده</span>
+                                        }
+                                        else
+                                        {
+                                            <span class="label label-warning">درحال تأمین اعتبار</span>
+                                        }
+                                        <!-- <i class="pe-7s-home"></i> -->
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-xs-6 text-left">
+                                        <span>
+                                            محل پروژه :
+                                            @if (string.IsNullOrEmpty(item.Location))
+                                            {
+                                                <span style="color:red;">نامشخص</span>
+                                            }
+                                            else
+                                            {
+                                                <span>
+                                                    @(item.Location)
+                                                </span>
+                                            }
+                                        </span>
+                                        <!-- <i class="pe-7s-home"></i> -->
+                                    </div>
+                                    <div class="col-xs-6 text-right">
+                                        <span>
+                                            زمان :
+                                            @if (string.IsNullOrEmpty(item.Time))
+                                            {
+                                                <span style="color:red;">نامشخص</span>
+                                            }
+                                            else
+                                            {
+                                                <span>@(item.Time)</span>
+                                            }
+                                        </span>
+                                        <!-- <i class="pe-7s-home"></i> -->
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 text-left">
+                                        <span>
+                                            برآورد هزینه پروژه :
+                                        </span>
+                                        @if (item.CostEstimation.HasValue)
+                                        {
+                                            <span>@(item.CostEstimation.Value.ToString("#,##")) تومان</span>
+                                        }
+                                        else
+                                        {
+                                            <span style="color:red;">وارد نشده است</span>
+                                        }
+                                        <!-- <i class="pe-7s-home"></i> -->
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 text-left">
+                                        <span>
+                                            گزارش متصل شده :
+                                        </span>
+                                        @if (item.ReportId.HasValue)
+                                        {
+                                            <a asp-action="Detail" asp-controller="Report" asp-route-id="@(item.ReportId)">مشاهده</a>
+                                        }
+                                        else
+                                        {
+                                            <span style="color:red;">گزارشی متصل نشده است</span>
+                                        }
+                                        <!-- <i class="pe-7s-home"></i> -->
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <div class="text-center">
+                                <a asp-action="Index" asp-controller="FinancialSupport" asp-route-id="@(item.Id)" asp-route-type="@(Varesin.Domain.Enumeration.PaymentType.Project)" class="btn btn-primary">مساعدت مالی برای پروژه</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+
+        @Html.Partial("_Pagination", Model.Data)
+    </div>
+</div>

@@ -1,0 +1,176 @@
+﻿@using Varesin.Mvc.Models.Member
+@using Microsoft.AspNetCore.Mvc.Rendering;
+@model MemberRegistrationViewModel
+@{
+    ViewData["Title"] = "عضویت در کروه جهادی وارثین";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var workingGroupSelector = (List<SelectListItem>)ViewBag.WorkingGroupSelector;
+}
+
+<div class="bread">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bread__item">
+                <div class="">شما این جا هستید :</div>
+                <ul class="breadcrumb">
+                    <li><a href="/">صفحه اصلی</a></li>
+                    <li class="active">عضویت در گروه جهادی وارثین </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="detail">
+        <div class="title">فرم عضویت در گروه جهادی وارثین</div>
+        <div class="desc">
+            لطفا جهت عضویت در گروه جهادی وارثین فرم زیر را به دقت پر کنید . بعد از اتمام فرم منتظر
+            تماس
+            ما باشید
+        </div>
+        <hr />
+        <form method="post">
+
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label class="required">نام و نام خانوادگی خود را وارد کنید : </label>
+                        <input required asp-for="FullName" type="text" class="form-control" placeholder="نام و نام خانوادگی">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label class="required">شماره تماس  خود را وارد نمایید : </label>
+                        <input required asp-for="PhoneNumber" type="number" class="form-control" placeholder="شماره تماس ">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label class="required">رشته تحصیلی خود را وارد کنید : </label>
+                        <input required asp-for="Field" type="text" class="form-control" placeholder="رشته تحصیلی">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>نام دانشگاه / حوزه خود را وارد کنید :  </label>
+                        <input asp-for="UniversityName" type="text" class="form-control" placeholder="نام دانشگاه / حوزه">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>سابقه آموزشی دارید ؟؟ در کجا ؟؟ </label>
+                        <input asp-for="EducationalBackground" type="text" class="form-control" placeholder="سابقه آموزشی">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>سابقه جهادی دارید ؟؟ چند بار ؟؟ </label>
+                        <input asp-for="JihadiHistory" type="text" class="form-control" placeholder="سابقه جهادی">
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>
+                            مهارت فنی / هنرتون را نام ببرید مثلا تعمیرات - قلاب بافی - برقکاری - کامپوتر - ساخت مربا
+                            -
+                            خیاطی و ....
+                        </label>
+                        <input asp-for="Skill" type="text" class="form-control" placeholder="مهارتهای فنی">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>تاریخ تولد</label>
+                        <input data-role="date" asp-for="BirthDate" type="text" class="form-control" placeholder="تاریخ تولد">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>زمان آزاد پیشنهادی شما جهت مصاحبه</label>
+                        <input asp-for="SuggestedFreeTime" type="text" class="form-control"
+                               placeholder="زمان آزاد پیشنهادی شما جهت مصاحبه">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>با چه گروه های جهادی فعالیت داشته اید ؟؟</label>
+                        <input asp-for="Other" type="text" class="form-control"
+                               placeholder="با چه گروه های جهادی فعالیت داشته اید ؟؟">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>سابقه کار با چه گروه سنی ای دارید ؟؟</label>
+                        <input asp-for="WorkExperienceWithAgeGroup" type="text" class="form-control"
+                               placeholder="سابقه کار با چه گروه سنی ای دارید ؟؟">
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label class="required">کارگروه پیشنهادی خود را انتخاب کنید </label>
+                        <select asp-items="workingGroupSelector" required name="WorkingGroupOfferId" class="form-control"></select>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>امکان حضور در روزهای جمعه را دارید ؟؟</label>
+                        <label class="radio-inline"><input name="AttendOnFridays" type="radio" checked value="true">بله</label>
+                        <label class="radio-inline"><input name="AttendOnFridays" type="radio" value="false">خیر</label>
+                    </div>
+                </div>
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>وضعیت تاهل</label>
+                        <label class="radio-inline"><input type="radio" value="true" name="IsSingle" checked>مجرد</label>
+                        <label class="radio-inline"><input type="radio" value="false" name="IsSingle">متاهل</label>
+                    </div>
+                </div>
+            </div>
+            <hr />
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <label>
+                            اگر مایل هستید توضیحاتی در مورد خودتون یا سابقه کاریتون و فعالیت های انجام داده بنویسید
+                        </label>
+                        <textarea class="form-control" placeholder="توضیحات" rows="6"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6 col-sm-12 col-xs-12">
+                    <div class="form-group">
+                        <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">ثبت اطلاعات و ثبت نام</span>
+                        </button>                        
+                    </div>
+                </div>
+            </div>
+        </form>
+        <hr />
+        <p class="alert alert-danger">
+            اعزام ها در حاشیه تهران هر 14 روز یکبار جمعه ها و حدود سه ساعت میباشد
+        </p>
+        <p class="alert alert-danger">
+            عرصه های مختلف فعالیت داریم مثل آموزشی . سلامتی . فرهنگی و ....
+        </p>
+    </div>
+</div>
+
+

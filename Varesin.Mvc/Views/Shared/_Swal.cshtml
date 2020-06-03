@@ -1,0 +1,26 @@
+﻿@using Microsoft.AspNetCore.Html
+@using Newtonsoft.Json
+@{
+    var message = TempData["serviceResult.Message"];
+    var success = TempData["serviceResult.Success"];
+}
+@if (message != null)
+{
+    <script>
+        var message =@(Html.Raw(new HtmlString(JsonConvert.SerializeObject(message))));
+        var success = @(JsonConvert.SerializeObject(success));
+
+
+    </script>
+    <script src="~/Static/js/script.js"></script>
+    <script>
+
+        debugger
+        Swal.fire({
+            icon: success ? "success" : "error",
+            title: success ? "تبریک" : "خطا",
+            text: message,
+            confirmButtonText: 'باشه'
+        });
+    </script>
+}
