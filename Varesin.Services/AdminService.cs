@@ -7,7 +7,6 @@ using System.Linq;
 using Varesin.Database.Identity.Entities;
 using Varesin.Domain.Enumeration;
 using Varesin.Utility;
-using Varesin.Domain.DTO.WorkingGroup;
 using Varesin.Domain.Entities;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
@@ -16,9 +15,6 @@ using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
 using System;
 using DNTPersianUtils.Core;
-using Varesin.Domain.DTO.Project;
-using Varesin.Domain.DTO.Report;
-using Varesin.Domain.DTO.Member;
 using Varesin.Domain.DTO.SlideShow;
 using Varesin.Domain.DTO.Profile;
 using Varesin.Domain.DTO.Payment;
@@ -83,163 +79,6 @@ namespace Varesin.Services
         public User GetUserEntity(string userId)
         {
             return _context.Users.FirstOrDefault(c => c.Id.Equals(userId));
-        }
-        public ServiceResult CreateWorkingGroup(WorkingGroupCreateDto model)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            #region validation
-            if (string.IsNullOrEmpty(model.Title))
-                serviceResult.AddError("عنوان کارگروه نمی تواند فاقد مقدار باشد");
-            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                serviceResult.AddError("عنوان کارگروه نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-            #endregion
-
-            if (serviceResult.IsSuccess)
-            {
-                _context.WorkingGroups.Add(new WorkingGroup { Title = model.Title });
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-
-        }
-        public List<WorkingGroupDto> GetAllWorkingGroup()
-        {
-            var data = _context.WorkingGroups.OrderByDescending(c => c.Id).ToList();
-            return data.ToDto();
-        }
-        public WorkingGroupDto GetWorkingGroup(int id)
-        {
-            var data = _context.WorkingGroups.FirstOrDefault(c => c.Id.Equals(id));
-
-            return data?.ToDto();
-        }
-
-        public ProjectTypeDto GetProjectType(int id)
-        {
-            var data = _context.ProjectTypes.FirstOrDefault(c => c.Id.Equals(id));
-
-            return data?.ToDto();
-        }
-
-        public ServiceResult EditWorkingGroup(WorkingGroupDto model)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.WorkingGroups.FirstOrDefault(c => c.Id == model.Id);
-
-            if (entity == null)
-                serviceResult.AddError("کارگروهی با شناسه ارسالی یافت نشد");
-            else
-            {
-                #region validation
-                if (string.IsNullOrEmpty(model.Title))
-                    serviceResult.AddError("عنوان کارگروه نمی تواند فاقد مقدار باشد");
-                if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                    serviceResult.AddError("عنوان کارگروه نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-                #endregion
-
-                entity.Title = model.Title;
-
-                _context.Entry(entity).State = EntityState.Modified;
-
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-
-        public ServiceResult EditProjectType(ProjectTypeDto model)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.ProjectTypes.FirstOrDefault(c => c.Id == model.Id);
-
-            if (entity == null)
-                serviceResult.AddError("نوع پروژه با شناسه ارسالی یافت نشد");
-            else
-            {
-                #region validation
-                if (string.IsNullOrEmpty(model.Title))
-                    serviceResult.AddError("عنوان نوع پروژه نمی تواند فاقد مقدار باشد");
-                if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                    serviceResult.AddError("عنوان نوع پروژه نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-                #endregion
-
-                entity.Title = model.Title;
-
-                _context.Entry(entity).State = EntityState.Modified;
-
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-
-        public ServiceResult DeleteWorkingGroup(int id)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.WorkingGroups.FirstOrDefault(c => c.Id == id);
-
-            if (entity == null)
-                serviceResult.AddError("کارگروهی با شناسه ارسالی یافت نشد");
-            else
-            {
-                int countWorkingGroupOffers = _context.Members.Count(c => c.WorkingGroupOfferId == id);
-
-                if (countWorkingGroupOffers > 0)
-                    serviceResult.AddError($"{countWorkingGroupOffers} عضو وجود دارن که کارگروه پیشنهادی خود را این کارگروه انتخاب کرده اند زیرا اجازه حذف ندارید".ToPersianNumbers());
-
-                if (serviceResult.IsSuccess)
-                {
-                    int countWorkingGroups = _context.Members.Count(c => c.WorkingGroupId == id);
-                    if (countWorkingGroups > 0)
-                        serviceResult.AddError($"کارگروه مورد نظر کارگروه {countWorkingGroups} عضو می باشد زیرا امکان حذف وجود ندارد".ToPersianNumbers());
-                }
-
-                if (serviceResult.IsSuccess)
-                {
-                    _context.Entry(entity).State = EntityState.Deleted;
-
-                    if (_context.SaveChanges() == 0)
-                        serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-                }
-            }
-
-            return serviceResult;
-        }
-
-        public ServiceResult DeleteProjectType(int id)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.ProjectTypes.FirstOrDefault(c => c.Id == id);
-
-            if (entity == null)
-                serviceResult.AddError("نوع پروژه ای با شناسه ارسالی یافت نشد");
-            else
-            {
-
-                int countProject = _context.Projects.Where(c => c.TypeId == id).Count();
-
-                if (countProject > 0)
-                    serviceResult.AddError("امکان حذف نوع پروژه وجود ندارد زیرا نوع پروژه دارای چندین پروژه می باشد");
-
-                if (serviceResult.IsSuccess)
-                {
-                    _context.Entry(entity).State = EntityState.Deleted;
-
-                    if (_context.SaveChanges() == 0)
-                        serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-                }
-            }
-
-            return serviceResult;
         }
 
         public ServiceResult DeleteInstagramTag(int id)
@@ -343,402 +182,15 @@ namespace Varesin.Services
             return await _userManager.AddToRolesAsync(user, roles);
         }
 
-        public List<ProjectTypeDto> GetAllProjectTypes()
-        {
-            var data = _context.ProjectTypes.ToList();
-            return data.ToDto();
-        }
-
-        public ServiceResult CreateProject(ProjectCreateDto model)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            #region validation
-            if (string.IsNullOrEmpty(model.Title))
-                serviceResult.AddError("عنوان پروژه نمی تواند فاقد مقدار باشد");
-            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                serviceResult.AddError("عنوان پروژه نمی تواند بیش از 128 کارکتر را شامل شود".ToPersianNumbers());
-            if (!string.IsNullOrEmpty(model.Time) && model.Time.Length > 512)
-                serviceResult.AddError("زمان برگزاری پروژه نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-            if (!string.IsNullOrEmpty(model.Location) && model.Location.Length > 512)
-                serviceResult.AddError("مکان برگزاری پروژه نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-            if (!model.TypeId.HasValue)
-                serviceResult.AddError("نوع پروژه را انتخاب نکرده اید");
-            if (!model.State.HasValue)
-                serviceResult.AddError("وضعیت پروژه را انتخاب نکرده اید");
-            #endregion
-
-            if (serviceResult.IsSuccess)
-            {
-                var entity = model.ToEntity();
-                _context.Entry(entity).State = EntityState.Added;
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-
-        public PaginationDto<ProjectDto> GetProjects(ProjectSearchDto searchDto)
-        {
-            var query = _context.Projects.Include(c => c.Type).Include(c => c.Report).AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchDto.Title))
-                query = query.Where(c => c.Title.Contains(searchDto.Title));
-
-            if (searchDto.TypeId.HasValue)
-                query = query.Where(c => c.TypeId == searchDto.TypeId.Value);
-
-            if (searchDto.State.HasValue)
-                query = query.Where(c => c.State == searchDto.State.Value);
-
-            var projects = query.OrderByDescending(c => c.Id).ToPaginated(searchDto.PageNumber, searchDto.PageSize);
-
-            return projects.ToDto();
-        }
-        public ProjectDto GetProject(int id)
-        {
-            var data = _context.Projects.Include(c => c.Type).Include(c => c.Report).FirstOrDefault(c => c.Id.Equals(id));
-
-            return data?.ToDto();
-        }
-        public ServiceResult EditProject(ProjectDto model)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.Projects.FirstOrDefault(c => c.Id == model.Id);
-
-            if (entity == null)
-                serviceResult.AddError("پروژه ای با شناسه ارسالی یافت نشد");
-
-            #region validation
-            if (string.IsNullOrEmpty(model.Title))
-                serviceResult.AddError("عنوان پروژه نمی تواند فاقد مقدار باشد");
-            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                serviceResult.AddError("عنوان پروژه نمی تواند بیش از 128 کارکتر را شامل شود".ToPersianNumbers());
-            if (!string.IsNullOrEmpty(model.Time) && model.Time.Length > 512)
-                serviceResult.AddError("زمان برگزاری پروژه نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-            if (!string.IsNullOrEmpty(model.Location) && model.Location.Length > 512)
-                serviceResult.AddError("مکان برگزاری پروژه نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-            if (!model.TypeId.HasValue)
-                serviceResult.AddError("نوع پروژه را انتخاب نکرده اید");
-            if (!model.State.HasValue)
-                serviceResult.AddError("وضعیت پروژه را انتخاب نکرده اید");
-            #endregion
-
-            if (serviceResult.IsSuccess)
-            {
-                entity.Time = model.Time;
-                entity.State = model.State.Value;
-                entity.CostEstimation = model.CostEstimation;
-                entity.Description = model.Description;
-                entity.Location = model.Location;
-                entity.Title = model.Title;
-                entity.TypeId = model.TypeId.Value;
-
-                _context.Entry(entity).State = EntityState.Modified;
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-        public ServiceResult DeleteProject(int id)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.Projects.FirstOrDefault(c => c.Id == id);
-
-            if (entity == null)
-                serviceResult.AddError("پروژه ای با شناسه ارسالی یافت نشد");
-            else
-            {
-                _context.Entry(entity).State = EntityState.Deleted;
-
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-
-        public ServiceResult CreateReport(ReportCreateDto model)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            #region validation
-            if (string.IsNullOrEmpty(model.Title))
-                serviceResult.AddError("عنوان گزارش نمی تواند فاقد مقدار باشد");
-            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                serviceResult.AddError("تعداد کاراکترهای عنوان گزارش نمی تواند بیش از 128 کاراکتر باشد".ToPersianNumbers());
-            if (string.IsNullOrEmpty(model.PrimaryPicture))
-                serviceResult.AddError("عکس اصلی گزارش نمی تواند فاقد مقدار باشد");
-            if (!model.WorkingGroupId.HasValue)
-                serviceResult.AddError("کارگروه گزارش نمی تواند فاقد مقدار باشد");
-            #endregion
-
-            if (serviceResult.IsSuccess)
-            {
-                _context.Reports.Add(model.ToEntity());
-
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-
-        public PaginationDto<ReportDto> GetReports(ReportSearchDto searchDto)
-        {
-            var query = _context.Reports.Include(c => c.WorkingGroup).AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchDto.Title))
-                query = query.Where(c => c.Title.Contains(searchDto.Title));
-
-            if (searchDto.WorkingGroupId.HasValue)
-                query = query.Where(c => c.WorkingGroupId == searchDto.WorkingGroupId.Value);
-
-            var reports = query.OrderByDescending(c => c.Id).ToPaginated(searchDto.PageNumber, searchDto.PageSize);
-
-            return reports.ToDto();
-        }
-
-        public ReportDto GetReport(int id)
-        {
-            var data = _context.Reports.Include(c => c.WorkingGroup).FirstOrDefault(c => c.Id.Equals(id));
-
-            return data?.ToDto();
-        }
-
-        public ServiceResult<string> EditReport(ReportEditDto model)
-        {
-            var serviceResult = new ServiceResult<string>(true);
-
-            var entity = _context.Reports.FirstOrDefault(c => c.Id == model.Id);
-
-            if (entity == null)
-                serviceResult.AddError("گزارشی با شناسه ارسالی یافت نشد");
-
-            #region validation
-            if (string.IsNullOrEmpty(model.Title))
-                serviceResult.AddError("عنوان گزارش نمی تواند فاقد مقدار باشد");
-            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                serviceResult.AddError("تعداد کاراکترهای عنوان گزارش نمی تواند بیش از 128 کاراکتر باشد".ToPersianNumbers());
-            if (!model.WorkingGroupId.HasValue)
-                serviceResult.AddError("کارگروه گزارش نمی تواند فاقد مقدار باشد");
-            #endregion
-
-            if (serviceResult.IsSuccess)
-            {
-                entity.WorkingGroupId = model.WorkingGroupId.Value;
-                entity.Title = model.Title;
-
-                if (!string.IsNullOrEmpty(model.PrimaryPicture))
-                {
-                    serviceResult.Data = entity.PrimaryPicture;
-                    entity.PrimaryPicture = model.PrimaryPicture;
-                }
-
-
-                entity.Description = model.Description;
-
-                _context.Entry(entity).State = EntityState.Modified;
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-
-        public ServiceResult<string> DeleteReport(int id)
-        {
-            var serviceResult = new ServiceResult<string>(true);
-
-            var entity = _context.Reports.FirstOrDefault(c => c.Id == id);
-
-            if (entity == null)
-                serviceResult.AddError(" گزارشی با شناسه ارسالی یافت نشد");
-            else
-            {
-                serviceResult.Data = entity.PrimaryPicture;
-                _context.Entry(entity).State = EntityState.Deleted;
-
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-
-        public PaginationDto<MemberDto> GetMembers(MemberSearchDto searchDto)
-        {
-            var query = _context.Members.Include(c => c.WorkingGroup).Include(c => c.WorkingGroupOffer).AsQueryable();
-
-            if (!string.IsNullOrEmpty(searchDto.FullName))
-                query = query.Where(c => c.FullName.Contains(searchDto.FullName));
-
-            if (!string.IsNullOrEmpty(searchDto.PhoneNumber))
-                query = query.Where(c => c.PhoneNumber.Contains(searchDto.PhoneNumber));
-
-            if (searchDto.Status.HasValue)
-                query = query.Where(c => c.Status == searchDto.Status);
-
-            var members = query.OrderByDescending(c => c.Id).ToPaginated(searchDto.PageNumber, searchDto.PageSize);
-
-            return members.ToDto();
-        }
-
-        public MemberDto GetMember(int id)
-        {
-            var data = _context
-                .Members
-                .Include(c => c.WorkingGroup)
-                .Include(c => c.WorkingGroupOffer)
-                .FirstOrDefault(c => c.Id.Equals(id));
-
-            return data?.ToDto();
-        }
-
         public async Task<List<UserDto>> GetAllInterviewers()
         {
             var users = await _userManager.GetUsersInRoleAsync(AccessCode.Interviewer.ToString());
             return users.ToList().ToDto();
         }
-        public ServiceResult SetCompleteDataForMember(int id, string interviewerId, int workingGroupId)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.Members.FirstOrDefault(c => c.Id == id);
-
-            if (entity == null)
-                serviceResult.AddError("شناسه عضو پیدا نشد");
-            else
-            {
-                var interviewer = _context.Users.FirstOrDefault(c => c.Id.Equals(interviewerId));
-
-                if (interviewer == null)
-                    serviceResult.AddError("گزینشگر یافت نشد");
-
-                else
-                {
-                    var workingGroup = _context.WorkingGroups.FirstOrDefault(c => c.Id == workingGroupId);
-
-                    if (workingGroup == null)
-                        serviceResult.AddError("کارگروهی یافت نشد");
-                    else
-                    {
-                        entity.InterviewerId = interviewerId;
-                        entity.WorkingGroupId = workingGroupId;
-                        entity.Status = MemberStatus.InterViewing;
-
-                        _context.Entry(entity).State = EntityState.Modified;
-
-                        if (_context.SaveChanges() == 0)
-                            serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-                    }
-
-                }
-            }
-
-            return serviceResult;
-        }
-
-        public List<MemberDto> GetAllForInterviewer(string interviewerId)
-        {
-            var data = _context
-                  .Members
-                  .Include(c => c.WorkingGroupOffer)
-                  .Include(c => c.WorkingGroup)
-                  .Where(c => c.InterviewerId.Equals(interviewerId))
-                  .OrderByDescending(c => c.Id)
-                  .ToList();
-
-            return data.ToDto();
-        }
-
-        public ServiceResult SetCompleteDataForInterviewer(int id, MemberStatus status, string description)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.Members.FirstOrDefault(c => c.Id == id);
-
-            if (entity == null)
-                serviceResult.AddError("شناسه عضو پیدا نشد");
-            else
-            {
-                entity.InterviewerDescription = description;
-                entity.Status = status;
-
-                _context.Entry(entity).State = EntityState.Modified;
-
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-
-            }
-
-            return serviceResult;
-        }
 
         public string GetFullName(string userId)
         {
             return _context.Users.Where(c => c.Id.Equals(userId)).Select(c => c.FullName).FirstOrDefault();
-        }
-
-        public ServiceResult CreateReportFile(ReportFileCreateDto model)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            #region validation
-            if (string.IsNullOrEmpty(model.Title))
-                serviceResult.AddError("عنوان نمی تواند فاید مقدار باشد");
-            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                serviceResult.AddError("عنوان نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-            #endregion
-
-            if (serviceResult.IsSuccess)
-            {
-                var entity = model.ToEntity();
-                _context.Entry(entity).State = EntityState.Added;
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-        public List<ReportFileDto> GetAllReportFiles(int reportId)
-        {
-            var data = _context.ReportFile.Where(c => c.ReportId.Equals(reportId)).ToList();
-            return data.ToDto();
-        }
-
-        public List<ReportFileDto> GetAllReportFiles(List<int> ids)
-        {
-            var data = _context.ReportFile.Where(c => ids.Any(i => i == c.Id)).ToList();
-            return data.ToDto();
-        }
-        public ReportFileDto GetReportFile(int id)
-        {
-            var data = _context.ReportFile.FirstOrDefault(c => c.Id.Equals(id));
-            return data?.ToDto();
-        }
-
-        public ServiceResult DeleteReportFile(int id)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var entity = _context.ReportFile.FirstOrDefault(c => c.Id == id);
-
-            if (entity == null)
-                serviceResult.AddError(" قایلی با شناسه ارسالی یافت نشد");
-            else
-            {
-                _context.Entry(entity).State = EntityState.Deleted;
-
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
         }
 
         public ServiceResult CreateSlideShow(SlideShowCreateDto model)
@@ -841,33 +293,6 @@ namespace Varesin.Services
             return serviceResult;
         }
 
-        public ServiceResult AttachReportToProject(int projectId, int reportId)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            var project = _context.Projects.FirstOrDefault(c => c.Id == projectId);
-
-            if (project == null)
-                serviceResult.AddError("پروژه ای با شناسه ارسالی یافت نشد");
-
-            var report = _context.Reports.FirstOrDefault(c => c.Id.Equals(reportId));
-
-            if (report == null)
-                serviceResult.AddError("گزارش با شناسه ارسالی یافت نشد");
-
-            if (serviceResult.IsSuccess)
-            {
-                project.ReportId = reportId;
-                report.ProjectId = projectId;
-
-                _context.Entry(project).State = EntityState.Modified;
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-
         public ServiceResult<string> ChangeProfile(ChangeProfileDto dto)
         {
             var serviceResult = ChangeProfile_Validation(dto);
@@ -922,28 +347,6 @@ namespace Varesin.Services
             #endregion
 
             return serviceResult;
-        }
-
-        public ServiceResult CreateProjectType(ProjectTypeCreateDto model)
-        {
-            var serviceResult = new ServiceResult(true);
-
-            #region validation
-            if (string.IsNullOrEmpty(model.Title))
-                serviceResult.AddError("عنوان کارگروه نمی تواند فاقد مقدار باشد");
-            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
-                serviceResult.AddError("عنوان نوع پروژه نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
-            #endregion
-
-            if (serviceResult.IsSuccess)
-            {
-                _context.ProjectTypes.Add(new ProjectType { Title = model.Title });
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-
         }
 
         public async Task<ServiceResult> ChangePassword(ChangePasswordDto model)
@@ -1010,16 +413,7 @@ namespace Varesin.Services
 
             var payments = query.OrderByDescending(c => c.Id).ToPaginated(searchDto.PageNumber, searchDto.PageSize);
 
-            var projectIds = payments.Data.Where(c => c.Type == PaymentType.Project).Select(c => c.RecordId).ToList();
-
-            var projects = _context.Projects.Include(c => c.Type).Where(c => projectIds.Any(i => i == c.Id)).ToList();
-
-            return payments.ToDto(projects);
-        }
-        public List<PaymentDto> GetPayment(int recordId, PaymentType paymentType)
-        {
-            var data = _context.Payments.Where(c => c.RecordId.Equals(recordId) && c.Type == paymentType).ToList();
-            return data.ToDto();
+            return payments.ToDto();
         }
         public ServiceResult CreateInfo(List<Info> model)
         {
@@ -1203,7 +597,7 @@ namespace Varesin.Services
         {
             var serviceResult = new ServiceResult<string>(true);
 
-            var entity = _context.Reports.FirstOrDefault(c => c.Id == model.Id);
+            var entity = _context.Posts.FirstOrDefault(c => c.Id == model.Id);
 
             if (entity == null)
                 serviceResult.AddError("پستی با شناسه ارسالی یافت نشد");
@@ -1360,7 +754,7 @@ namespace Varesin.Services
         {
             var serviceResult = new ServiceResult<string>(true);
 
-            var entity = _context.Reports.FirstOrDefault(c => c.Id == model.Id);
+            var entity = _context.News.FirstOrDefault(c => c.Id == model.Id);
 
             if (entity == null)
                 serviceResult.AddError("خبری با شناسه ارسالی یافت نشد");

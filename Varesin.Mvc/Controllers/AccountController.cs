@@ -9,7 +9,6 @@ using Varesin.Database;
 using Varesin.Database.Identity.Entities;
 using Varesin.Mvc.Mapping;
 using Varesin.Mvc.Models;
-using Varesin.Mvc.Models.Member;
 using Varesin.Services;
 using Varesin.Utility;
 
@@ -79,48 +78,6 @@ namespace Varesin.Mvc.Controllers
             if (User.Identity.IsAuthenticated)
                 await _signInManager.SignOutAsync();
             return RedirectPermanent("/");
-        }
-        public IActionResult Register()
-        {
-            List<SelectListItem> workingGroupSelector = new List<SelectListItem>();
-
-            var workingGroups = _userService.GetAllWorkingGroup();
-
-            workingGroupSelector.Add(new SelectListItem("", ""));
-
-            foreach (var item in workingGroups)
-                workingGroupSelector.Add(new SelectListItem(item.Title, item.Id.ToString()));
-
-            ViewBag.WorkingGroupSelector = workingGroupSelector;
-
-            return View();
-        }
-        [HttpPost]
-        [ValidateAntiForgeryToken()]
-        public IActionResult Register(MemberRegistrationViewModel model)
-        {
-            var serviceResult = _userService.CreateMember(model.ToDto());
-
-            if (serviceResult.IsSuccess)
-            {
-                Swal(true, "عضویت شما با موفقیت انجام شد لطفا منتظر تماس از گروه جهادی وارثین باشید");
-                return RedirectPermanent("/");
-            }
-
-            List<SelectListItem> workingGroupSelector = new List<SelectListItem>();
-
-            var workingGroups = _userService.GetAllWorkingGroup();
-
-            workingGroupSelector.Add(new SelectListItem("", ""));
-
-            foreach (var item in workingGroups)
-                workingGroupSelector.Add(new SelectListItem(item.Title, item.Id.ToString(), model.WorkingGroupOfferId == item.Id));
-
-            ViewBag.WorkingGroupSelector = workingGroupSelector;
-
-            AddErrors(serviceResult);
-
-            return View(model);
         }
 
         public IActionResult Sync()

@@ -113,7 +113,7 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
 
             AddErrors(serviceResult);
 
-            var data = _adminService.GetReport(model.Id);
+            var data = _adminService.GetSlideShow(model.Id);
 
             return View(data.ToViewModel());
         }

@@ -8,7 +8,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Varesin.Database;
 using Varesin.Database.Identity.Entities;
-using Varesin.Database.Migrations;
 
 namespace Varesin.Mvc.Middleware
 {

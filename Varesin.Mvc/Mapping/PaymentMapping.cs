@@ -63,8 +63,6 @@ namespace Varesin.Mvc.Mapping
                 PaymentDate = source.PaymentDate,
                 PhoneNumber = source.PhoneNumber,
                 Price = source.Price,
-                Project = source.Project?.ToViewModel(),
-                RecordId = source.RecordId,
                 Type = source.Type
             };
         }

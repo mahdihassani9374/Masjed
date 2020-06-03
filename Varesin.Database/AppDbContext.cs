@@ -11,12 +11,6 @@ namespace Varesin.Database
         {
 
         }
-        public DbSet<WorkingGroup> WorkingGroups { get; set; }
-        public DbSet<ProjectType> ProjectTypes { get; set; }
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<Report> Reports { get; set; }
-        public DbSet<ReportFile> ReportFile { get; set; }
-        public DbSet<Member> Members { get; set; }
         public DbSet<SlideShow> SlideShows { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Info> Infoes { get; set; }
@@ -37,94 +31,6 @@ namespace Varesin.Database
                 .Property(c => c.FullName)
                 .HasMaxLength(500)
                 .IsRequired(true);
-
-            var workingGroup = builder.Entity<WorkingGroup>();
-
-            workingGroup.HasKey(c => c.Id);
-
-            workingGroup.Property(c => c.Title)
-                .HasMaxLength(128)
-                .IsRequired(true);
-
-            var projectType = builder.Entity<ProjectType>();
-
-            projectType.HasKey(c => c.Id);
-
-            projectType.Property(c => c.Title)
-                .HasMaxLength(128)
-                .IsRequired(true);
-
-            var project = builder.Entity<Project>();
-
-            project.HasKey(c => c.Id);
-
-            project.Property(c => c.Title)
-                .HasMaxLength(128)
-                .IsRequired(true);
-
-            project.Property(c => c.Description)
-               .IsRequired(false);
-
-            project.Property(c => c.Time)
-              .HasMaxLength(128)
-              .IsRequired(false);
-
-            project.Property(c => c.Location)
-             .HasMaxLength(128)
-             .IsRequired(false);
-
-            project.HasOne(c => c.Type)
-                .WithMany(c => c.Projects)
-                .HasForeignKey(c => c.TypeId)
-                .OnDelete(DeleteBehavior.Cascade);
-
-            project.HasOne(c => c.Report)
-                .WithOne(c => c.Project)
-                .HasForeignKey<Project>(c => c.ReportId);
-
-            var report = builder.Entity<Report>();
-
-            report.HasKey(c => c.Id);
-
-            report.Property(c => c.Title)
-                .HasMaxLength(128)
-                .IsRequired(true);
-
-            report.Property(c => c.PrimaryPicture)
-               .HasMaxLength(128)
-               .IsRequired(true);
-
-            report.Property(c => c.Description)
-               .IsRequired(false);
-
-            report.HasOne(c => c.WorkingGroup)
-                .WithMany(c => c.Reports)
-                .HasForeignKey(c => c.WorkingGroupId)
-                .OnDelete(DeleteBehavior
-                .Cascade);
-
-            report.HasOne(c => c.Project).WithOne(c => c.Report).HasForeignKey<Report>(c => c.ProjectId);
-
-            var member = builder.Entity<Member>();
-
-            member.HasKey(c => c.Id);
-
-            member.Property(c => c.FullName).HasMaxLength(200).IsRequired(true);
-            member.Property(c => c.PhoneNumber).HasMaxLength(200).IsRequired(true);
-            member.Property(c => c.Field).HasMaxLength(200).IsRequired(true);
-            member.Property(c => c.InterviewerId).HasMaxLength(100);
-
-            member.HasOne(c => c.WorkingGroup).WithMany(c => c.Members).HasForeignKey(c => c.WorkingGroupId).OnDelete(DeleteBehavior.Restrict);
-
-            member.HasOne(c => c.WorkingGroupOffer).WithMany(c => c.MemberOffers).HasForeignKey(c => c.WorkingGroupOfferId).OnDelete(DeleteBehavior.Restrict);
-
-            var reportFile = builder.Entity<ReportFile>();
-
-            reportFile.HasKey(c => c.Id);
-            reportFile.Property(c => c.FileName).HasMaxLength(128).IsRequired(true);
-            reportFile.Property(c => c.Title).HasMaxLength(128).IsRequired(true);
-
-            reportFile.HasOne(c => c.Report).WithMany(c => c.Files).HasForeignKey(c => c.ReportId).OnDelete(DeleteBehavior.Cascade);
 
             var slideShow = builder.Entity<SlideShow>();
 

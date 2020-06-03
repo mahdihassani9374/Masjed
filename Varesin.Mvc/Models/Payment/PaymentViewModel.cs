@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Varesin.Domain.Enumeration;
-using Varesin.Mvc.Models.Project;
 
 namespace Varesin.Mvc.Models.Payment
 {
@@ -17,7 +16,5 @@ namespace Varesin.Mvc.Models.Payment
         public bool IsSuccess { get; set; }
         public DateTime? PaymentDate { get; set; }
         public PaymentType Type { get; set; }
-        public int? RecordId { get; set; }
-        public ProjectViewModel Project { get; set; }
     }
 }

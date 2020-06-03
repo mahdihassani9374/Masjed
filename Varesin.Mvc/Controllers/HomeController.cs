@@ -19,12 +19,6 @@ namespace Varesin.Mvc.Controllers
         public IActionResult Index()
         {
             var slideShows = _userService.GetAllSlideShows();
-            var lastProjects = _userService.GetLastProjects(7);
-            var lastReports = _userService.GetLastReports(8);
-
-            ViewBag.SlideShows = slideShows.ToViewModel();
-            ViewBag.Projects = lastProjects.ToViewModel().SetImage();
-            ViewBag.Reports = lastReports.ToViewModel();
 
             return View();
         }

@@ -18,11 +18,10 @@ namespace Varesin.Services.Mapping
                 FullName = source.FullName,
                 PhoneNumber = source.PhoneNumber,
                 Price = source.Price,
-                RecordId = source.RecordId,
                 Type = source.Type
             };
         }
-        public static PaginationDto<PaymentDto> ToDto(this PaginationDto<Payment> sources, List<Project> projects)
+        public static PaginationDto<PaymentDto> ToDto(this PaginationDto<Payment> sources)
         {
             return new PaginationDto<PaymentDto>
             {
@@ -30,16 +29,8 @@ namespace Varesin.Services.Mapping
                 PageCount = sources.PageCount,
                 PageNumber = sources.PageNumber,
                 PageSize = sources.PageSize,
-                Data = sources.Data.ToDto(projects)
+                Data = sources.Data.ToDto()
             };
-        }
-        public static List<PaymentDto> ToDto(this List<Payment> sources, List<Project> projects)
-        {
-            var result = new List<PaymentDto>();
-            foreach (var source in sources)
-                result.Add(source.ToDto(projects));
-            return result;
-
         }
         public static List<PaymentDto> ToDto(this List<Payment> sources)
         {
@@ -61,23 +52,6 @@ namespace Varesin.Services.Mapping
                 PhoneNumber = source.PhoneNumber,
                 Price = source.Price,
                 Type = source.Type,
-                RecordId = source.RecordId,
-            };
-        }
-        public static PaymentDto ToDto(this Payment source, List<Project> projects)
-        {
-            return new PaymentDto
-            {
-                CreateDate = source.CreateDate,
-                FullName = source.FullName,
-                Id = source.Id,
-                IsSuccess = source.IsSuccess,
-                PaymentDate = source.PaymentDate,
-                PhoneNumber = source.PhoneNumber,
-                Price = source.Price,
-                Type = source.Type,
-                RecordId = source.RecordId,
-                Project = projects.FirstOrDefault(c => c.Id == source.RecordId)?.ToDto()
             };
         }
     }

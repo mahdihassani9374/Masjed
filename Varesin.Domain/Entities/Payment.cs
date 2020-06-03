@@ -15,6 +15,5 @@ namespace Varesin.Domain.Entities
         public bool IsSuccess { get; set; }
         public DateTime? PaymentDate { get; set; }
         public PaymentType Type { get; set; }
-        public int? RecordId { get; set; }
     }
 }

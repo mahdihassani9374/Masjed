@@ -7,7 +7,6 @@ using Varesin.Mvc.ActionFilterAttributes;
 using Varesin.Mvc.Mapping;
 using Varesin.Mvc.Models;
 using Varesin.Mvc.Models.Pagination;
-using Varesin.Mvc.Models.Report;
 using Varesin.Mvc.Services;
 using Varesin.Services;
 using Varesin.Utility;
@@ -182,73 +181,73 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
             return View(report.ToViewModel());
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken()]
-        [AccessCodeFlter(AccessCode.NewsFileManagement)]
-        public IActionResult File(ReportFileCreateViewModel model)
-        {
-            if (model.File == null)
-                Swal(false, "فایلی انتخاب نکرده اید");
-            else
-            {
-                long? maxLength = 0;
+        //[HttpPost]
+        //[ValidateAntiForgeryToken()]
+        //[AccessCodeFlter(AccessCode.NewsFileManagement)]
+        //public IActionResult File(ReportFileCreateViewModel model)
+        //{
+        //    if (model.File == null)
+        //        Swal(false, "فایلی انتخاب نکرده اید");
+        //    else
+        //    {
+        //        long? maxLength = 0;
 
-                if (model.FileType == Domain.Enumeration.FileType.Image)
-                    maxLength = 500 * 1024;
-                else maxLength = 25 * 1024 * 1024;
+        //        if (model.FileType == Domain.Enumeration.FileType.Image)
+        //            maxLength = 500 * 1024;
+        //        else maxLength = 25 * 1024 * 1024;
 
-                var uploadResult = _fileService.Upload(model.File, "ReportFile", maxLength);
+        //        var uploadResult = _fileService.Upload(model.File, "ReportFile", maxLength);
 
-                if (uploadResult.IsSuccess)
-                {
-                    var serviceResult = _adminService.CreateReportFile(model.ToDto(uploadResult.Data, model.File.Length));
-                    if (serviceResult.IsSuccess)
-                        Swal(true, "عملیات با موفقیت صورت گرفت");
-                    else Swal(false, serviceResult.Errors.FirstOrDefault());
-                }
-                else
-                    Swal(false, uploadResult.Errors.FirstOrDefault());
-            }
-            return RedirectToAction(nameof(File), new { id = model.ReportId });
-        }
+        //        if (uploadResult.IsSuccess)
+        //        {
+        //            var serviceResult = _adminService.CreateReportFile(model.ToDto(uploadResult.Data, model.File.Length));
+        //            if (serviceResult.IsSuccess)
+        //                Swal(true, "عملیات با موفقیت صورت گرفت");
+        //            else Swal(false, serviceResult.Errors.FirstOrDefault());
+        //        }
+        //        else
+        //            Swal(false, uploadResult.Errors.FirstOrDefault());
+        //    }
+        //    return RedirectToAction(nameof(File), new { id = model.ReportId });
+        //}
 
-        [AccessCodeFlter(AccessCode.NewsFileManagement)]
-        public IActionResult DeleteFile(int id)
-        {
-            var postFile = _adminService.GetPostFile(id);
+        //[AccessCodeFlter(AccessCode.NewsFileManagement)]
+        //public IActionResult DeleteFile(int id)
+        //{
+        //    var postFile = _adminService.GetPostFile(id);
 
-            if (postFile == null)
-                return RedirectToAction(nameof(Index));
+        //    if (postFile == null)
+        //        return RedirectToAction(nameof(Index));
 
-            var deleteResult = _fileService.Delete(postFile.FileName, "PostFile");
+        //    var deleteResult = _fileService.Delete(postFile.FileName, "PostFile");
 
-            if (deleteResult.IsSuccess)
-            {
-                var serviceResult = _adminService.DeleteReportFile(id);
-                if (serviceResult.IsSuccess)
-                    Swal(true, "عملیات با موفقیت انجام شد");
-                else Swal(false, serviceResult.Errors.FirstOrDefault());
-            }
+        //    if (deleteResult.IsSuccess)
+        //    {
+        //        var serviceResult = _adminService.DeleteReportFile(id);
+        //        if (serviceResult.IsSuccess)
+        //            Swal(true, "عملیات با موفقیت انجام شد");
+        //        else Swal(false, serviceResult.Errors.FirstOrDefault());
+        //    }
 
-            Swal(false, "در حذف فایل خطایی رخ داد");
+        //    Swal(false, "در حذف فایل خطایی رخ داد");
 
-            return RedirectToAction(nameof(File), new { id = postFile.Id });
-        }
+        //    return RedirectToAction(nameof(File), new { id = postFile.Id });
+        //}
 
-        [AccessCodeFlter(AccessCode.InstagramSharing)]
-        public IActionResult Instagram(int id)
-        {
-            var report = _adminService.GetReport(id);
+        //[AccessCodeFlter(AccessCode.InstagramSharing)]
+        //public IActionResult Instagram(int id)
+        //{
+        //    var report = _adminService.GetReport(id);
 
-            if (report == null)
-            {
-                Swal(false, "شناسه گزارش نامعتبر است");
-                return RedirectToAction(nameof(Index));
-            }
+        //    if (report == null)
+        //    {
+        //        Swal(false, "شناسه گزارش نامعتبر است");
+        //        return RedirectToAction(nameof(Index));
+        //    }
 
-            ViewBag.Tags = _adminService.GetAllInstaTags().Select(c => c.Name).ToList();
-            ViewBag.Files = _adminService.GetAllReportFiles(id).Where(c => c.Type != FileType.Audio).ToList().ToViewModel();
-            return View();
-        }
+        //    ViewBag.Tags = _adminService.GetAllInstaTags().Select(c => c.Name).ToList();
+        //    ViewBag.Files = _adminService.GetAllReportFiles(id).Where(c => c.Type != FileType.Audio).ToList().ToViewModel();
+        //    return View();
+        //}
     }
 }
