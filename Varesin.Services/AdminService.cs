@@ -23,6 +23,7 @@ using Varesin.Domain.DTO.InstagramTag;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Varesin.Domain.DTO.Post;
 using Varesin.Domain.DTO.News;
+using Varesin.Domain.DTO.Event;
 
 namespace Varesin.Services
 {
@@ -711,6 +712,18 @@ namespace Varesin.Services
             return newses.ToDto();
         }
 
+        public PaginationDto<EventDto> GetEvent(EventSearchDto searchDto)
+        {
+            var query = _context.Events.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchDto.Title))
+                query = query.Where(c => c.Title.Contains(searchDto.Title));
+
+            var events = query.OrderByDescending(c => c.Id).ToPaginated(searchDto.PageNumber, searchDto.PageSize);
+
+            return events.ToDto();
+        }
+
         public ServiceResult CreateNews(NewsCreateDto model)
         {
             var serviceResult = new ServiceResult(true);
@@ -806,6 +819,58 @@ namespace Varesin.Services
         {
             var data = _context.NewsFiles.Where(c => c.NewsId.Equals(newsId)).ToList();
             return data.ToDto();
+        }
+        public ServiceResult CreateEvent(EventCreateDto model)
+        {
+            var serviceResult = new ServiceResult(true);
+
+            #region validation
+            if (string.IsNullOrEmpty(model.Title))
+                serviceResult.AddError("عنوان برنامه نمی تواند فاقد مقدار باشد");
+            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
+                serviceResult.AddError("تعداد کاراکترهای عنوان برنامه نمی تواند بیش از 128 کاراکتر باشد".ToPersianNumbers());
+            if (string.IsNullOrEmpty(model.PrimaryPicture))
+                serviceResult.AddError("عکس اصلی برنامه نمی تواند فاقد مقدار باشد");
+            #endregion
+
+            var entity = model.ToEntity();
+
+            if (model.MultiDay)
+            {
+                if (!model.StartDate.HasValue)
+                    serviceResult.AddError("تاریخ شروع برنامه یا وارد نشده است و یا ساختارش اشتباه می باشد");
+
+                if (!model.EndDate.HasValue)
+                    serviceResult.AddError("تاریخ پایان برنامه یا وارد نشده است و یا ساختارش اشتباه می باشد");
+
+                if (model.StartDate.HasValue && model.EndDate.HasValue)
+                    if (model.EndDate.Value <= model.StartDate.Value)
+                        serviceResult.AddError("تاریخ پایان برنامه نمی تواند از تاریخ شروع برنامه کمتر باشد");
+
+                model.Date = null;
+                model.Time = null;
+            }
+            else
+            {
+                if (!model.Date.HasValue)
+                    serviceResult.AddError("تاریخ برنامه یا وارد نشده است و یا ساختارش اشتباه می باشد");
+                if (string.IsNullOrEmpty(model.Time))
+                    serviceResult.AddError("ساعت برنامه نمی تواند فاقد مقدار باشد");
+
+                model.StartDate = null;
+                model.EndDate = null;
+            }
+
+            if (serviceResult.IsSuccess)
+            {
+
+                _context.Events.Add(entity);
+
+                if (_context.SaveChanges() == 0)
+                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+            }
+
+            return serviceResult;
         }
     }
 }

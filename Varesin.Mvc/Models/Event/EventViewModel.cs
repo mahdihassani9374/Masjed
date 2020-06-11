@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace Varesin.Domain.Entities
+namespace Varesin.Mvc.Models.Event
 {
-    public class Event
+    public class EventViewModel
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -16,6 +17,5 @@ namespace Varesin.Domain.Entities
         public DateTime? Date { get; set; }
         public string Time { get; set; }
         public bool MultiDay { get; set; }
-        public virtual ICollection<EventFile> Files { get; set; }
     }
 }

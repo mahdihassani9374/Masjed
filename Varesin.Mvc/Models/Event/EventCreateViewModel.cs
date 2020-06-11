@@ -9,6 +9,8 @@ namespace Varesin.Mvc.Models.Event
         public bool MultiDay { get; set; }
         public string StartDate { get; set; }
         public string EndDate { get; set; }
+        public string Date { get; set; }
+        public string Time { get; set; }
         public IFormFile PrimaryPicture { get; set; }
     }
 }

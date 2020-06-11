@@ -67,17 +67,31 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 hide" data-role="end">
                     <div class="form-group">
-                        <label class="required">تاریخ شروع برنامه</label>
+                        <label class="required">تاریخ شروع برنامه : </label>
                         <input type="text" asp-for="StartDate" class="form-control" data-role="date" />
                     </div>
                 </div>
 
                 <div class="col-md-4 hide" data-role="end">
                     <div class="form-group">
-                        <label class="required">تاریخ پایان برنامه</label>
+                        <label class="required">تاریخ پایان برنامه : </label>
                         <input asp-for="EndDate" type="text" class="form-control" data-role="date" />
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-role="start">
+                    <div class="form-group">
+                        <label class="required">تاریخ  برنامه : </label>
+                        <input type="text" asp-for="Date" class="form-control" data-role="date" />
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-role="start">
+                    <div class="form-group">
+                        <label class="required"> ساعت برنامه : </label>
+                        <input asp-for="Time" type="text" class="form-control" placeholder="ساعت" />
                     </div>
                 </div>
             </div>
@@ -109,11 +123,17 @@
         $('input[type="checkbox"]').on('change', function () {
             if ($(this).is(":checked")) {
                 $('[data-role="end"]').removeClass('hide');
-                $('[data-role="end"]  input').attr('required', 'required')
+                $('[data-role="end"]  input').attr('required', 'required');
+
+                $('[data-role="start"]').addClass('hide');
+                $('[data-role="start"]  input').removeAttr('required')
             }
             else {
                 $('[data-role="end"]').addClass('hide');
                 $('[data-role="end"]  input').removeAttr('required')
+
+                $('[data-role="start"]').removeClass('hide');
+                $('[data-role="start"]  input').attr('required', 'required');
             }
         });
 

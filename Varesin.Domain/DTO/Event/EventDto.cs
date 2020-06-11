@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace Varesin.Domain.Entities
+namespace Varesin.Domain.DTO.Event
 {
-    public class Event
+    public class EventDto
     {
         public int Id { get; set; }
         public string Title { get; set; }
@@ -16,6 +14,5 @@ namespace Varesin.Domain.Entities
         public DateTime? Date { get; set; }
         public string Time { get; set; }
         public bool MultiDay { get; set; }
-        public virtual ICollection<EventFile> Files { get; set; }
     }
 }

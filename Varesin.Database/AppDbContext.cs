@@ -128,6 +128,9 @@ namespace Varesin.Database
             eventEntity.Property(c => c.Description)
                .IsRequired(false);
 
+            eventEntity.Property(c => c.Time)
+               .HasMaxLength(200);
+
             var eventFile = builder.Entity<EventFile>();
 
             eventFile.HasKey(c => c.Id);
