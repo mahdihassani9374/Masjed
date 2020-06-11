@@ -1025,5 +1025,28 @@ namespace Varesin.Services
 
             return serviceResult;
         }
+
+        public ServiceResult CreatePostFile(PostFileCreateDto model)
+        {
+            var serviceResult = new ServiceResult(true);
+
+            #region validation
+            if (string.IsNullOrEmpty(model.Title))
+                serviceResult.AddError("عنوان نمی تواند فاید مقدار باشد");
+            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
+                serviceResult.AddError("عنوان نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
+            #endregion
+
+            if (serviceResult.IsSuccess)
+            {
+                var entity = model.ToEntity();
+                _context.Entry(entity).State = EntityState.Added;
+                if (_context.SaveChanges() == 0)
+                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+            }
+
+            return serviceResult;
+        }
+
     }
 }

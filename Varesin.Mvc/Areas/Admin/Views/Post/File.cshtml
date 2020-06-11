@@ -28,7 +28,7 @@
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
-            <input type="hidden" name="ReportId" value="@Model.Id" />
+            <input type="hidden" name="PostId" value="@Model.Id" />
             <div class="alert alert-danger">
                 <p>فایل انتخابی اگر عکس باشد حجم آن نباید از 500 کیلوبایت بیشتر باشد</p>
                 <p>و اگر فایل انتخابی صوتی یا تصویری می باشد حجم آن نباید از 25 مگابایت یشتر باشد</p>
@@ -91,7 +91,7 @@
                                 <td>
                                     @if (item.Type == FileType.Image)
                                     {
-                                        <img src="~/Files/ReportFile/@(item.FileName)" class="img-thumbnail" style="width:60px;height:60px;" />
+                                        <img src="~/Files/PostFile/@(item.FileName)" class="img-thumbnail" style="width:60px;height:60px;" />
                                     }
                                     else if (item.Type == FileType.Audio)
                                     {

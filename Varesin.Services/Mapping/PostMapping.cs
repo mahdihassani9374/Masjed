@@ -68,7 +68,20 @@ namespace Varesin.Services.Mapping
                 Id = source.Id,
                 Length = source.Length,
                 Title = source.Title,
-                Type = source.Type
+                Type = source.Type,
+                PostId = source.PostId
+            };
+        }
+        public static PostFile ToEntity(this PostFileCreateDto source)
+        {
+            return new PostFile
+            {
+                PostId = source.PostId,
+                CountDownload = 0,
+                FileName = source.FileName,
+                Length = source.Length,
+                Title = source.Title,
+                Type = source.FileType
             };
         }
     }

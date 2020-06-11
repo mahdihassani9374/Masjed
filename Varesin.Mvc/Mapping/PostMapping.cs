@@ -89,5 +89,17 @@ namespace Varesin.Mvc.Mapping
                 Type = source.Type
             };
         }
+
+        public static PostFileCreateDto ToDto(this PostFileCreateViewModel source, string fileName, long length)
+        {
+            return new PostFileCreateDto
+            {
+                FileName = fileName,
+                FileType = source.FileType,
+                Length = length,
+                PostId = source.PostId,
+                Title = source.Title
+            };
+        }
     }
 }

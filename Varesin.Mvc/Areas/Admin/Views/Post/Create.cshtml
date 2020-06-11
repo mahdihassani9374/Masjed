@@ -13,7 +13,7 @@
         <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
         @if (UserAccessService.UserIsInRole(User, AccessCode.ViewPost))
         {
-            <li class="breadcrumb-item active" aria-current="page"><a asp-action="Index" asp-controller="Post" asp-area="Admin">مشاهده گزارش های سامانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a asp-action="Index" asp-controller="Post" asp-area="Admin">مشاهده پست های سامانه</a></li>
         }
         <li class="breadcrumb-item active" aria-current="page">ایجاد پست جدید </li>
     </ol>
@@ -38,7 +38,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-warning">
-                        <p>عکس اصلی برای گزارش نباید بیش از 500 کیلو بایت باشد</p>
+                        <p>عکس اصلی برای پست نباید بیش از 500 کیلو بایت باشد</p>
                     </div>
                 </div>
             </div>
@@ -53,7 +53,7 @@
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="required">عکس اصلی گزارش را انتخاب کنید : </label>
+                        <label class="required">عکس اصلی پست را انتخاب کنید : </label>
                         <input type="file" name="PrimaryPicture" required />
                     </div>
                 </div>
@@ -63,7 +63,7 @@
                 <div class="col-md-12">
                     <div class="form-group">
                         <label for="pwd">توضیحات پست را وارد نمایید : </label>
-                        <textarea  id="editor" asp-for="Description" placeholder="توضیحات گزارش" class="form-control" rows="5"></textarea>
+                        <textarea  id="editor" asp-for="Description" placeholder="توضیحات پست" class="form-control" rows="5"></textarea>
                     </div>
                 </div>
             </div>

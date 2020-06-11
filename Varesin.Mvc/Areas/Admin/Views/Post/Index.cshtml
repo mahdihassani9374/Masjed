@@ -67,34 +67,44 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var item in Model.Data.Data)
+                    @if (Model.Data.Data.Count == 0)
                     {
                         <tr>
-                            <td>
-                                <img src="~/Files/Report/@(item.PrimaryPicture)" class="img-thumbnail" style="width:60px;height:60px;" />
-                            </td>
-                            <td>@item.Title?.ToPersianNumbers()</td>
-                            <td>
-                                @if (UserAccessService.UserIsInRole(User, AccessCode.EditPost))
-                                {
-                                    <a asp-action="Edit" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-success">ویرایش</a>
-                                }
-                                @if (UserAccessService.UserIsInRole(User, AccessCode.DeletePost))
-                                {
-                                    <a data-role="confirm" asp-action="Delete" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-danger">حذف</a>
-                                }
-                                @if (UserAccessService.UserIsInRole(User, AccessCode.PostFileManagement))
-                                {
-                                    <a asp-action="File" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-info">مدیریت فایل ها</a>
-                                }
-                                @if (UserAccessService.UserIsInRole(User, AccessCode.InstagramSharing))
-                                {
-                                    <a asp-action="Instagram" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-primary">اشتراک گذاری در اینستاگرام</a>
-                                }
-
-                            </td>
+                            <td colspan="3">پستی وجود ندارد</td>
                         </tr>
                     }
+                    else
+                    {
+                        @foreach (var item in Model.Data.Data)
+                        {
+                            <tr>
+                                <td>
+                                    <img src="~/Files/Post/@(item.PrimaryPicture)" class="img-thumbnail" style="width:60px;height:60px;" />
+                                </td>
+                                <td>@item.Title?.ToPersianNumbers()</td>
+                                <td>
+                                    @if (UserAccessService.UserIsInRole(User, AccessCode.EditPost))
+                                    {
+                                        <a asp-action="Edit" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-success">ویرایش</a>
+                                    }
+                                    @if (UserAccessService.UserIsInRole(User, AccessCode.DeletePost))
+                                    {
+                                        <a data-role="confirm" asp-action="Delete" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-danger">حذف</a>
+                                    }
+                                    @if (UserAccessService.UserIsInRole(User, AccessCode.PostFileManagement))
+                                    {
+                                        <a asp-action="File" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-info">مدیریت فایل ها</a>
+                                    }
+                                    @if (UserAccessService.UserIsInRole(User, AccessCode.InstagramSharing))
+                                    {
+                                        <a asp-action="Instagram" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-primary">اشتراک گذاری در اینستاگرام</a>
+                                    }
+
+                                </td>
+                            </tr>
+                        }
+                    }
+
                 </tbody>
             </table>
         </div>
