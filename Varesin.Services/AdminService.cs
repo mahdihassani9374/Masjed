@@ -757,6 +757,13 @@ namespace Varesin.Services
             return data?.ToDto();
         }
 
+        public EventDto GetEvent(int id)
+        {
+            var data = _context.Events.FirstOrDefault(c => c.Id.Equals(id));
+
+            return data?.ToDto();
+        }
+
         public ServiceResult<string> EditNews(NewsEditDto model)
         {
             var serviceResult = new ServiceResult<string>(true);
@@ -796,44 +803,21 @@ namespace Varesin.Services
             return serviceResult;
         }
 
-        public ServiceResult<string> DeleteNews(int id)
+        public ServiceResult<string> EditEvent(EventEditDto model)
         {
             var serviceResult = new ServiceResult<string>(true);
 
-            var entity = _context.News.FirstOrDefault(c => c.Id == id);
+            var entity = _context.Events.FirstOrDefault(c => c.Id == model.Id);
 
             if (entity == null)
-                serviceResult.AddError(" خبری با شناسه ارسالی یافت نشد");
-            else
-            {
-                serviceResult.Data = entity.PrimaryPicture;
-                _context.Entry(entity).State = EntityState.Deleted;
-
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
-            }
-
-            return serviceResult;
-        }
-        public List<NewsFileDto> GetAllNewsFiles(int newsId)
-        {
-            var data = _context.NewsFiles.Where(c => c.NewsId.Equals(newsId)).ToList();
-            return data.ToDto();
-        }
-        public ServiceResult CreateEvent(EventCreateDto model)
-        {
-            var serviceResult = new ServiceResult(true);
+                serviceResult.AddError("برنامه با شناسه ارسالی یافت نشد");
 
             #region validation
             if (string.IsNullOrEmpty(model.Title))
                 serviceResult.AddError("عنوان برنامه نمی تواند فاقد مقدار باشد");
             if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
                 serviceResult.AddError("تعداد کاراکترهای عنوان برنامه نمی تواند بیش از 128 کاراکتر باشد".ToPersianNumbers());
-            if (string.IsNullOrEmpty(model.PrimaryPicture))
-                serviceResult.AddError("عکس اصلی برنامه نمی تواند فاقد مقدار باشد");
             #endregion
-
-            var entity = model.ToEntity();
 
             if (model.MultiDay)
             {
@@ -859,6 +843,123 @@ namespace Varesin.Services
 
                 model.StartDate = null;
                 model.EndDate = null;
+            }
+
+            if (serviceResult.IsSuccess)
+            {
+                entity.MultiDay = model.MultiDay;
+                entity.Description = model.Description;
+                entity.Date = model.Date;
+                entity.EndDate = model.EndDate;
+                entity.StartDate = model.StartDate;
+                entity.Title = model.Title;
+                entity.Time = model.Time;
+
+                if (!string.IsNullOrEmpty(model.PrimaryPicture))
+                {
+                    serviceResult.Data = entity.PrimaryPicture;
+                    entity.PrimaryPicture = model.PrimaryPicture;
+                }
+
+                _context.Entry(entity).State = EntityState.Modified;
+                if (_context.SaveChanges() == 0)
+                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+            }
+
+            return serviceResult;
+        }
+
+        public ServiceResult<string> DeleteNews(int id)
+        {
+            var serviceResult = new ServiceResult<string>(true);
+
+            var entity = _context.News.FirstOrDefault(c => c.Id == id);
+
+            if (entity == null)
+                serviceResult.AddError(" خبری با شناسه ارسالی یافت نشد");
+            else
+            {
+                serviceResult.Data = entity.PrimaryPicture;
+                _context.Entry(entity).State = EntityState.Deleted;
+
+                if (_context.SaveChanges() == 0)
+                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+            }
+
+            return serviceResult;
+        }
+
+        public ServiceResult<string> DeleteEvent(int id)
+        {
+            var serviceResult = new ServiceResult<string>(true);
+
+            var entity = _context.Events.FirstOrDefault(c => c.Id == id);
+
+            if (entity == null)
+                serviceResult.AddError(" برنامه با شناسه ارسالی یافت نشد");
+            else
+            {
+                var fileCount = _context.EventFiles.Where(c => c.EventId == id).Count();
+
+                if (fileCount > 0)
+                    serviceResult.AddError("برنامه دارای چندین فایل می باشد زیرا امکان حذف برنامه وجود ندارد");
+
+                if(serviceResult.IsSuccess)
+                {
+                    serviceResult.Data = entity.PrimaryPicture;
+                    _context.Entry(entity).State = EntityState.Deleted;
+
+                    if (_context.SaveChanges() == 0)
+                        serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+                }
+            }
+
+            return serviceResult;
+        }
+        public List<NewsFileDto> GetAllNewsFiles(int newsId)
+        {
+            var data = _context.NewsFiles.Where(c => c.NewsId.Equals(newsId)).ToList();
+            return data.ToDto();
+        }
+        public ServiceResult CreateEvent(EventCreateDto model)
+        {
+            var serviceResult = new ServiceResult(true);
+
+            #region validation
+            if (string.IsNullOrEmpty(model.Title))
+                serviceResult.AddError("عنوان برنامه نمی تواند فاقد مقدار باشد");
+            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
+                serviceResult.AddError("تعداد کاراکترهای عنوان برنامه نمی تواند بیش از 128 کاراکتر باشد".ToPersianNumbers());
+            if (string.IsNullOrEmpty(model.PrimaryPicture))
+                serviceResult.AddError("عکس اصلی برنامه نمی تواند فاقد مقدار باشد");
+            #endregion
+
+            var entity = model.ToEntity();
+
+            if (entity.MultiDay)
+            {
+                if (!entity.StartDate.HasValue)
+                    serviceResult.AddError("تاریخ شروع برنامه یا وارد نشده است و یا ساختارش اشتباه می باشد");
+
+                if (!entity.EndDate.HasValue)
+                    serviceResult.AddError("تاریخ پایان برنامه یا وارد نشده است و یا ساختارش اشتباه می باشد");
+
+                if (entity.StartDate.HasValue && entity.EndDate.HasValue)
+                    if (entity.EndDate.Value <= entity.StartDate.Value)
+                        serviceResult.AddError("تاریخ پایان برنامه نمی تواند از تاریخ شروع برنامه کمتر باشد");
+
+                entity.Date = null;
+                entity.Time = null;
+            }
+            else
+            {
+                if (!entity.Date.HasValue)
+                    serviceResult.AddError("تاریخ برنامه یا وارد نشده است و یا ساختارش اشتباه می باشد");
+                if (string.IsNullOrEmpty(entity.Time))
+                    serviceResult.AddError("ساعت برنامه نمی تواند فاقد مقدار باشد");
+
+                entity.StartDate = null;
+                entity.EndDate = null;
             }
 
             if (serviceResult.IsSuccess)

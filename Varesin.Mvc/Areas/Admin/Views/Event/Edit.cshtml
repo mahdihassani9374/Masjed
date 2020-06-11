@@ -1,0 +1,155 @@
+﻿@using Varesin.Mvc.Models.Event
+@using Varesin.Domain.Enumeration
+@using Varesin.Mvc.Services
+@using Microsoft.AspNetCore.Mvc.Rendering
+@model EventViewModel
+@{
+    ViewData["Title"] = "ویرایش برنامه  - پنل مدیریتی وارثین";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+}
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        @if (UserAccessService.UserIsInRole(User, AccessCode.ViewEvent))
+        {
+            <li class="breadcrumb-item active" aria-current="page"><a asp-action="Index" asp-controller="Event" asp-area="Admin">مشاهده اطلاع رسانی و گزارش گیری سامانه</a></li>
+        }
+        <li class="breadcrumb-item active" aria-current="page">ویرایش برنامه  </li>
+    </ol>
+</nav>
+
+<div class="panel panel-primary">
+    <div class="panel-heading">ویرایش برنامه </div>
+    <div class="panel-body">
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" asp-for="Id" />
+            @Html.AntiForgeryToken()
+            @if (ViewData.ModelState.ErrorCount > 0)
+            {
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="alert alert-danger">
+                            @Html.ValidationSummary()
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="alert alert-warning">
+                        <p>عکس اصلی برای برنامه نباید بیش از 500 کیلو بایت باشد</p>
+                        <p>اگر عکس اصلی را دوباره انتخاب کنید جایگزین عکس قبلی می شود</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <p style="font-weight: 600;">عکس انتخاب شده : </p>
+                        <p><img src="~/Files/Event/@(Model.PrimaryPicture)" class="img-thumbnail" style="width:200px;" /></p>
+                    </div>
+                </div>
+            </div>
+
+            <hr />
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="form-group">
+                        <label class="required">عنوان برنامه را وارد نمایید : </label>
+                        <input required type="text" asp-for="Title" placeholder="عنوان" class="form-control" id="pwd">
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label>عکس اصلی برنامه را انتخاب کنید : </label>
+                        <input type="file" name="PrimaryPicture" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row flex-end">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <div class="checkbox">
+                            <label>@Html.CheckBoxFor(c => c.MultiDay)برنامه در چند روز برگزار می شود ؟</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 hide" data-role="end">
+                    <div class="form-group">
+                        <label class="required">تاریخ شروع برنامه : </label>
+                        <input type="text" asp-for="StartDate" class="form-control" data-role="date" />
+                    </div>
+                </div>
+
+                <div class="col-md-4 hide" data-role="end">
+                    <div class="form-group">
+                        <label class="required">تاریخ پایان برنامه : </label>
+                        <input asp-for="EndDate" type="text" class="form-control" data-role="date" />
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-role="start">
+                    <div class="form-group">
+                        <label class="required">تاریخ  برنامه : </label>
+                        <input type="text" asp-for="Date" class="form-control" data-role="date" />
+                    </div>
+                </div>
+
+                <div class="col-md-4" data-role="start">
+                    <div class="form-group">
+                        <label class="required"> ساعت برنامه : </label>
+                        <input asp-for="Time" type="text" class="form-control" placeholder="ساعت" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <label for="pwd">توضیحات برنامه را وارد نمایید : </label>
+                        <textarea id="editor" asp-for="Description" placeholder="توضیحات گزارش" class="form-control" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                            <span class="ladda-label">ثبت</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('input[type="checkbox"]').on('change', function () {
+            if ($(this).is(":checked")) {
+                $('[data-role="end"]').removeClass('hide');
+                $('[data-role="end"]  input').attr('required', 'required');
+
+                $('[data-role="start"]').addClass('hide');
+                $('[data-role="start"]  input').removeAttr('required')
+            }
+            else {
+                $('[data-role="end"]').addClass('hide');
+                $('[data-role="end"]  input').removeAttr('required')
+
+                $('[data-role="start"]').removeClass('hide');
+                $('[data-role="start"]  input').attr('required', 'required');
+            }
+        });
+
+        $('input[type="checkbox"]').trigger("change");
+    })
+</script>

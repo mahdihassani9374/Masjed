@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
+using System.Linq;
 using Varesin.Mvc.Extensions;
 using Varesin.Mvc.Mapping;
 using Varesin.Mvc.Models;
@@ -72,6 +73,67 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
             AddErrors(serviceResult);
 
             return View(model);
+        }
+
+        public IActionResult Edit(int id)
+        {
+            var data = _adminService.GetEvent(id);
+
+            if (data == null)
+            {
+                Swal(false, "برنامه با شناسه ارسالی یافت نشد");
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(data.ToViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        public IActionResult Edit(EventEditViewModel model)
+        {
+            var uploadResult = new ServiceResult<string>();
+            var serviceResult = new ServiceResult<string>();
+
+            if (model.PrimaryPicture != null)
+                uploadResult = _fileService.Upload(model.PrimaryPicture, "Event", 1024 * 500);
+
+            if (!uploadResult.IsSuccess && model.PrimaryPicture != null)
+            {
+                Swal(false, uploadResult.Errors.FirstOrDefault());
+                return RedirectToAction(nameof(Edit), new { id = model.Id });
+            }
+
+            serviceResult = _adminService.EditEvent(model.ToDto(uploadResult.Data));
+
+            if (serviceResult.IsSuccess)
+            {
+                // delete file
+                if (!string.IsNullOrEmpty(serviceResult.Data))
+                    _fileService.Delete(serviceResult.Data, "Event");
+
+                Swal(true, "برنامه با موفقیت ویرایش شد");
+                return RedirectToAction(nameof(Edit), new { id = model.Id });
+            }
+
+            AddErrors(serviceResult);
+
+            var data = _adminService.GetEvent(model.Id);
+
+            return View(data.ToViewModel());
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var serviceResult = _adminService.DeleteEvent(id);
+            if (serviceResult.IsSuccess)
+            {
+                var deleteResult = _fileService.Delete(serviceResult.Data, "Event");
+                Swal(true, "برنامه با موفقیت حذف شد");
+            }
+            else
+                Swal(false, serviceResult.Errors.FirstOrDefault());
+            return RedirectToAction(nameof(Index));
         }
     }
 }

@@ -68,5 +68,21 @@ namespace Varesin.Mvc.Mapping
                 Data = sources.Data.ToViewModel()
             };
         }
+
+        public static EventEditDto ToDto(this EventEditViewModel source, string fileName)
+        {
+            return new EventEditDto
+            {
+                Title = source.Title,
+                Date = source.Date.ToDateTime(),
+                Description = source.Description,
+                EndDate = source.EndDate.ToDateTime(),
+                Id = source.Id,
+                MultiDay = source.MultiDay,
+                PrimaryPicture = fileName,
+                StartDate = source.StartDate.ToDateTime(),
+                Time = source.Time
+            };
+        }
     }
 }
