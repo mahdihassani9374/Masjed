@@ -650,9 +650,20 @@ namespace Varesin.Services
             var data = _context.PostFiles.Where(c => c.PostId.Equals(postId)).ToList();
             return data.ToDto();
         }
+        public List<EventFileDto> GetAllEventFiles(int eventId)
+        {
+            var data = _context.EventFiles.Where(c => c.Event.Equals(eventId)).ToList();
+            return data.ToDto();
+        }
         public PostFileDto GetPostFile(int id)
         {
             var data = _context.PostFiles.FirstOrDefault(c => c.Id.Equals(id));
+            return data?.ToDto();
+        }
+
+        public EventFileDto GetEventFile(int id)
+        {
+            var data = _context.EventFiles.FirstOrDefault(c => c.Id.Equals(id));
             return data?.ToDto();
         }
         public ServiceResult DeletePostFile(int id)
@@ -966,6 +977,47 @@ namespace Varesin.Services
             {
 
                 _context.Events.Add(entity);
+
+                if (_context.SaveChanges() == 0)
+                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+            }
+
+            return serviceResult;
+        }
+
+        public ServiceResult CreateEventFile(EventFileCreateDto model)
+        {
+            var serviceResult = new ServiceResult(true);
+
+            #region validation
+            if (string.IsNullOrEmpty(model.Title))
+                serviceResult.AddError("عنوان نمی تواند فاید مقدار باشد");
+            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
+                serviceResult.AddError("عنوان نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
+            #endregion
+
+            if (serviceResult.IsSuccess)
+            {
+                var entity = model.ToEntity();
+                _context.Entry(entity).State = EntityState.Added;
+                if (_context.SaveChanges() == 0)
+                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+            }
+
+            return serviceResult;
+        }
+
+        public ServiceResult DeleteEventFile(int id)
+        {
+            var serviceResult = new ServiceResult(true);
+
+            var entity = _context.EventFiles.FirstOrDefault(c => c.Id == id);
+
+            if (entity == null)
+                serviceResult.AddError(" قایلی با شناسه ارسالی یافت نشد");
+            else
+            {
+                _context.Entry(entity).State = EntityState.Deleted;
 
                 if (_context.SaveChanges() == 0)
                     serviceResult.AddError("در انجام عملیات خطایی رخ داد");

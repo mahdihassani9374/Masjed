@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Varesin.Domain.DTO.Event;
 using Varesin.Domain.DTO.Pagination;
 using Varesin.Mvc.Extensions;
@@ -82,6 +83,39 @@ namespace Varesin.Mvc.Mapping
                 PrimaryPicture = fileName,
                 StartDate = source.StartDate.ToDateTime(),
                 Time = source.Time
+            };
+        }
+
+        public static List<EventFileViewModel> ToViewModel(this List<EventFileDto> sources)
+        {
+            var result = new List<EventFileViewModel>();
+            foreach (var source in sources)
+                result.Add(source.ToViewModel());
+            return result;
+        }
+
+        public static EventFileViewModel ToViewModel(this EventFileDto source)
+        {
+            return new EventFileViewModel
+            {
+                CountDownload = source.CountDownload,
+                FileName = source.FileName,
+                Id = source.Id,
+                Length = source.Length,
+                Title = source.Title,
+                Type = source.Type
+            };
+        }
+
+        public static EventFileCreateDto ToDto(this EventFileCreateViewModel source, string fileName, long length)
+        {
+            return new EventFileCreateDto
+            {
+                FileType = source.FileType,
+                EventId = source.EventId,
+                FileName = fileName,
+                Length = length,
+                Title = source.Title
             };
         }
     }

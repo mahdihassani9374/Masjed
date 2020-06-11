@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Collections.Generic;
 using System.Linq;
+using Varesin.Domain.Enumeration;
+using Varesin.Mvc.ActionFilterAttributes;
 using Varesin.Mvc.Extensions;
 using Varesin.Mvc.Mapping;
 using Varesin.Mvc.Models;
@@ -24,6 +26,7 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
             _fileService = fileService;
         }
 
+        [AccessCodeFlter(AccessCode.ViewEvent)]
         public IActionResult Index(EventSearchViewModel searchModel)
         {
             var data = _adminService.GetEvent(searchModel.ToDto());
@@ -41,6 +44,7 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
 
         }
 
+        [AccessCodeFlter(AccessCode.CreateEvent)]
         public IActionResult Create()
         {
             return View();
@@ -48,6 +52,7 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [AccessCodeFlter(AccessCode.CreateEvent)]
         public IActionResult Create(EventCreateViewModel model)
         {
             var uploadResult = _fileService.Upload(model.PrimaryPicture, "Event", 1024 * 500);
@@ -75,6 +80,7 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
             return View(model);
         }
 
+        [AccessCodeFlter(AccessCode.EditEvent)]
         public IActionResult Edit(int id)
         {
             var data = _adminService.GetEvent(id);
@@ -90,6 +96,7 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken()]
+        [AccessCodeFlter(AccessCode.EditEvent)]
         public IActionResult Edit(EventEditViewModel model)
         {
             var uploadResult = new ServiceResult<string>();
@@ -123,6 +130,7 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
             return View(data.ToViewModel());
         }
 
+        [AccessCodeFlter(AccessCode.DeleteEvent)]
         public IActionResult Delete(int id)
         {
             var serviceResult = _adminService.DeleteEvent(id);
@@ -134,6 +142,80 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
             else
                 Swal(false, serviceResult.Errors.FirstOrDefault());
             return RedirectToAction(nameof(Index));
+        }
+
+        [AccessCodeFlter(AccessCode.EventFileManagement)]
+        public IActionResult File(int id)
+        {
+            var eventEntity = _adminService.GetEvent(id);
+            if (eventEntity == null)
+            {
+                Swal(false, "شناسه برنامه نامعتبر است");
+                return RedirectToAction(nameof(Index));
+            }
+
+            List<SelectListItem> fileTypeSelector = new List<SelectListItem>();
+            fileTypeSelector.Add(new SelectListItem("", ""));
+            fileTypeSelector.Add(new SelectListItem("عکس", Domain.Enumeration.FileType.Image.ToString()));
+            fileTypeSelector.Add(new SelectListItem("صوتی", Domain.Enumeration.FileType.Audio.ToString()));
+            fileTypeSelector.Add(new SelectListItem("تصویری", Domain.Enumeration.FileType.Video.ToString()));
+
+            ViewBag.FileTypeSelector = fileTypeSelector;
+
+            ViewBag.Files = _adminService.GetAllEventFiles(id).ToViewModel();
+
+            return View(eventEntity.ToViewModel());
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        [AccessCodeFlter(AccessCode.EventFileManagement)]
+        public IActionResult File(EventFileCreateViewModel model)
+        {
+            if (model.File == null)
+                Swal(false, "فایلی انتخاب نکرده اید");
+            else
+            {
+                long? maxLength = 0;
+
+                if (model.FileType == Domain.Enumeration.FileType.Image)
+                    maxLength = 500 * 1024;
+                else maxLength = 25 * 1024 * 1024;
+
+                var uploadResult = _fileService.Upload(model.File, "EventFile", maxLength);
+
+                if (uploadResult.IsSuccess)
+                {
+                    var serviceResult = _adminService.CreateEventFile(model.ToDto(uploadResult.Data, model.File.Length));
+                    if (serviceResult.IsSuccess)
+                        Swal(true, "عملیات با موفقیت صورت گرفت");
+                    else Swal(false, serviceResult.Errors.FirstOrDefault());
+                }
+                else
+                    Swal(false, uploadResult.Errors.FirstOrDefault());
+            }
+            return RedirectToAction(nameof(File), new { id = model.EventId });
+        }
+
+        [AccessCodeFlter(AccessCode.EventFileManagement)]
+        public IActionResult DeleteFile(int id)
+        {
+            var eventFile = _adminService.GetEventFile(id);
+
+            if (eventFile == null)
+                return RedirectToAction(nameof(Index));
+
+            var deleteResult = _fileService.Delete(eventFile.FileName, "EventFile");
+
+            if (deleteResult.IsSuccess)
+            {
+                var serviceResult = _adminService.DeleteEventFile(id);
+                if (serviceResult.IsSuccess)
+                    Swal(true, "عملیات با موفقیت انجام شد");
+                else Swal(false, serviceResult.Errors.FirstOrDefault());
+            }
+
+            return RedirectToAction(nameof(File), new { id = eventFile.Id });
         }
     }
 }

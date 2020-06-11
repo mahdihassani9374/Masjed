@@ -37,6 +37,10 @@ namespace Varesin.Mvc.Services
                     result.Add(Filter(AccessCode.CreatePost));
                 if (roles.Any(i => i.Value == AccessCode.ViewPost.ToString()))
                     result.Add(Filter(AccessCode.ViewPost));
+                if (roles.Any(i => i.Value == AccessCode.CreateEvent.ToString()))
+                    result.Add(Filter(AccessCode.CreateEvent));
+                if (roles.Any(i => i.Value == AccessCode.ViewEvent.ToString()))
+                    result.Add(Filter(AccessCode.ViewEvent));
                 return result;
             }
         }
@@ -166,6 +170,28 @@ namespace Varesin.Mvc.Services
                     Title = "ایجاد پست جدید",
                 };
             }
+            else if (accessCode == AccessCode.ViewEvent)
+            {
+                return new UserAccessModel
+                {
+                    ActionName = "Index",
+                    AreaName = "Admin",
+                    ControllerName = "Event",
+                    Enum = AccessCode.ViewEvent,
+                    Title = "ممشاهده اطلاع رسانی و گزارش گیری سامانه",
+                };
+            }
+            else if (accessCode == AccessCode.CreateEvent)
+            {
+                return new UserAccessModel
+                {
+                    ActionName = "Create",
+                    AreaName = "Admin",
+                    ControllerName = "Event",
+                    Enum = AccessCode.CreateEvent,
+                    Title = "ایجاد برنامه جدید",
+                };
+            }
             else
             {
                 return new UserAccessModel
@@ -192,6 +218,8 @@ namespace Varesin.Mvc.Services
             result.Add(Filter(AccessCode.InstagramTagManagement));
             result.Add(Filter(AccessCode.CreatePost));
             result.Add(Filter(AccessCode.ViewPost));
+            result.Add(Filter(AccessCode.CreateEvent));
+            result.Add(Filter(AccessCode.ViewEvent));
 
             return result;
         }
@@ -372,13 +400,51 @@ namespace Varesin.Mvc.Services
                           Enum= AccessCode.PostFileManagement,
                           Checked=roles.Any(i=>i==AccessCode.PostFileManagement.ToString())
                      },
+                 }
+            });
+
+            result.Add(new UserAccessGroupingModel
+            {
+                Title = "مشاهده اطلاع رسانی و گزارش گیری سامانه",
+                Enum = AccessCode.EventManagement,
+                Items = new List<UserAccessItemModel>
+                 {
+                    new UserAccessItemModel
+                     {
+                          Title="مشاهده برنامه ها",
+                          Id=(int)AccessCode.ViewEvent,
+                          Enum= AccessCode.ViewEvent,
+                          Checked=roles.Any(i=>i==AccessCode.ViewEvent.ToString())
+                     },
+                    new UserAccessItemModel
+                     {
+                          Title="ایجاد برنامه جدید",
+                          Id=(int)AccessCode.CreateEvent,
+                          Enum= AccessCode.CreateEvent,
+                          Checked=roles.Any(i=>i==AccessCode.CreateEvent.ToString())
+                     },
+                     new UserAccessItemModel
+                     {
+                          Title="ویرایش برنامه",
+                          Id=(int)AccessCode.EditEvent,
+                          Enum= AccessCode.EditEvent,
+                          Checked=roles.Any(i=>i==AccessCode.EditEvent.ToString())
+                     },
+                     new UserAccessItemModel
+                     {
+                          Title="حذف برنامه",
+                          Id=(int)AccessCode.DeleteEvent,
+                          Enum= AccessCode.DeleteEvent,
+                          Checked=roles.Any(i=>i==AccessCode.DeleteEvent.ToString())
+                     },
                       new UserAccessItemModel
                      {
-                          Title="اشتراک گذاری در اینستاگرام",
-                          Id=(int)AccessCode.InstagramSharing,
-                          Enum= AccessCode.InstagramManagement,
-                          Checked=roles.Any(i=>i==AccessCode.InstagramSharing.ToString())
-                     }
+                          Title="مدیریت فایل ها",
+                          Id=(int)AccessCode.EventFileManagement,
+                          Enum= AccessCode.EventFileManagement,
+                          Checked=roles.Any(i=>i==AccessCode.EventFileManagement.ToString())
+                     },
+                      
 
                  }
             });

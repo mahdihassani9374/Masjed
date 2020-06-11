@@ -60,5 +60,39 @@ namespace Varesin.Services.Mapping
 
             };
         }
+
+        public static List<EventFileDto> ToDto(this List<EventFile> sources)
+        {
+            var result = new List<EventFileDto>();
+            foreach (var source in sources)
+                result.Add(source.ToDto());
+            return result;
+        }
+
+        public static EventFileDto ToDto(this EventFile sourc)
+        {
+            return new EventFileDto
+            {
+                CountDownload = sourc.CountDownload,
+                FileName = sourc.FileName,
+                Id = sourc.Id,
+                Length = sourc.Length,
+                Title = sourc.Title,
+                Type = sourc.Type
+            };
+        }
+
+        public static EventFile ToEntity(this EventFileCreateDto source)
+        {
+            return new EventFile
+            {
+                EventId = source.EventId,
+                CountDownload = 0,
+                FileName = source.FileName,
+                Length = source.Length,
+                Title = source.Title,
+                Type = source.FileType
+            };
+        }
     }
 }
