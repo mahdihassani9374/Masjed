@@ -635,11 +635,18 @@ namespace Varesin.Services
                 serviceResult.AddError(" پستی با شناسه ارسالی یافت نشد");
             else
             {
-                serviceResult.Data = entity.PrimaryPicture;
-                _context.Entry(entity).State = EntityState.Deleted;
+                var countFile = _context.PostFiles.Where(c => c.PostId.Equals(id)).Count();
+                if (countFile > 0)
+                    serviceResult.AddError("پست را نمی توانید حذف کنید زیرا دارای چندین فایل می باشد");
 
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+                if(serviceResult.IsSuccess)
+                {
+                    serviceResult.Data = entity.PrimaryPicture;
+                    _context.Entry(entity).State = EntityState.Deleted;
+
+                    if (_context.SaveChanges() == 0)
+                        serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+                }
             }
 
             return serviceResult;
@@ -915,7 +922,7 @@ namespace Varesin.Services
                 if (fileCount > 0)
                     serviceResult.AddError("برنامه دارای چندین فایل می باشد زیرا امکان حذف برنامه وجود ندارد");
 
-                if(serviceResult.IsSuccess)
+                if (serviceResult.IsSuccess)
                 {
                     serviceResult.Data = entity.PrimaryPicture;
                     _context.Entry(entity).State = EntityState.Deleted;
