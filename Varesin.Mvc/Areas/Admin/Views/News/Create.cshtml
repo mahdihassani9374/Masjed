@@ -6,6 +6,7 @@
 @{
     ViewData["Title"] = "ایجاد خبر جدید - پنل مدیریتی وارثین";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var typeSelector = (List<SelectListItem>)ViewBag.TypeSelector;
 }
 
 <nav aria-label="breadcrumb">
@@ -13,14 +14,14 @@
         <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
         @if (UserAccessService.UserIsInRole(User, AccessCode.ViewNews))
         {
-            <li class="breadcrumb-item active" aria-current="page"><a asp-action="Index" asp-controller="Post" asp-area="Admin">مشاهده گزارش های سامانه</a></li>
+            <li class="breadcrumb-item active" aria-current="page"><a asp-action="Index" asp-controller="News" asp-area="Admin">مشاهده خبر های سامانه</a></li>
         }
-        <li class="breadcrumb-item active" aria-current="page">ایجاد پست جدید </li>
+        <li class="breadcrumb-item active" aria-current="page">ایجاد خبر جدید </li>
     </ol>
 </nav>
 
 <div class="panel panel-primary">
-    <div class="panel-heading">ایجاد پست جدید</div>
+    <div class="panel-heading">ایجاد خبر جدید</div>
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
@@ -38,7 +39,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="alert alert-warning">
-                        <p>عکس اصلی برای گزارش نباید بیش از 500 کیلو بایت باشد</p>
+                        <p>عکس اصلی برای خبر نباید بیش از 500 کیلو بایت باشد</p>
                     </div>
                 </div>
             </div>
@@ -46,14 +47,21 @@
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="required">عنوان پست را وارد نمایید : </label>
+                        <label class="required">عنوان خبر را وارد نمایید : </label>
                         <input required type="text" asp-for="Title" placeholder="عنوان" class="form-control" id="pwd">
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-4 col-xs-12">
+                    <div class="form-group">
+                        <label for="pwd">نوع خبر : </label>
+                        <select name="Type" asp-items="@typeSelector" class="form-control"></select>
                     </div>
                 </div>
 
                 <div class="col-md-4">
                     <div class="form-group">
-                        <label class="required">عکس اصلی گزارش را انتخاب کنید : </label>
+                        <label class="required">عکس اصلی خبر را انتخاب کنید : </label>
                         <input type="file" name="PrimaryPicture" required />
                     </div>
                 </div>
@@ -62,7 +70,7 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label for="pwd">توضیحات پست را وارد نمایید : </label>
+                        <label for="pwd">توضیحات خبر را وارد نمایید : </label>
                         <textarea id="editor" asp-for="Description" placeholder="توضیحات گزارش" class="form-control" rows="5"></textarea>
                     </div>
                 </div>

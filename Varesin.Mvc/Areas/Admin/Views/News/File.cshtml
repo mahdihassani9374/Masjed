@@ -1,4 +1,4 @@
-﻿@using Varesin.Mvc.Models.Post
+﻿@using Varesin.Mvc.Models.News
 @using Varesin.Mvc.Models
 @using Varesin.Mvc.Models.Pagination
 @using Microsoft.AspNetCore.Mvc.Rendering
@@ -6,20 +6,20 @@
 @using Varesin.Mvc.Services
 @using DNTPersianUtils.Core
 
-@model PostViewModel
+@model NewsViewModel
 @{
-    ViewData["Title"] = "فایل های پست - پنل مدیریتی وارثین";
+    ViewData["Title"] = "فایل های خبر - پنل مدیریتی وارثین";
     Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
     var fileTypeSelector = (List<SelectListItem>)ViewBag.FileTypeSelector;
-    var files = (List<PostFileViewModel>)ViewBag.Files;
+    var files = (List<NewsFileViewModel>)ViewBag.Files;
 
 
 }
 <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
         <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
-        <li class="breadcrumb-item"><a href="/Admin/Post">مشاهده پست های سامانه</a></li>
-        <li class="breadcrumb-item active" aria-current="page">فایل های پست</li>
+        <li class="breadcrumb-item"><a href="/Admin/News">مشاهده خبر های سامانه</a></li>
+        <li class="breadcrumb-item active" aria-current="page">فایل های خبر</li>
     </ol>
 </nav>
 
@@ -28,7 +28,7 @@
     <div class="panel-body">
         <form method="post" enctype="multipart/form-data">
             @Html.AntiForgeryToken()
-            <input type="hidden" name="ReportId" value="@Model.Id" />
+            <input type="hidden" name="NewsId" value="@Model.Id" />
             <div class="alert alert-danger">
                 <p>فایل انتخابی اگر عکس باشد حجم آن نباید از 500 کیلوبایت بیشتر باشد</p>
                 <p>و اگر فایل انتخابی صوتی یا تصویری می باشد حجم آن نباید از 25 مگابایت یشتر باشد</p>
@@ -91,7 +91,7 @@
                                 <td>
                                     @if (item.Type == FileType.Image)
                                     {
-                                        <img src="~/Files/ReportFile/@(item.FileName)" class="img-thumbnail" style="width:60px;height:60px;" />
+                                        <img src="~/Files/NewsFile/@(item.FileName)" class="img-thumbnail" style="width:60px;height:60px;" />
                                     }
                                     else if (item.Type == FileType.Audio)
                                     {
@@ -119,7 +119,7 @@
                                 <td>@item.Title.ToPersianNumbers()</td>
                                 <td>@(Varesin.Mvc.Helper.FileHelper.GetLength(item.Length))</td>
                                 <td>
-                                    <a data-role="confirm" asp-action="DeleteFile" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-danger">حذف</a>
+                                    <a data-role="confirm" asp-action="DeleteFile" asp-controller="News" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-danger">حذف</a>
                                 </td>
                             </tr>
                         }

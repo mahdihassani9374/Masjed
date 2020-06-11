@@ -71,7 +71,21 @@ namespace Varesin.Services.Mapping
                 Id = source.Id,
                 Length = source.Length,
                 Title = source.Title,
-                Type = source.Type
+                Type = source.Type,
+                NewsId = source.NewsId
+            };
+        }
+
+        public static NewsFile ToEntity(this NewsFileCreateDto source)
+        {
+            return new NewsFile
+            {
+                CountDownload = 0,
+                FileName = source.FileName,
+                Title = source.Title,
+                Length = source.Length,
+                NewsId = source.NewsId,
+                Type = source.FileType
             };
         }
     }

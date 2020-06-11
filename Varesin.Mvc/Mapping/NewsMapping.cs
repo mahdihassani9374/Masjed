@@ -60,7 +60,8 @@ namespace Varesin.Mvc.Mapping
             {
                 Description = source.Description,
                 Title = source.Title,
-                PrimaryPicture = fileName
+                PrimaryPicture = fileName,
+                 Type=source.Type
             };
         }
 
@@ -92,6 +93,18 @@ namespace Varesin.Mvc.Mapping
                 Length = source.Length,
                 Title = source.Title,
                 Type = source.Type
+            };
+        }
+
+        public static NewsFileCreateDto ToDto(this NewsFileCreateViewModel source, string fileName, long length)
+        {
+            return new NewsFileCreateDto
+            {
+                FileName = fileName,
+                FileType = source.FileType,
+                Length = length,
+                NewsId = source.NewsId,
+                Title = source.Title
             };
         }
     }

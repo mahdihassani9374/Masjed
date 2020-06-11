@@ -44,11 +44,11 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
             pageSizeSelector.Add(new SelectListItem("50", "50", searchModel.PageSize == 50));
 
             List<SelectListItem> typeSelector = new List<SelectListItem>();
-            pageSizeSelector.Add(new SelectListItem("", ""));
-            pageSizeSelector.Add(new SelectListItem("اخبار محله", NewsType.Mahal.ToString(), searchModel.Type == NewsType.Mahal));
-            pageSizeSelector.Add(new SelectListItem("سیاسی", NewsType.Siasi.ToString(), searchModel.Type == NewsType.Siasi));
-            pageSizeSelector.Add(new SelectListItem("اقتصادی", NewsType.Eghtesadi.ToString(), searchModel.Type == NewsType.Eghtesadi));
-            pageSizeSelector.Add(new SelectListItem("فرهنگی", NewsType.Farhangi.ToString(), searchModel.Type == NewsType.Farhangi));
+            typeSelector.Add(new SelectListItem("نوع خبر", ""));
+            typeSelector.Add(new SelectListItem("اخبار محله", NewsType.Mahal.ToString(), searchModel.Type == NewsType.Mahal));
+            typeSelector.Add(new SelectListItem("سیاسی", NewsType.Siasi.ToString(), searchModel.Type == NewsType.Siasi));
+            typeSelector.Add(new SelectListItem("اقتصادی", NewsType.Eghtesadi.ToString(), searchModel.Type == NewsType.Eghtesadi));
+            typeSelector.Add(new SelectListItem("فرهنگی", NewsType.Farhangi.ToString(), searchModel.Type == NewsType.Farhangi));
 
 
             ViewBag.PageSizeSelector = pageSizeSelector;
@@ -61,6 +61,15 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
         [AccessCodeFlter(AccessCode.CreateNews)]
         public IActionResult Create()
         {
+            List<SelectListItem> typeSelector = new List<SelectListItem>();
+            typeSelector.Add(new SelectListItem("نوع خبر", ""));
+            typeSelector.Add(new SelectListItem("اخبار محله", NewsType.Mahal.ToString()));
+            typeSelector.Add(new SelectListItem("سیاسی", NewsType.Siasi.ToString()));
+            typeSelector.Add(new SelectListItem("اقتصادی", NewsType.Eghtesadi.ToString()));
+            typeSelector.Add(new SelectListItem("فرهنگی", NewsType.Farhangi.ToString()));
+
+            ViewBag.TypeSelector = typeSelector;
+
             return View();
         }
 
@@ -91,6 +100,15 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
 
             AddErrors(serviceResult);
 
+            List<SelectListItem> typeSelector = new List<SelectListItem>();
+            typeSelector.Add(new SelectListItem("نوع خبر", ""));
+            typeSelector.Add(new SelectListItem("اخبار محله", NewsType.Mahal.ToString(), model.Type == NewsType.Mahal));
+            typeSelector.Add(new SelectListItem("سیاسی", NewsType.Siasi.ToString(), model.Type == NewsType.Siasi));
+            typeSelector.Add(new SelectListItem("اقتصادی", NewsType.Eghtesadi.ToString(), model.Type == NewsType.Eghtesadi));
+            typeSelector.Add(new SelectListItem("فرهنگی", NewsType.Farhangi.ToString(), model.Type == NewsType.Farhangi));
+
+            ViewBag.TypeSelector = typeSelector;
+
             return View(model);
         }
 
@@ -104,6 +122,15 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
                 Swal(false, "خبری با شناسه ارسالی یافت نشد");
                 return RedirectToAction(nameof(Index));
             }
+
+            List<SelectListItem> typeSelector = new List<SelectListItem>();
+            typeSelector.Add(new SelectListItem("نوع خبر", ""));
+            typeSelector.Add(new SelectListItem("اخبار محله", NewsType.Mahal.ToString(), data.Type == NewsType.Mahal));
+            typeSelector.Add(new SelectListItem("سیاسی", NewsType.Siasi.ToString(), data.Type == NewsType.Siasi));
+            typeSelector.Add(new SelectListItem("اقتصادی", NewsType.Eghtesadi.ToString(), data.Type == NewsType.Eghtesadi));
+            typeSelector.Add(new SelectListItem("فرهنگی", NewsType.Farhangi.ToString(), data.Type == NewsType.Farhangi));
+
+            ViewBag.TypeSelector = typeSelector;
 
             return View(data.ToViewModel());
         }
@@ -141,6 +168,15 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
 
             var data = _adminService.GetNews(model.Id);
 
+            List<SelectListItem> typeSelector = new List<SelectListItem>();
+            typeSelector.Add(new SelectListItem("نوع خبر", ""));
+            typeSelector.Add(new SelectListItem("اخبار محله", NewsType.Mahal.ToString(), data.Type == NewsType.Mahal));
+            typeSelector.Add(new SelectListItem("سیاسی", NewsType.Siasi.ToString(), data.Type == NewsType.Siasi));
+            typeSelector.Add(new SelectListItem("اقتصادی", NewsType.Eghtesadi.ToString(), data.Type == NewsType.Eghtesadi));
+            typeSelector.Add(new SelectListItem("فرهنگی", NewsType.Farhangi.ToString(), data.Type == NewsType.Farhangi));
+
+            ViewBag.TypeSelector = typeSelector;
+
             return View(data.ToViewModel());
         }
 
@@ -176,78 +212,60 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
 
             ViewBag.FileTypeSelector = fileTypeSelector;
 
-            ViewBag.Files = _adminService.GetAllPostFiles(id).ToViewModel();
+            ViewBag.Files = _adminService.GetAllNewsFiles(id).ToViewModel();
 
             return View(report.ToViewModel());
         }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken()]
-        //[AccessCodeFlter(AccessCode.NewsFileManagement)]
-        //public IActionResult File(ReportFileCreateViewModel model)
-        //{
-        //    if (model.File == null)
-        //        Swal(false, "فایلی انتخاب نکرده اید");
-        //    else
-        //    {
-        //        long? maxLength = 0;
+        [HttpPost]
+        [ValidateAntiForgeryToken()]
+        [AccessCodeFlter(AccessCode.NewsFileManagement)]
+        public IActionResult File(NewsFileCreateViewModel model)
+        {
+            if (model.File == null)
+                Swal(false, "فایلی انتخاب نکرده اید");
+            else
+            {
+                long? maxLength = 0;
 
-        //        if (model.FileType == Domain.Enumeration.FileType.Image)
-        //            maxLength = 500 * 1024;
-        //        else maxLength = 25 * 1024 * 1024;
+                if (model.FileType == Domain.Enumeration.FileType.Image)
+                    maxLength = 500 * 1024;
+                else maxLength = 25 * 1024 * 1024;
 
-        //        var uploadResult = _fileService.Upload(model.File, "ReportFile", maxLength);
+                var uploadResult = _fileService.Upload(model.File, "NewsFile", maxLength);
 
-        //        if (uploadResult.IsSuccess)
-        //        {
-        //            var serviceResult = _adminService.CreateReportFile(model.ToDto(uploadResult.Data, model.File.Length));
-        //            if (serviceResult.IsSuccess)
-        //                Swal(true, "عملیات با موفقیت صورت گرفت");
-        //            else Swal(false, serviceResult.Errors.FirstOrDefault());
-        //        }
-        //        else
-        //            Swal(false, uploadResult.Errors.FirstOrDefault());
-        //    }
-        //    return RedirectToAction(nameof(File), new { id = model.ReportId });
-        //}
+                if (uploadResult.IsSuccess)
+                {
+                    var serviceResult = _adminService.CreateNewsFile(model.ToDto(uploadResult.Data, model.File.Length));
+                    if (serviceResult.IsSuccess)
+                        Swal(true, "عملیات با موفقیت صورت گرفت");
+                    else Swal(false, serviceResult.Errors.FirstOrDefault());
+                }
+                else
+                    Swal(false, uploadResult.Errors.FirstOrDefault());
+            }
+            return RedirectToAction(nameof(File), new { id = model.NewsId });
+        }
 
-        //[AccessCodeFlter(AccessCode.NewsFileManagement)]
-        //public IActionResult DeleteFile(int id)
-        //{
-        //    var postFile = _adminService.GetPostFile(id);
+        [AccessCodeFlter(AccessCode.NewsFileManagement)]
+        public IActionResult DeleteFile(int id)
+        {
+            var newsFile = _adminService.GetNewsFile(id);
 
-        //    if (postFile == null)
-        //        return RedirectToAction(nameof(Index));
+            if (newsFile == null)
+                return RedirectToAction(nameof(Index));
 
-        //    var deleteResult = _fileService.Delete(postFile.FileName, "PostFile");
+            var deleteResult = _fileService.Delete(newsFile.FileName, "NewsFile");
 
-        //    if (deleteResult.IsSuccess)
-        //    {
-        //        var serviceResult = _adminService.DeleteReportFile(id);
-        //        if (serviceResult.IsSuccess)
-        //            Swal(true, "عملیات با موفقیت انجام شد");
-        //        else Swal(false, serviceResult.Errors.FirstOrDefault());
-        //    }
+            if (deleteResult.IsSuccess)
+            {
+                var serviceResult = _adminService.DeleteNewsFile(id);
+                if (serviceResult.IsSuccess)
+                    Swal(true, "عملیات با موفقیت انجام شد");
+                else Swal(false, serviceResult.Errors.FirstOrDefault());
+            }
 
-        //    Swal(false, "در حذف فایل خطایی رخ داد");
-
-        //    return RedirectToAction(nameof(File), new { id = postFile.Id });
-        //}
-
-        //[AccessCodeFlter(AccessCode.InstagramSharing)]
-        //public IActionResult Instagram(int id)
-        //{
-        //    var report = _adminService.GetReport(id);
-
-        //    if (report == null)
-        //    {
-        //        Swal(false, "شناسه گزارش نامعتبر است");
-        //        return RedirectToAction(nameof(Index));
-        //    }
-
-        //    ViewBag.Tags = _adminService.GetAllInstaTags().Select(c => c.Name).ToList();
-        //    ViewBag.Files = _adminService.GetAllReportFiles(id).Where(c => c.Type != FileType.Audio).ToList().ToViewModel();
-        //    return View();
-        //}
+            return RedirectToAction(nameof(File), new { id = newsFile.NewsId });
+        }
     }
 }

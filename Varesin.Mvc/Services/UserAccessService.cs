@@ -41,6 +41,10 @@ namespace Varesin.Mvc.Services
                     result.Add(Filter(AccessCode.CreateEvent));
                 if (roles.Any(i => i.Value == AccessCode.ViewEvent.ToString()))
                     result.Add(Filter(AccessCode.ViewEvent));
+                if (roles.Any(i => i.Value == AccessCode.CreateNews.ToString()))
+                    result.Add(Filter(AccessCode.CreateNews));
+                if (roles.Any(i => i.Value == AccessCode.ViewNews.ToString()))
+                    result.Add(Filter(AccessCode.ViewNews));
                 return result;
             }
         }
@@ -178,7 +182,7 @@ namespace Varesin.Mvc.Services
                     AreaName = "Admin",
                     ControllerName = "Event",
                     Enum = AccessCode.ViewEvent,
-                    Title = "ممشاهده اطلاع رسانی و گزارش گیری سامانه",
+                    Title = "مشاهده اطلاع رسانی و گزارش گیری سامانه",
                 };
             }
             else if (accessCode == AccessCode.CreateEvent)
@@ -190,6 +194,28 @@ namespace Varesin.Mvc.Services
                     ControllerName = "Event",
                     Enum = AccessCode.CreateEvent,
                     Title = "ایجاد برنامه جدید",
+                };
+            }
+            else if (accessCode == AccessCode.ViewNews)
+            {
+                return new UserAccessModel
+                {
+                    ActionName = "Index",
+                    AreaName = "Admin",
+                    ControllerName = "News",
+                    Enum = AccessCode.ViewNews,
+                    Title = "مشاهده خبرهای سامانه",
+                };
+            }
+            else if (accessCode == AccessCode.CreateNews)
+            {
+                return new UserAccessModel
+                {
+                    ActionName = "Create",
+                    AreaName = "Admin",
+                    ControllerName = "News",
+                    Enum = AccessCode.CreateNews,
+                    Title = "ایجاد خبر جدید",
                 };
             }
             else
@@ -220,6 +246,8 @@ namespace Varesin.Mvc.Services
             result.Add(Filter(AccessCode.ViewPost));
             result.Add(Filter(AccessCode.CreateEvent));
             result.Add(Filter(AccessCode.ViewEvent));
+            result.Add(Filter(AccessCode.CreateNews));
+            result.Add(Filter(AccessCode.ViewNews));
 
             return result;
         }
@@ -446,6 +474,50 @@ namespace Varesin.Mvc.Services
                      },
                       
 
+                 }
+            });
+
+            result.Add(new UserAccessGroupingModel
+            {
+                Title = "مدیریت خبر ها",
+                Enum = AccessCode.PostManagement,
+                Items = new List<UserAccessItemModel>
+                 {
+                    new UserAccessItemModel
+                     {
+                          Title="مشاهده خبر ها",
+                          Id=(int)AccessCode.ViewNews,
+                          Enum= AccessCode.ViewNews,
+                          Checked=roles.Any(i=>i==AccessCode.ViewNews.ToString())
+                     },
+                    new UserAccessItemModel
+                     {
+                          Title="ایجاد خبر جدید",
+                          Id=(int)AccessCode.CreateNews,
+                          Enum= AccessCode.CreateNews,
+                          Checked=roles.Any(i=>i==AccessCode.CreateNews.ToString())
+                     },
+                     new UserAccessItemModel
+                     {
+                          Title="ویرایش خبر",
+                          Id=(int)AccessCode.EditNews,
+                          Enum= AccessCode.EditNews,
+                          Checked=roles.Any(i=>i==AccessCode.EditNews.ToString())
+                     },
+                     new UserAccessItemModel
+                     {
+                          Title="حذف خبر",
+                          Id=(int)AccessCode.DeleteNews,
+                          Enum= AccessCode.DeleteNews,
+                          Checked=roles.Any(i=>i==AccessCode.DeleteNews.ToString())
+                     },
+                      new UserAccessItemModel
+                     {
+                          Title="مدیریت فایل ها",
+                          Id=(int)AccessCode.NewsFileManagement,
+                          Enum= AccessCode.NewsFileManagement,
+                          Checked=roles.Any(i=>i==AccessCode.NewsFileManagement.ToString())
+                     },
                  }
             });
 

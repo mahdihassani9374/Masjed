@@ -182,7 +182,7 @@ namespace Varesin.Mvc.Areas.Admin.Controllers
                     maxLength = 500 * 1024;
                 else maxLength = 25 * 1024 * 1024;
 
-                var uploadResult = _fileService.Upload(model.File, "EventFile", maxLength);
+                var uploadResult = _fileService.Upload(model.File, "NewsFile", maxLength);
 
                 if (uploadResult.IsSuccess)
                 {

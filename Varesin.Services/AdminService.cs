@@ -639,7 +639,7 @@ namespace Varesin.Services
                 if (countFile > 0)
                     serviceResult.AddError("پست را نمی توانید حذف کنید زیرا دارای چندین فایل می باشد");
 
-                if(serviceResult.IsSuccess)
+                if (serviceResult.IsSuccess)
                 {
                     serviceResult.Data = entity.PrimaryPicture;
                     _context.Entry(entity).State = EntityState.Deleted;
@@ -667,10 +667,17 @@ namespace Varesin.Services
             var data = _context.PostFiles.FirstOrDefault(c => c.Id.Equals(id));
             return data?.ToDto();
         }
+        
+
 
         public EventFileDto GetEventFile(int id)
         {
             var data = _context.EventFiles.FirstOrDefault(c => c.Id.Equals(id));
+            return data?.ToDto();
+        }
+        public NewsFileDto GetNewsFile(int id)
+        {
+            var data = _context.NewsFiles.FirstOrDefault(c => c.Id.Equals(id));
             return data?.ToDto();
         }
         public ServiceResult DeletePostFile(int id)
@@ -797,12 +804,13 @@ namespace Varesin.Services
             if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
                 serviceResult.AddError("تعداد کاراکترهای عنوان خبر نمی تواند بیش از 128 کاراکتر باشد".ToPersianNumbers());
             if (!model.Type.HasValue)
-                serviceResult.AddError("نوع خبر نیم توناد فاقد مقدار باشد");
+                serviceResult.AddError("نوع خبر نمی تواند فاقد مقدار باشد");
             #endregion
 
             if (serviceResult.IsSuccess)
             {
                 entity.Title = model.Title;
+                entity.Type = model.Type.Value;
 
                 if (!string.IsNullOrEmpty(model.PrimaryPicture))
                 {
@@ -897,11 +905,18 @@ namespace Varesin.Services
                 serviceResult.AddError(" خبری با شناسه ارسالی یافت نشد");
             else
             {
-                serviceResult.Data = entity.PrimaryPicture;
-                _context.Entry(entity).State = EntityState.Deleted;
+                var countFile = _context.NewsFiles.Where(c => c.NewsId.Equals(id)).Count();
+                if (countFile > 0)
+                    serviceResult.AddError("امکان حذف خبر وجود ندارد زیرا خبر  دارای چندین فایل می باشد");
 
-                if (_context.SaveChanges() == 0)
-                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+                if (serviceResult.IsSuccess)
+                {
+                    serviceResult.Data = entity.PrimaryPicture;
+                    _context.Entry(entity).State = EntityState.Deleted;
+
+                    if (_context.SaveChanges() == 0)
+                        serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+                }
             }
 
             return serviceResult;
@@ -1048,6 +1063,47 @@ namespace Varesin.Services
             {
                 var entity = model.ToEntity();
                 _context.Entry(entity).State = EntityState.Added;
+                if (_context.SaveChanges() == 0)
+                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+            }
+
+            return serviceResult;
+        }
+
+        public ServiceResult CreateNewsFile(NewsFileCreateDto model)
+        {
+            var serviceResult = new ServiceResult(true);
+
+            #region validation
+            if (string.IsNullOrEmpty(model.Title))
+                serviceResult.AddError("عنوان نمی تواند فاید مقدار باشد");
+            if (!string.IsNullOrEmpty(model.Title) && model.Title.Length > 128)
+                serviceResult.AddError("عنوان نمی تواند بیش از 128 کاراکتر را شامل شود".ToPersianNumbers());
+            #endregion
+
+            if (serviceResult.IsSuccess)
+            {
+                var entity = model.ToEntity();
+                _context.Entry(entity).State = EntityState.Added;
+                if (_context.SaveChanges() == 0)
+                    serviceResult.AddError("در انجام عملیات خطایی رخ داد");
+            }
+
+            return serviceResult;
+        }
+
+        public ServiceResult DeleteNewsFile(int id)
+        {
+            var serviceResult = new ServiceResult(true);
+
+            var entity = _context.NewsFiles.FirstOrDefault(c => c.Id == id);
+
+            if (entity == null)
+                serviceResult.AddError(" قایلی با شناسه ارسالی یافت نشد");
+            else
+            {
+                _context.Entry(entity).State = EntityState.Deleted;
+
                 if (_context.SaveChanges() == 0)
                     serviceResult.AddError("در انجام عملیات خطایی رخ داد");
             }
