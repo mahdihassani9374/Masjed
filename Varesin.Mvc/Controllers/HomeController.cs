@@ -19,6 +19,10 @@ namespace Varesin.Mvc.Controllers
         public IActionResult Index()
         {
             var slideShows = _userService.GetAllSlideShows();
+            var nowEvents = _userService.GetAllNowEvent();
+
+            ViewBag.SlideShows = slideShows.ToViewModel();
+            ViewBag.NowEvents = nowEvents;
 
             return View();
         }

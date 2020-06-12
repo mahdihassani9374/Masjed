@@ -1,6 +1,9 @@
-﻿@{
+﻿@using Varesin.Mvc.Models.SlideShow
+@{
     ViewData["Title"] = "وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین علیه السلام";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
+    var slideShows = (List<SlideShowViewModel>)ViewBag.SlideShows;
+    var nowEvents = (List<string>)ViewBag.NowEvents;
 }
 
 <!-- header and slider  -->
@@ -48,69 +51,81 @@
         </div>
     </nav>
 
-    <!-- Indicators -->
-    <ol class="carousel-indicators">
-        <li data-target="#bootstrap-touch-slider" data-slide-to="0" class="active"></li>
-        <li data-target="#bootstrap-touch-slider" data-slide-to="1"></li>
-    </ol>
+    @if (slideShows.Count != 0)
+    {
+        <!-- Indicators -->
+        <ol class="carousel-indicators">
+            @for (int i = 0; i < slideShows.Count; i++)
+            {
+                <li data-target="#bootstrap-touch-slider" data-slide-to="@(i)" class="@(i==0 ? "active" : "")"></li>
+            }
 
-    <!-- Wrapper For Slides -->
-    <div class="carousel-inner" role="listbox">
-        <div class="item">
 
-            <!-- Slide Background -->
-            <img src="./img//slide1.jpg" alt="Bootstrap Touch Slider" class="slide-image" />
-            <div class="bs-slider-overlay"></div>
-            <!-- Slide Text Layer -->
-            <div class="slide-text slide_style_center">
-                <h1 data-animation="animated flipInX">گروه جهادی وارثین نون وقلم </h1>
-                <p data-animation="animated lightSpeedIn">
-                    اگر شما یک طراح هستین و یا با طراحی های گرافیکی سروکار دارید به متن های برخورده اید که با نام
-                </p>
-                <a href="#" target="_blank" class="btn btn-default" data-animation="animated fadeInUp">
-                    مشاهده
-                    جزئیات
-                </a>
-                <a href="#" target="_blank" class="btn btn-primary" data-animation="animated fadeInDown">
-                    تماس با
-                    ما
-                </a>
-            </div>
+        </ol>
+
+        <!-- Wrapper For Slides -->
+        <div class="carousel-inner" role="listbox">
+            @for (int i = 0; i < slideShows.Count; i++)
+            {
+                <div class="@(i==0 ? "item active" : "item")">
+                    <!-- Slide Background -->
+                    <img src="~/Files/SlideShow/@(slideShows[i].FileName)" alt="گروه جهادی وارثین" class="slide-image" />
+                    <div class="bs-slider-overlay"></div>
+                    <!-- Slide Text Layer -->
+                    <div class="slide-text slide_style_center">
+                        <h1 data-animation="animated flipInX">@(slideShows[i].Title) </h1>
+                        <p data-animation="animated lightSpeedIn">
+                            @(slideShows[i].Description)
+                        </p>
+                        @if (string.IsNullOrEmpty(slideShows[i].Link))
+                        {
+                            <a asp-action="AboutUs" asp-controller="Home" target="_blank" class="btn btn-default" data-animation="animated fadeInUp">
+                                درباره ما
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@(slideShows[i].Link)" target="_blank" class="btn btn-default" data-animation="animated fadeInUp">
+                                مشاهده جزئیات
+                            </a>
+                        }
+
+                        <a asp-action="ContactUs" asp-controller="Home" target="_blank" class="btn btn-primary" data-animation="animated fadeInDown">
+                            تماس با
+                            ما
+                        </a>
+                    </div>
+                </div>
+            }
         </div>
-        <div class="item active">
 
-            <!-- Slide Background -->
-            <img src="./img/slide2.jpg" alt="Bootstrap Touch Slider" class="slide-image" />
-            <div class="bs-slider-overlay"></div>
-            <!-- Slide Text Layer -->
-            <div class="slide-text slide_style_center">
-                <h1 data-animation="animated flipInX">گروه جهادی وارثین نون وقلم </h1>
-                <p data-animation="animated lightSpeedIn">
-                    اگر شما یک طراح هستین و یا با طراحی های گرافیکی سروکار دارید به متن های برخورده اید که با نام
-                </p>
-                <a href="#" target="_blank" class="btn btn-default" data-animation="animated fadeInUp">
-                    مشاهده
-                    جزئیات
-                </a>
-                <a href="#" target="_blank" class="btn btn-primary" data-animation="animated fadeInDown">
-                    تماس با
-                    ما
-                </a>
-            </div>
-        </div>
-    </div>
+        <!-- Left Control -->
+        <a class="left carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="prev">
+            <span class="fa fa-angle-left" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
 
-    <!-- Left Control -->
-    <a class="left carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="prev">
-        <span class="fa fa-angle-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
+        <!-- Right Control -->
+        <a class="right carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="next">
+            <span class="fa fa-angle-right" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    }
 
-    <!-- Right Control -->
-    <a class="right carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="next">
-        <span class="fa fa-angle-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
+    else
+    {
+        <style>
+            .header {
+                position: relative;
+                background-color: #3a93b0 !important;
+            }
+
+            .navbar {
+                position: static;
+                background-color: #333 !important;
+            }
+        </style>
+    }
 </div>
 
 <!-- service -->
@@ -141,7 +156,11 @@
 <div class="project">
     <div class="container">
         <div class="row">
-            <div class="project__title">اطلاع رسانی های مسجد امیرالمومنین علیه السلام</div>          
+            @foreach (var item in nowEvents)
+            {
+                <div class="project__title">@item</div>
+            }
+
         </div>
     </div>
 </div>

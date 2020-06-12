@@ -13,6 +13,7 @@ using Varesin.Utility.Pagination;
 using Varesin.Domain.DTO.Payment;
 using Varesin.Domain.DTO.ContactUs;
 using Varesin.Domain.Entities;
+using Varesin.Domain.DTO.Event;
 
 namespace Varesin.Services
 {
@@ -23,7 +24,7 @@ namespace Varesin.Services
         {
             _context = context;
         }
-       
+
         public List<SlideShowDto> GetAllSlideShows()
         {
             var data = _context.SlideShows.ToList();
@@ -87,6 +88,37 @@ namespace Varesin.Services
             }
 
             return serviceResult;
+        }
+
+        public List<string> GetAllNowEvent()
+        {
+            var query = _context.Events.AsQueryable();
+
+            var data = query
+                .Where(c => (c.MultiDay == false && c.Date.HasValue && c.Date.Value.Date >= DateTime.Now.Date)
+                ||
+                (c.MultiDay && c.StartDate.HasValue && c.EndDate.HasValue && c.StartDate.Value.Date >= DateTime.Now.Date && c.EndDate.Value.Date <= DateTime.Now.Date))
+                .ToList();
+
+            var result = new List<string>();
+
+            foreach (var item in data)
+            {
+                var str = "";
+                str += $"{item.Title} - ";
+                if (!item.MultiDay)
+                {
+                    str += $"{item.Date?.ToPersianDateTextify()} - ";
+                    str += $"ساعت برگزاری : {item.Time?.ToPersianNumbers()}";
+                }
+                else
+                {
+                    str += $"از تاریخ : {item.StartDate?.ToPersianDateTextify()} - ";
+                    str += $"تا تاریخ : {item.EndDate?.ToPersianDateTextify()} - ";
+                }
+            }
+
+            return result;
         }
 
         public ServiceResult SuccessPay(int id)
