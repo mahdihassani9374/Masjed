@@ -1,1 +1,367 @@
-﻿
+﻿@{
+    ViewData["Title"] = "وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین علیه السلام";
+    Layout = "~/Views/Shared/_HomeLayout.cshtml";
+}
+
+<!-- header and slider  -->
+
+<div id="bootstrap-touch-slider" class="carousel bs-slider fade  control-round indicators-line" data-ride="carousel"
+     data-pause="hover" data-interval="4000">
+
+    <header class="header">
+        <div class="container">
+            <div class="">
+                <div class="col-md-6 col-sm-6 col-xs-12 text-left">
+                    <img src="./img/bsml-txt.png" class="img-responsive" />
+                </div>
+                <div class="col-md-6 col-sm-6 col-xs-12">
+                    <div class="text-right header-txt">به سایت وصی خوش آمدید </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- navigation -->
+    <nav class="navbar navbar-inverse">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a style="margin: 10px 16px 0;" href="#" target="_blank" class="btn btn-primary register">
+                    ثبت نام در گروه جهادی
+                </a>
+            </div>
+            <div class="collapse navbar-collapse" id="myNavbar">
+                <ul class="nav navbar-nav">
+                    <li><a href="#"><i class="pe-7s-home"></i> صفحه اصلی</a></li>
+                    <li><a href="#"><i class="pe-7s-call"></i> تماس با ما </a></li>
+                    <li><a href="#"><i class="pe-7s-user"></i> درباره ما</a></li>
+                    <li><a href="#"><i class="pe-7s-calculator"></i> اخبار سایت</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="active"><a href="#"><span class="pe-7s-lock"></span> ثبت نام در گروه جهادی </a></li>
+                    <li><a asp-action="Login" asp-controller="Account"><span class="pe-7s-back"></span> ورود</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#bootstrap-touch-slider" data-slide-to="0" class="active"></li>
+        <li data-target="#bootstrap-touch-slider" data-slide-to="1"></li>
+    </ol>
+
+    <!-- Wrapper For Slides -->
+    <div class="carousel-inner" role="listbox">
+        <div class="item">
+
+            <!-- Slide Background -->
+            <img src="./img//slide1.jpg" alt="Bootstrap Touch Slider" class="slide-image" />
+            <div class="bs-slider-overlay"></div>
+            <!-- Slide Text Layer -->
+            <div class="slide-text slide_style_center">
+                <h1 data-animation="animated flipInX">گروه جهادی وارثین نون وقلم </h1>
+                <p data-animation="animated lightSpeedIn">
+                    اگر شما یک طراح هستین و یا با طراحی های گرافیکی سروکار دارید به متن های برخورده اید که با نام
+                </p>
+                <a href="#" target="_blank" class="btn btn-default" data-animation="animated fadeInUp">
+                    مشاهده
+                    جزئیات
+                </a>
+                <a href="#" target="_blank" class="btn btn-primary" data-animation="animated fadeInDown">
+                    تماس با
+                    ما
+                </a>
+            </div>
+        </div>
+        <div class="item active">
+
+            <!-- Slide Background -->
+            <img src="./img/slide2.jpg" alt="Bootstrap Touch Slider" class="slide-image" />
+            <div class="bs-slider-overlay"></div>
+            <!-- Slide Text Layer -->
+            <div class="slide-text slide_style_center">
+                <h1 data-animation="animated flipInX">گروه جهادی وارثین نون وقلم </h1>
+                <p data-animation="animated lightSpeedIn">
+                    اگر شما یک طراح هستین و یا با طراحی های گرافیکی سروکار دارید به متن های برخورده اید که با نام
+                </p>
+                <a href="#" target="_blank" class="btn btn-default" data-animation="animated fadeInUp">
+                    مشاهده
+                    جزئیات
+                </a>
+                <a href="#" target="_blank" class="btn btn-primary" data-animation="animated fadeInDown">
+                    تماس با
+                    ما
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Left Control -->
+    <a class="left carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="prev">
+        <span class="fa fa-angle-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+
+    <!-- Right Control -->
+    <a class="right carousel-control" href="#bootstrap-touch-slider" role="button" data-slide="next">
+        <span class="fa fa-angle-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<!-- service -->
+
+<div class="services">
+    <div class="services__title">خدمات گروه جهادی وارثین نون و قلم </div>
+    <div class="services__desc">خدماتی که گروه جهادی وارثین نون و قلم ارائه میدهد </div>
+    <div class="services__item">
+        <div>
+            <i class="icon flaticon-quran-rehal"></i>
+            <div class="services__item__title">آموزش قرآن</div>
+        </div>
+        <div>
+            <i class="icon flaticon-heart-1"></i>
+            <div class="services__item__title">خدمات خیریه و کمک</div>
+        </div>
+        <div>
+            <i class="icon flaticon-mosque"></i>
+            <div class="services__item__title">ساخت مسجد</div>
+        </div>
+        <div>
+            <i class="icon flaticon-social-care"></i>
+            <div class="services__item__title">کمک به فقرا</div>
+        </div>
+    </div>
+</div>
+
+<div class="project">
+    <div class="container">
+        <div class="row">
+            <div class="project__title">اطلاع رسانی های مسجد امیرالمومنین علیه السلام</div>          
+        </div>
+    </div>
+</div>
+
+<div class="detail">
+    <div class="container">
+        <div class="row">
+            <ul class="nav nav-tabs">
+                <li class="active"><a data-toggle="tab" href="#home">اخبار محله</a></li>
+                <li><a data-toggle="tab" href="#menu1">اخبار سیاسی و فرهنگی و ...</a></li>
+                <li><a data-toggle="tab" href="#menu2">آخرین پست ها </a></li>
+            </ul>
+
+            <div class="tab-content">
+                <div id="home" class="tab-pane fade in active">
+                    <div class="col-md-4 col-xs-6 col-sm-6">
+                        <div class="detail__post__item detail__post__item-box">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="detail__post__item__title">
+                                        اولین خبر برای سایت می باشد
+                                    </div>
+                                    <div class="detail__post__item__desc">
+                                        زمان : 10 اردیبهشت 1399
+                                    </div>
+                                    <div class="text-left">
+                                        <a herf="#">ادامه مطلب >></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-6 col-sm-6">
+                        <div class="detail__post__item detail__post__item-box">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="detail__post__item__title">
+                                        اولین خبر برای سایت می باشد
+                                    </div>
+                                    <div class="detail__post__item__desc">
+                                        زمان : 10 اردیبهشت 1399
+                                    </div>
+                                    <div class="text-left">
+                                        <a herf="#">ادامه مطلب >></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-6 col-sm-6">
+                        <div class="detail__post__item detail__post__item-box">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="detail__post__item__title">
+                                        اولین خبر برای سایت می باشد
+                                    </div>
+                                    <div class="detail__post__item__desc">
+                                        زمان : 10 اردیبهشت 1399
+                                    </div>
+                                    <div class="text-left">
+                                        <a herf="#">ادامه مطلب >></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-6 col-sm-6">
+                        <div class="detail__post__item detail__post__item-box">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="detail__post__item__title">
+                                        اولین خبر برای سایت می باشد
+                                    </div>
+                                    <div class="detail__post__item__desc">
+                                        زمان : 10 اردیبهشت 1399
+                                    </div>
+                                    <div class="text-left">
+                                        <a herf="#">ادامه مطلب >></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-6 col-sm-6">
+                        <div class="detail__post__item detail__post__item-box">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="detail__post__item__title">
+                                        اولین خبر برای سایت می باشد
+                                    </div>
+                                    <div class="detail__post__item__desc">
+                                        زمان : 10 اردیبهشت 1399
+                                    </div>
+                                    <div class="text-left">
+                                        <a herf="#">ادامه مطلب >></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-xs-6 col-sm-6">
+                        <div class="detail__post__item detail__post__item-box">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="detail__post__item__title">
+                                        اولین خبر برای سایت می باشد
+                                    </div>
+                                    <div class="detail__post__item__desc">
+                                        زمان : 10 اردیبهشت 1399
+                                    </div>
+                                    <div class="text-left">
+                                        <a herf="#">ادامه مطلب >></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="menu1" class="tab-pane fade">
+                    <h3>اخبار سیاسی و فرهنگی و ...</h3>
+                    <p>Some content in menu 1.</p>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                    <h3>آخرین پست ها </h3>
+                    <p>Some content in menu 2.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="report" style="background-color:#e3e3e3">
+    <div class="container">
+        <div class="report__title">
+            گزارشات تصویری گروه جهادی وارثین نون و قلم
+            <a href="#" style="float: left;">مشاهده همه گزارشات</a>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <a href="#">
+                    <div class="report__item">
+                        <img src="./img/p1.jpg" />
+                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <a href="#">
+                    <div class="report__item">
+                        <img src="./img/p2.jpg" />
+                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <a href="#">
+                    <div class="report__item">
+                        <img src="./img/p3.jpg" />
+                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <a href="#">
+                    <div class="report__item">
+                        <img src="./img/p1.jpg" />
+                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <a href="#">
+                    <div class="report__item">
+                        <img src="./img/p1.jpg" />
+                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <a href="#">
+                    <div class="report__item">
+                        <img src="./img/p2.jpg" />
+                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <a href="#">
+                    <div class="report__item">
+                        <img src="./img/p3.jpg" />
+                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-3 col-sm-4 col-xs-6">
+                <a href="#">
+                    <div class="report__item">
+                        <img src="./img/p1.jpg" />
+                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>

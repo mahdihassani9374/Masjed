@@ -14,12 +14,12 @@
   <ItemGroup>
     <Folder Include="wwwroot\Files\Event\" />
     <Folder Include="wwwroot\Files\EventFile\" />
+    <Folder Include="wwwroot\Files\SlideShow\" />
     <Folder Include="wwwroot\Files\NewsFile\" />
     <Folder Include="wwwroot\Files\News\" />
     <Folder Include="wwwroot\Files\PostFile\" />
     <Folder Include="wwwroot\Files\Post\" />
     <Folder Include="wwwroot\Files\Profile\" />
-    <Folder Include="wwwroot\Files\SlideShow\" />
     <Folder Include="wwwroot\Files\Report\" />
   </ItemGroup>
 
