@@ -34,5 +34,23 @@ namespace Varesin.Mvc.Controllers
 
             return View(new SearchModel<EventUserSearchViewModel, PaginationViewModel<EventViewModel>>(searchModel, data.ToVewModel()));
         }
+
+        public IActionResult Detail(int id)
+        {
+            var report = _userService.GetEvent(id);
+
+            if (report == null)
+                return RedirectPermanent("/");
+
+            var files = _userService.GetAllEventFiles(id);
+
+            ViewBag.Files = files.ToViewModel();
+
+            var lastEvent = _userService.GetLastEvent(10);
+
+            ViewBag.LastEvent = lastEvent.ToViewModel();
+
+            return View(report.ToViewModel());
+        }
     }
 }

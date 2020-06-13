@@ -43,5 +43,23 @@ namespace Varesin.Mvc.Controllers
 
             return View(new SearchModel<NewsUserSearchViewModel, PaginationViewModel<NewsViewModel>>(searchModel, data.ToVewModel()));
         }
+
+        public IActionResult Detail(int id)
+        {
+            var report = _userService.GetNews(id);
+
+            if (report == null)
+                return RedirectPermanent("/");
+
+            var files = _userService.GetAllNewsFiles(id);
+
+            ViewBag.Files = files.ToViewModel();
+
+            var lastNews = _userService.GetLastNews(10);
+
+            ViewBag.LastNews = lastNews.ToViewModel();
+
+            return View(report.ToViewModel());
+        }
     }
 }

@@ -175,6 +175,15 @@ namespace Varesin.Services
 
             return data.ToDto();
         }
+
+        public List<NewsDto> GetLastNews(int count)
+        {
+            var query = _context.News.AsQueryable();
+
+            var data = query.OrderByDescending(c => c.Id).Take(count).ToList();
+
+            return data.ToDto();
+        }
         public List<PostDto> GetLastPosts(int count)
         {
             var data = _context.Posts.OrderByDescending(c => c.Id).Take(count).ToList();
@@ -240,6 +249,36 @@ namespace Varesin.Services
             var data = _context.Posts.FirstOrDefault(c => c.Id.Equals(id));
 
             return data?.ToDto();
+        }
+
+        public NewsDto GetNews(int id)
+        {
+            var data = _context.News.FirstOrDefault(c => c.Id.Equals(id));
+
+            return data?.ToDto();
+        }
+
+        public EventDto GetEvent(int id)
+        {
+            var data = _context.Events.FirstOrDefault(c => c.Id.Equals(id));
+
+            return data?.ToDto();
+        }
+
+        public List<PostFileDto> GetAllPostFiles(int postID)
+        {
+            var data = _context.PostFiles.Where(c => c.PostId.Equals(postID)).ToList();
+            return data.ToDto();
+        }
+        public List<NewsFileDto> GetAllNewsFiles(int newsId)
+        {
+            var data = _context.NewsFiles.Where(c => c.NewsId.Equals(newsId)).ToList();
+            return data.ToDto();
+        }
+        public List<EventFileDto> GetAllEventFiles(int eventId)
+        {
+            var data = _context.EventFiles.Where(c => c.EventId.Equals(eventId)).ToList();
+            return data.ToDto();
         }
     }
 }

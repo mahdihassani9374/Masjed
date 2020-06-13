@@ -1,0 +1,122 @@
+﻿@using Varesin.Mvc.Models.News
+@model NewsViewModel
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var files = (List<NewsFileViewModel>)ViewBag.Files;
+    var audioes = files.Where(c => c.Type == Varesin.Domain.Enumeration.FileType.Audio).ToList();
+    var images = files.Where(c => c.Type == Varesin.Domain.Enumeration.FileType.Image).ToList();
+    var videos = files.Where(c => c.Type == Varesin.Domain.Enumeration.FileType.Video).ToList();
+    var lastNews = (List<NewsViewModel>)ViewBag.LastNews;
+}
+
+<div class="bread">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bread__item">
+                <div class="">شما این جا هستید :</div>
+                <ul class="breadcrumb">
+                    <li><a href="/">صفحه اصلی</a></li>
+                    <li><a href="/post">خبر ها</a></li>
+                    <li class="active">@(Model.Title)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="detail">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-sm-8 col-xs-12">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-5">
+                        <img src="~/Files/News/@(Model.PrimaryPicture)" alt="@(Model.Title) - گروه جهادی وارثین" class="img-thumbnail img-responsive" />
+                    </div>
+                    <div class="col-xs-12 col-sm-7">
+                        <h1 class="detail__title">@(Model.Title)</h1>
+                        <div class="detail__desc">
+                            @Html.Raw(Model.Description)
+                        </div>
+                    </div>
+                </div>
+                <hr />
+                @if (images.Count > 0)
+                {
+                    <div class="row">
+                        @foreach (var item in images)
+                        {
+                            <div class="col-md-3 col-sm-4 col-xs-6">
+                                <img src="~/Files/NewsFile/@(item.FileName)" alt="گروه جهادی وارثین" class="img-thumbnail img-responsive detail__img" />
+                            </div>
+                        }
+                    </div>
+
+                }
+
+                @if (audioes.Count > 0)
+                {
+                    <hr />
+                    <div class="row">
+                        @foreach (var item in audioes)
+                        {
+                            <div class="col-xs-12">
+                                <label>@(item.Title)</label>
+                                <audio controls style="width:100%" preload="none">
+                                    <source src="~/Files/NewsFile/@(item.FileName)" type="audio/ogg" />
+                                </audio>
+                            </div>
+                        }
+
+                    </div>
+
+                }
+
+                @if (videos.Count > 0)
+                {
+                    <hr />
+                    <div class="row">
+                        @foreach (var item in videos)
+                        {
+                            <div class="col-xs-12">
+                                <label>@(item.Title)</label>
+                                <video controls style="width:100%" preload="none">
+                                    <source src="~/Files/NewsFile/@(item.FileName)" type="video/ogg" />
+                                </video>
+                            </div>
+                        }
+
+                    </div>
+                }
+
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-12">
+                <div class="detail__post">
+                    <div class="detail__post__title">
+                        آخرین گزارشات
+                    </div>
+                    @foreach (var item in lastNews)
+                    {
+                        <div class="detail__post__item">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <img src="~/Files/News/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                </div>
+                                <div class="col-xs-8">
+                                    <div class="detail__post__item__title">
+                                        @(item.Title)
+                                    </div>
+                                    <div class="text-left">
+                                        <a asp-action="Detail" asp-controller="News" asp-route-id="@(item.Id)">ادامه مطلب >></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
