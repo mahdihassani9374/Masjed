@@ -1,7 +1,7 @@
 ﻿@using Varesin.Mvc.Services
 @inject InfoService infoServie
 @{
-    ViewData["Title"] = "درباره ما - گروه جهادی وارثین";
+    ViewData["Title"] = "درباره ما - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام)";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var info = infoServie.Get();
 }
@@ -22,7 +22,7 @@
 
 <div class="container">
     <div class="detail">
-        <div class="title">بیوگرافی گروه جهادی وارثین :  </div>
+        <div class="title">بیوگرافی وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) :  </div>
         <div class="desc" style="line-height: 30px;text-align: justify;">
             @info.AboutUs
         </div>
@@ -30,8 +30,8 @@
         <form>
             <div class="row">
                 <div class="col-md-12">
-                    <p style="font-weight: 600;"> گروه جهادی وارثین را در شبکه های مجازی دنبال کنید </p>
-                    <img src="~/img/logo.jpg" class="img-responsive" alt="گروه جهادی وارثین" style="width: 150px;" />
+                    <p style="font-weight: 600;"> وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) را در شبکه های مجازی دنبال کنید </p>
+                    <img src="~/img/logo.jpg" class="img-responsive" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام)" style="width: 150px;" />
                     <hr />
                     <div>
                         <a href="@(info.BaleAccount)" target="_blank">

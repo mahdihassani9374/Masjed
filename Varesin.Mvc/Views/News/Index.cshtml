@@ -5,7 +5,7 @@
 
 @model SearchModel<NewsUserSearchViewModel, PaginationViewModel<NewsViewModel>>
 @{
-    ViewData["Title"] = "پروژه ها - گروه جهادی وارثین نون ولم";
+    ViewData["Title"] = " اخبار - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var pageSizeSelector = (List<SelectListItem>)ViewBag.PageSizeSelector;
     var typeSelector = (List<SelectListItem>)ViewBag.TypeSelector;
@@ -20,7 +20,7 @@
                 <div class="">شما این جا هستید :</div>
                 <ul class="breadcrumb">
                     <li><a href="/">صفحه اصلی</a></li>
-                    <li class="active">پروژه های گروه جهادی وارثین </li>
+                    <li class="active">خبر های وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) </li>
                 </ul>
             </div>
         </div>
@@ -31,13 +31,13 @@
 <div class="project" style="background-color: #fff;">
     <div class="container">
         <fieldset>
-            <legend>جستجو در پروژه ها : </legend>
+            <legend>جستجو در خبر ها : </legend>
             <form>
                 <div class="row flex-end">
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
-                            <label>نام پروژه : </label>
-                            <input name="Title" value="@(Model?.Search?.Title)" type="text" class="form-control" placeholder="جستجو بر اساس نام پروژه" />
+                            <label>عنوان خبر : </label>
+                            <input name="Title" value="@(Model?.Search?.Title)" type="text" class="form-control" placeholder="جستجو بر اساس عنوان خبر" />
                         </div>
                     </div>
 
@@ -88,7 +88,7 @@
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="project__item" style="margin:10px 0;">
                             <div class="project__item__img">
-                                <img src="~/Files/News/@(item.PrimaryPicture)" alt="گروه جهادی وارثین" class="img-responsive" />
+                                <img src="~/Files/News/@(item.PrimaryPicture)" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام)" class="img-responsive" />
                             </div>
                             <div class="project__item__title">
                                 @(item.Title)

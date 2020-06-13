@@ -222,5 +222,12 @@ namespace Varesin.Services
 
             return news.ToDto();
         }
+
+        public PostDto GetPost(int id)
+        {
+            var data = _context.Posts.FirstOrDefault(c => c.Id.Equals(id));
+
+            return data?.ToDto();
+        }
     }
 }

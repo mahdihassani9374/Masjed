@@ -34,5 +34,23 @@ namespace Varesin.Mvc.Controllers
 
             return View(new SearchModel<PostUserSearchViewModel, PaginationViewModel<PostViewModel>>(searchModel, data.ToVewModel()));
         }
+
+        //public IActionResult Detail(int id)
+        //{
+        //    var report = _userService.GetPost(id);
+
+        //    if (report == null)
+        //        return RedirectPermanent("/");
+
+        //    var files = _userService.GetAllReportFiles(id);
+
+        //    ViewBag.Files = files.ToViewModel();
+
+        //    var lastReports = _userService.GetLastReports(10);
+
+        //    ViewBag.LastReports = lastReports.ToViewModel();
+
+        //    return View(report.ToViewModel());
+        //}
     }
 }

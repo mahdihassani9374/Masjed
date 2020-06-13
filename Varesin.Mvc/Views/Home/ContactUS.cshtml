@@ -3,7 +3,7 @@
 @inject InfoService infoServie
 @model ContactUsCreateViewModel
 @{
-    ViewData["Title"] = "تماس با ما - گروه جهادی وارثین ";
+    ViewData["Title"] = "تماس با ما - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var info = infoServie.Get();
 }
@@ -63,8 +63,8 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <p style="font-weight: 600;"> گروه جهادی وارثین را در شبکه های مجازی دنبال کنید </p>
-                    <img src="~/img/logo.jpg" class="img-responsive" alt="گروه جهادی وارثین" style="width: 150px;" />
+                    <p style="font-weight: 600;"> وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) را در شبکه های مجازی دنبال کنید </p>
+                    <img src="~/img/logo.jpg" class="img-responsive" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام)" style="width: 150px;" />
                     <hr />
                     <div>
                         <a href="@(info.BaleAccount)" target="_blank">
@@ -81,7 +81,7 @@
                         </a>
                     </div>
                     <p style="font-weight: 600;margin-top: 10px;">
-                        محفل وارثین : @(info.Address))
+                        محفل وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام) : @(info.Address))
                     </p>
                     <p style="font-weight: 600;">شماره های تماس :  @(infoServie.GetPhoneNumbers(info))</p>
                     <p style="font-weight: 600;">کانال تلگرام : @(info.TelegramAccount)</p>
