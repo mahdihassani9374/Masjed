@@ -23,7 +23,7 @@
         <div class="container">
             <div class="">
                 <div class="col-md-6 col-sm-6 col-xs-12 text-left">
-                    <img src="./img/bsml-txt.png" class="img-responsive" />
+                    <img src="./img/bsml-txt.png" class="img-responsive" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" />
                 </div>
                 <div class="col-md-6 col-sm-6 col-xs-12">
                     <div class="text-right header-txt">به سایت وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) خوش آمدید </div>
@@ -39,16 +39,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
-                <a style="margin: 10px 16px 0;" href="#" target="_blank" class="btn btn-primary register">
-                    ثبت نام در گروه جهادی
-                </a>
+                </button>               
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
-                    <li><a href="#"><i class="pe-7s-home"></i> صفحه اصلی</a></li>
-                    <li><a href="#"><i class="pe-7s-call"></i> تماس با ما </a></li>
-                    <li><a href="#"><i class="pe-7s-user"></i> درباره ما</a></li>
+                    <li><a href="/"><i class="pe-7s-home"></i> صفحه اصلی</a></li>
+                    <li><a href="/Home/ContactUs"><i class="pe-7s-call"></i> تماس با ما </a></li>
+                    <li><a href="/Home/AboutUs"><i class="pe-7s-user"></i> درباره ما</a></li>
                     <li><a href="/News"><i class="pe-7s-calculator"></i> اخبار سایت</a></li>
                     <li><a href="/Post"><i class="pe-7s-calculator"></i> پست ها</a></li>
                     <li><a href="/Event"><i class="pe-7s-file"></i> گزارشات</a></li>
@@ -166,6 +163,56 @@
 <div class="project">
     <div class="container">
         <div class="row">
+            <div class="project__title">اطلاع رسانی های وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)</div>
+            <div class="project__arrow">
+                <i data-role="slick-right" class="fa fa-arrow-circle-right"></i>
+                <i data-role="slick-left" class="fa fa-arrow-circle-left"></i>
+            </div>
+            <div class="project__slick">
+                <div class="col-xs-12">
+                    <div class="project__slick__item">
+                        <div class="project__slick__item__img">
+                            <img src="./img/p1.jpg" class="img-responsive" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" />
+                        </div>
+                        <div class="project__slick__item__title">
+                            عنوان پروژه مورد نظر
+                        </div>
+                        <div class="project__slick__item__desc">
+                            <div class="row">
+                                <div class="col-xs-12 text-left">
+                                    <span>برآورد هزینه : 100,000 تومان</span>
+                                    <i class="pe-7s-home"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 text-left">
+                                    <span>محل پروژه : اصفهان</span>
+                                    <i class="pe-7s-home"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <span>زمان : 12 اردیبهشت 1399</span>
+                                    <i class="pe-7s-home"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a class="btn btn-primary">مشاهده جزئیات پروژه</a>
+                        </div>
+                    </div>
+                </div>                
+            </div>
+        </div>
+        <div class="row text-center" style="margin-top: 30px;">
+            <p style="font-weight: 600;">برای مشاهده همه خبر ها بر روی لینک زیر کلیک کنید </p>
+            <a href="#" style="border-radius: 15px;" class="btn btn-primary">مشاهده همه خبر ها</a>
+        </div>
+    </div>
+</div>
+
+@*<div class="project">
+    <div class="container">
+        <div class="row">
+            <div class=""></div>
             @foreach (var item in nowEvents)
             {
                 <div class="project__title">@item</div>
@@ -173,7 +220,7 @@
 
         </div>
     </div>
-</div>
+</div>*@
 
 <div class="detail">
     <div class="container">
@@ -188,7 +235,7 @@
                 <div id="home" class="tab-pane fade in active">
                     @if (lastMahalNews.Count == 0)
                     {
-
+                        <div class="alert alert-danger">خبری وجود ندارد</div>
                     }
                     else
                     {
@@ -198,7 +245,7 @@
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
-                                            <img src="~/Files/News/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                            <img src="~/Files/News/@(item.PrimaryPicture)" alt="@(item.Title) - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive" />
                                         </div>
                                         <div class="col-xs-8">
                                             <div class="detail__post__item__title">
@@ -220,7 +267,7 @@
                 <div id="menu1" class="tab-pane fade">
                     @if (lastNews.Count == 0)
                     {
-
+                    <div class="alert alert-danger">خبری وجود ندارد</div>
                     }
                     else
                     {
@@ -231,7 +278,7 @@
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
-                                            <img src="~/Files/News/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                            <img src="~/Files/News/@(item.PrimaryPicture)" alt="@(item.Title) - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive" />
                                         </div>
                                         <div class="col-xs-8">
                                             <div class="detail__post__item__title">
@@ -253,7 +300,7 @@
                 <div id="menu2" class="tab-pane fade">
                     @if (lastPosts.Count == 0)
                     {
-
+                    <div class="alert alert-danger">پستی وجود ندارد</div>
                     }
                     else
                     {
@@ -264,7 +311,7 @@
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
-                                            <img src="~/Files/Post/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                            <img src="~/Files/Post/@(item.PrimaryPicture)" alt="@(item.Title) - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive" />
                                         </div>
                                         <div class="col-xs-8">
                                             <div class="detail__post__item__title">
@@ -299,7 +346,7 @@
         </div>
         @if (lastEvents.Count == 0)
         {
-
+            <div class="alert alert-danger">گزارشی وجود ندارد</div>
         }
         else
         {
@@ -308,7 +355,7 @@
                 <div class="col-md-3 col-sm-4 col-xs-6">
                     <a asp-action="Detail" asp-controller="Event" asp-route-id="@(item.Id)">
                         <div class="report__item">
-                            <img src="~/Files/Event/@(item.PrimaryPicture)" />
+                            <img src="~/Files/Event/@(item.PrimaryPicture)" alt="@(item.Title) - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" />
                             <div class="report__item__title">@(item.Title?.ToPersianNumbers())</div>
                         </div>
                     </a>

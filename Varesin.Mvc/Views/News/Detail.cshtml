@@ -17,7 +17,7 @@
                 <div class="">شما این جا هستید :</div>
                 <ul class="breadcrumb">
                     <li><a href="/">صفحه اصلی</a></li>
-                    <li><a href="/post">خبر ها</a></li>
+                    <li><a href="/News">خبر ها</a></li>
                     <li class="active">@(Model.Title)</li>
                 </ul>
             </div>
@@ -31,7 +31,7 @@
             <div class="col-md-8 col-sm-8 col-xs-12">
                 <div class="row">
                     <div class="col-xs-12 col-sm-5">
-                        <img src="~/Files/News/@(Model.PrimaryPicture)" alt="@(Model.Title) - گروه جهادی وارثین" class="img-thumbnail img-responsive" />
+                        <img src="~/Files/News/@(Model.PrimaryPicture)" alt="@(Model.Title) - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive" />
                     </div>
                     <div class="col-xs-12 col-sm-7">
                         <h1 class="detail__title">@(Model.Title)</h1>
@@ -47,7 +47,7 @@
                         @foreach (var item in images)
                         {
                             <div class="col-md-3 col-sm-4 col-xs-6">
-                                <img src="~/Files/NewsFile/@(item.FileName)" alt="گروه جهادی وارثین" class="img-thumbnail img-responsive detail__img" />
+                                <img src="~/Files/NewsFile/@(item.FileName)" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive detail__img" />
                             </div>
                         }
                     </div>
@@ -93,14 +93,14 @@
             <div class="col-md-4 col-sm-4 col-xs-12">
                 <div class="detail__post">
                     <div class="detail__post__title">
-                        آخرین گزارشات
+                        آخرین خبرها
                     </div>
                     @foreach (var item in lastNews)
                     {
                         <div class="detail__post__item">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <img src="~/Files/News/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                    <img src="~/Files/News/@(item.PrimaryPicture)" alt="@(item.Title) - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive" />
                                 </div>
                                 <div class="col-xs-8">
                                     <div class="detail__post__item__title">

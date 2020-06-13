@@ -31,7 +31,7 @@
             <div class="col-md-8 col-sm-8 col-xs-12">
                 <div class="row">
                     <div class="col-xs-12 col-sm-5">
-                        <img src="~/Files/Post/@(Model.PrimaryPicture)" alt="@(Model.Title) - گروه جهادی وارثین" class="img-thumbnail img-responsive" />
+                        <img src="~/Files/Post/@(Model.PrimaryPicture)" alt="@(Model.Title) - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive" />
                     </div>
                     <div class="col-xs-12 col-sm-7">
                         <h1 class="detail__title">@(Model.Title)</h1>
@@ -47,7 +47,7 @@
                         @foreach (var item in images)
                         {
                             <div class="col-md-3 col-sm-4 col-xs-6">
-                                <img src="~/Files/PostFile/@(item.FileName)" alt="گروه جهادی وارثین" class="img-thumbnail img-responsive detail__img" />
+                                <img src="~/Files/PostFile/@(item.FileName)" alt="@(item.Title) - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive detail__img" />
                             </div>
                         }
                     </div>
@@ -100,7 +100,7 @@
                         <div class="detail__post__item">
                             <div class="row">
                                 <div class="col-xs-4">
-                                    <img src="~/Files/Post/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                    <img src="~/Files/Post/@(item.PrimaryPicture)" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" class="img-thumbnail img-responsive" />
                                 </div>
                                 <div class="col-xs-8">
                                     <div class="detail__post__item__title">

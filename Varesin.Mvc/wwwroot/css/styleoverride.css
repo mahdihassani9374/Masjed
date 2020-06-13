@@ -77,28 +77,28 @@ a {
     background: #eee;
 }*/
 
-    /*.sidebar::-webkit-scrollbar-thumb:hover {
+/*.sidebar::-webkit-scrollbar-thumb:hover {
         background: #ccc;
     }*/
 
 .admin .sidebar .sidebar__profile .sidebar__profile__img img {
-    height:100px;
+    height: 100px;
 }
 
 .title-top {
     position: relative;
 }
 
-.title-top::before {
-    position: absolute;
-    content:'';
-    width: 160px;
-    height: 2px;   
-    top: -10px;
-    right: calc(50% - 80px);
-    transform: rotateY(180deg);
-    background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(42,72,108,1)), color-stop(100%, rgba(80,125,179,0)));
-}
+    .title-top::before {
+        position: absolute;
+        content: '';
+        width: 160px;
+        height: 2px;
+        top: -10px;
+        right: calc(50% - 80px);
+        transform: rotateY(180deg);
+        background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(42,72,108,1)), color-stop(100%, rgba(80,125,179,0)));
+    }
 
 .project__item__img > img, .project__slick__item__img > img {
     width: 100%;
@@ -109,8 +109,17 @@ a {
     box-shadow: 0px 0px 10px #eee;
     border: 1px solid #ccc;
     padding: 10px;
-    margin-bottom:10px
+    margin-bottom: 10px
 }
+
+    .detail__post__item-box img {
+        height: 70px;
+    }
+
+    .detail__post__item-box
+    .detail__post__item__title, .detail__post__item-box a {
+        font-weight: 600;
+    }
 
 .tab-content {
     overflow: hidden;
@@ -118,6 +127,30 @@ a {
     border-top: 0px;
 }
 
-.tab-content > .tab-pane {
-    padding:10px 0;
+    .tab-content > .tab-pane {
+        padding: 10px 0;
+    }
+
+.datepicker-plot-area .datepicker-day-view .table-days td span,
+.datepicker-plot-area .datepicker-day-view .month-grid-box .header .header-row-cell,
+.datepicker-plot-area .datepicker-navigator .pwt-btn-switch,
+.datepicker-plot-area .datepicker-navigator .pwt-btn-prev,
+.datepicker-plot-area .datepicker-navigator .pwt-btn-next, .pwt-btn-today,
+.pwt-btn-calendar, .year-item, .month-item {
+    font-family: "MyriadArabic";
+    font-size: 18px;
+}
+
+.datepicker-plot-area {
+    width: 300px !important;
+}
+
+    .datepicker-plot-area .datepicker-day-view .month-grid-box .header {
+        padding: 0 !important;
+        position: relative !important;
+        background-color: #00bfff;
+    }
+
+.datepicker-plot-are .header .header-row-cell {
+    color: #fff !important;
 }
