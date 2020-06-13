@@ -118,5 +118,15 @@ namespace Varesin.Mvc.Mapping
                 Title = source.Title
             };
         }
+
+        public static EventUserSearchDto ToDto(this EventUserSearchViewModel source)
+        {
+            return new EventUserSearchDto
+            {
+                PageNumber = source.PageNumber,
+                PageSize = source.PageSize,
+                Title = source.Title
+            };
+        }
     }
 }

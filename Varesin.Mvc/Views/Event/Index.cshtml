@@ -1,14 +1,13 @@
-﻿@using Varesin.Mvc.Models.News
+﻿@using Varesin.Mvc.Models.Event
 @using Varesin.Mvc.Models
 @using Varesin.Mvc.Models.Pagination
 @using DNTPersianUtils.Core
 
-@model SearchModel<NewsUserSearchViewModel, PaginationViewModel<NewsViewModel>>
+@model SearchModel<EventUserSearchViewModel, PaginationViewModel<EventViewModel>>
 @{
-    ViewData["Title"] = " اخبار - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) ";
+    ViewData["Title"] = " گزارشات - وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) ";
     Layout = "~/Views/Shared/_Layout.cshtml";
     var pageSizeSelector = (List<SelectListItem>)ViewBag.PageSizeSelector;
-    var typeSelector = (List<SelectListItem>)ViewBag.TypeSelector;
 }
 
 
@@ -20,7 +19,7 @@
                 <div class="">شما این جا هستید :</div>
                 <ul class="breadcrumb">
                     <li><a href="/">صفحه اصلی</a></li>
-                    <li class="active">خبر های وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) </li>
+                    <li class="active">گزارشات وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) </li>
                 </ul>
             </div>
         </div>
@@ -36,17 +35,11 @@
                 <div class="row flex-end">
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
-                            <label>عنوان خبر : </label>
+                            <label>عنوان گزارش : </label>
                             <input name="Title" value="@(Model?.Search?.Title)" type="text" class="form-control" placeholder="جستجو بر اساس عنوان خبر" />
                         </div>
                     </div>
 
-                    <div class="col-md-4 col-sm-4 col-xs-12">
-                        <div class="form-group">
-                            <label for="pwd">نوع خبر : </label>
-                            <select name="PageSize" asp-items="@typeSelector" class="form-control"></select>
-                        </div>
-                    </div>
 
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
@@ -64,7 +57,7 @@
                     </div>
                     <div class="col-md-4 col-sm-4 col-xs-12">
                         <div class="form-group">
-                            <a asp-action="Index" asp-controller="News" class="btn btn-danger btn-block">
+                            <a asp-action="Index" asp-controller="Event" class="btn btn-danger btn-block">
                                 حذف فیلتر <i class="fa fa-times"></i>
                             </a>
                         </div>
@@ -88,21 +81,14 @@
                     <div class="col-md-3 col-sm-6 col-xs-12">
                         <div class="project__item" style="margin:10px 0;">
                             <div class="project__item__img">
-                                <img src="~/Files/News/@(item.PrimaryPicture)" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام)" class="img-responsive" />
+                                <img src="~/Files/Event/@(item.PrimaryPicture)" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام)" class="img-responsive" />
                             </div>
                             <div class="project__item__title">
                                 @(item.Title)
                             </div>
                             <div class="project__item__desc">
                                 <div class="row">
-                                    <div class="col-xs-6 text-left">
-                                        <span>
-                                            تاریخ ایجاد :
-
-                                        </span>
-                                        <span>@(item.CreateDate.ToPersianDateTextify())</span>
-                                        <!-- <i class="pe-7s-home"></i> -->
-                                    </div>
+                                    
 
                                 </div>
 
@@ -110,7 +96,7 @@
 
                             </div>
                             <div class="text-center">
-                                <a asp-action="Detail" asp-controller="News" asp-route-id="@(item.Id)" class="btn btn-primary">مشاهده جزییات بیشتر</a>
+                                <a asp-action="Detail" asp-controller="Event" asp-route-id="@(item.Id)" class="btn btn-primary">مشاهده جزییات بیشتر</a>
                             </div>
                         </div>
                     </div>

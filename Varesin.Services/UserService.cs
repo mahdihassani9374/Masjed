@@ -223,6 +223,18 @@ namespace Varesin.Services
             return news.ToDto();
         }
 
+        public PaginationDto<EventDto> GetEvents(EventUserSearchDto searchDto)
+        {
+            var query = _context.Events.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchDto.Title))
+                query = query.Where(c => c.Title.Contains(searchDto.Title));
+
+            var news = query.OrderByDescending(c => c.Id).ToPaginated(searchDto.PageNumber, searchDto.PageSize);
+
+            return news.ToDto();
+        }
+
         public PostDto GetPost(int id)
         {
             var data = _context.Posts.FirstOrDefault(c => c.Id.Equals(id));
