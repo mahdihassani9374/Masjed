@@ -1,9 +1,17 @@
 ﻿@using Varesin.Mvc.Models.SlideShow
+@using Varesin.Mvc.Models.News
+@using Varesin.Mvc.Models.Post
+@using DNTPersianUtils.Core
+@using Varesin.Mvc.Models.Event
 @{
     ViewData["Title"] = "وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین علیه السلام";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
     var slideShows = (List<SlideShowViewModel>)ViewBag.SlideShows;
     var nowEvents = (List<string>)ViewBag.NowEvents;
+    var lastMahalNews = (List<NewsViewModel>)ViewBag.LastMahalNews;
+    var lastNews = (List<NewsViewModel>)ViewBag.LastNews;
+    var lastPosts = (List<PostViewModel>)ViewBag.LastPosts;
+    var lastEvents = (List<EventViewModel>)ViewBag.LastEvents;
 }
 
 <!-- header and slider  -->
@@ -176,134 +184,102 @@
 
             <div class="tab-content">
                 <div id="home" class="tab-pane fade in active">
-                    <div class="col-md-4 col-xs-6 col-sm-6">
-                        <div class="detail__post__item detail__post__item-box">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
-                                </div>
-                                <div class="col-xs-8">
-                                    <div class="detail__post__item__title">
-                                        اولین خبر برای سایت می باشد
-                                    </div>
-                                    <div class="detail__post__item__desc">
-                                        زمان : 10 اردیبهشت 1399
-                                    </div>
-                                    <div class="text-left">
-                                        <a herf="#">ادامه مطلب >></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-xs-6 col-sm-6">
-                        <div class="detail__post__item detail__post__item-box">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
-                                </div>
-                                <div class="col-xs-8">
-                                    <div class="detail__post__item__title">
-                                        اولین خبر برای سایت می باشد
-                                    </div>
-                                    <div class="detail__post__item__desc">
-                                        زمان : 10 اردیبهشت 1399
-                                    </div>
-                                    <div class="text-left">
-                                        <a herf="#">ادامه مطلب >></a>
+                    @if (lastMahalNews.Count == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        foreach (var item in lastMahalNews)
+                        {
+                            <div class="col-md-4 col-xs-6 col-sm-6">
+                                <div class="detail__post__item detail__post__item-box">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <img src="~/Files/News/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <div class="detail__post__item__title">
+                                                @(item.Title?.ToPersianNumbers())
+                                            </div>
+                                            <div class="detail__post__item__desc">
+                                                @(item.CreateDate.ToPersianDateTextify())
+                                            </div>
+                                            <div class="text-left">
+                                                <a asp-action="Detail" asp-controller="News" asp-route-id="@(item.Id)">ادامه مطلب >></a>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-xs-6 col-sm-6">
-                        <div class="detail__post__item detail__post__item-box">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
-                                </div>
-                                <div class="col-xs-8">
-                                    <div class="detail__post__item__title">
-                                        اولین خبر برای سایت می باشد
-                                    </div>
-                                    <div class="detail__post__item__desc">
-                                        زمان : 10 اردیبهشت 1399
-                                    </div>
-                                    <div class="text-left">
-                                        <a herf="#">ادامه مطلب >></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-xs-6 col-sm-6">
-                        <div class="detail__post__item detail__post__item-box">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
-                                </div>
-                                <div class="col-xs-8">
-                                    <div class="detail__post__item__title">
-                                        اولین خبر برای سایت می باشد
-                                    </div>
-                                    <div class="detail__post__item__desc">
-                                        زمان : 10 اردیبهشت 1399
-                                    </div>
-                                    <div class="text-left">
-                                        <a herf="#">ادامه مطلب >></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-xs-6 col-sm-6">
-                        <div class="detail__post__item detail__post__item-box">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
-                                </div>
-                                <div class="col-xs-8">
-                                    <div class="detail__post__item__title">
-                                        اولین خبر برای سایت می باشد
-                                    </div>
-                                    <div class="detail__post__item__desc">
-                                        زمان : 10 اردیبهشت 1399
-                                    </div>
-                                    <div class="text-left">
-                                        <a herf="#">ادامه مطلب >></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-xs-6 col-sm-6">
-                        <div class="detail__post__item detail__post__item-box">
-                            <div class="row">
-                                <div class="col-xs-4">
-                                    <img src="./img/p1.jpg" class="img-thumbnail img-responsive" />
-                                </div>
-                                <div class="col-xs-8">
-                                    <div class="detail__post__item__title">
-                                        اولین خبر برای سایت می باشد
-                                    </div>
-                                    <div class="detail__post__item__desc">
-                                        زمان : 10 اردیبهشت 1399
-                                    </div>
-                                    <div class="text-left">
-                                        <a herf="#">ادامه مطلب >></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                        }
+                    }
                 </div>
                 <div id="menu1" class="tab-pane fade">
-                    <h3>اخبار سیاسی و فرهنگی و ...</h3>
-                    <p>Some content in menu 1.</p>
+                    @if (lastNews.Count == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        foreach (var item in lastNews)
+                        {
+
+                            <div class="col-md-4 col-xs-6 col-sm-6">
+                                <div class="detail__post__item detail__post__item-box">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <img src="~/Files/News/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <div class="detail__post__item__title">
+                                                @(item.Title?.ToPersianNumbers())
+                                            </div>
+                                            <div class="detail__post__item__desc">
+                                                @(item.CreateDate.ToPersianDateTextify())
+                                            </div>
+                                            <div class="text-left">
+                                                <a asp-action="Detail" asp-controller="News" asp-route-id="@(item.Id)">ادامه مطلب >></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
                 <div id="menu2" class="tab-pane fade">
-                    <h3>آخرین پست ها </h3>
-                    <p>Some content in menu 2.</p>
+                    @if (lastPosts.Count == 0)
+                    {
+
+                    }
+                    else
+                    {
+                        foreach (var item in lastPosts)
+                        {
+
+                            <div class="col-md-4 col-xs-6 col-sm-6">
+                                <div class="detail__post__item detail__post__item-box">
+                                    <div class="row">
+                                        <div class="col-xs-4">
+                                            <img src="~/Files/Post/@(item.PrimaryPicture)" class="img-thumbnail img-responsive" />
+                                        </div>
+                                        <div class="col-xs-8">
+                                            <div class="detail__post__item__title">
+                                                @(item.Title?.ToPersianNumbers())
+                                            </div>
+                                            <div class="detail__post__item__desc">
+                                                @(item.CreateDate.ToPersianDateTextify())
+                                            </div>
+                                            <div class="text-left">
+                                                <a asp-action="Detail" asp-controller="Post" asp-route-id="@(item.Id)">ادامه مطلب >></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    }
                 </div>
             </div>
         </div>
@@ -314,73 +290,29 @@
     <div class="container">
         <div class="report__title">
             گزارشات تصویری گروه جهادی وارثین نون و قلم
-            <a href="#" style="float: left;">مشاهده همه گزارشات</a>
+            <a asp-action="Index" asp-controller="Event" style="float: left;">مشاهده همه گزارشات</a>
         </div>
         <div class="row">
-            <div class="col-md-3 col-sm-4 col-xs-6">
-                <a href="#">
-                    <div class="report__item">
-                        <img src="./img/p1.jpg" />
-                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6">
-                <a href="#">
-                    <div class="report__item">
-                        <img src="./img/p2.jpg" />
-                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6">
-                <a href="#">
-                    <div class="report__item">
-                        <img src="./img/p3.jpg" />
-                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6">
-                <a href="#">
-                    <div class="report__item">
-                        <img src="./img/p1.jpg" />
-                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6">
-                <a href="#">
-                    <div class="report__item">
-                        <img src="./img/p1.jpg" />
-                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6">
-                <a href="#">
-                    <div class="report__item">
-                        <img src="./img/p2.jpg" />
-                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6">
-                <a href="#">
-                    <div class="report__item">
-                        <img src="./img/p3.jpg" />
-                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3 col-sm-4 col-xs-6">
-                <a href="#">
-                    <div class="report__item">
-                        <img src="./img/p1.jpg" />
-                        <div class="report__item__title">گزارش تصوری از اردوی جهادی راهیان نور سال 1399 </div>
-                    </div>
-                </a>
-            </div>
+
         </div>
+        @if (lastEvents.Count == 0)
+        {
+
+        }
+        else
+        {
+            foreach (var item in lastEvents)
+            {
+                <div class="col-md-3 col-sm-4 col-xs-6">
+                    <a asp-action="Detail" asp-controller="Event" asp-route-id="@(item.Id)">
+                        <div class="report__item">
+                            <img src="~/Files/Event/@(item.PrimaryPicture)" />
+                            <div class="report__item__title">@(item.Title?.ToPersianNumbers())</div>
+                        </div>
+                    </a>
+                </div>
+            }
+        }
+
     </div>
 </div>

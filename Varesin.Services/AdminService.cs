@@ -667,7 +667,7 @@ namespace Varesin.Services
             var data = _context.PostFiles.FirstOrDefault(c => c.Id.Equals(id));
             return data?.ToDto();
         }
-        
+
 
 
         public EventFileDto GetEventFile(int id)
@@ -713,7 +713,10 @@ namespace Varesin.Services
 
             if (serviceResult.IsSuccess)
             {
-                _context.Posts.Add(model.ToEntity());
+                var entity = model.ToEntity();
+                entity.CreateDate = DateTime.Now;
+
+                _context.Posts.Add(entity);
 
                 if (_context.SaveChanges() == 0)
                     serviceResult.AddError("در انجام عملیات خطایی رخ داد");
@@ -766,7 +769,10 @@ namespace Varesin.Services
 
             if (serviceResult.IsSuccess)
             {
-                _context.News.Add(model.ToEntity());
+                var entity = model.ToEntity();
+                entity.CreateDate = DateTime.Now;
+
+                _context.News.Add(entity);
 
                 if (_context.SaveChanges() == 0)
                     serviceResult.AddError("در انجام عملیات خطایی رخ داد");

@@ -14,6 +14,9 @@ using Varesin.Domain.DTO.Payment;
 using Varesin.Domain.DTO.ContactUs;
 using Varesin.Domain.Entities;
 using Varesin.Domain.DTO.Event;
+using Varesin.Domain.DTO.News;
+using System.ComponentModel.DataAnnotations;
+using Varesin.Domain.DTO.Post;
 
 namespace Varesin.Services
 {
@@ -159,6 +162,38 @@ namespace Varesin.Services
             else serviceResult.AddError("پرداختی یافت نشد");
 
             return serviceResult;
+        }
+
+        public List<NewsDto> GetLastNews(int count, bool isMahal)
+        {
+            var query = _context.News.AsQueryable();
+            if (isMahal)
+                query = query.Where(c => c.Type == NewsType.Mahal);
+            else query = query.Where(c => c.Type != NewsType.Mahal);
+
+            var data = query.OrderByDescending(c => c.Id).Take(count).ToList();
+
+            return data.ToDto();
+        }
+        public List<PostDto> GetLastPosts(int count)
+        {
+            var data = _context.Posts.OrderByDescending(c => c.Id).Take(count).ToList();
+
+            return data.ToDto();
+        }
+
+        public List<EventDto> GetLastEvent(int count)
+        {
+            var query = _context.Events.AsQueryable();
+
+            var data = query
+                .Where(c => !(c.MultiDay == false && c.Date.HasValue && c.Date.Value.Date >= DateTime.Now.Date)
+                ||
+                !(c.MultiDay && c.StartDate.HasValue && c.EndDate.HasValue && c.StartDate.Value.Date >= DateTime.Now.Date && c.EndDate.Value.Date <= DateTime.Now.Date))
+                .ToList();
+
+
+            return data.ToDto();
         }
     }
 }
