@@ -101,5 +101,15 @@ namespace Varesin.Mvc.Mapping
                 Title = source.Title
             };
         }
+
+        public static PostUserSearchDto ToDto(this PostUserSearchViewModel source)
+        {
+            return new PostUserSearchDto
+            {
+                PageNumber = source.PageNumber,
+                PageSize = source.PageSize,
+                Title = source.Title
+            };
+        }
     }
 }

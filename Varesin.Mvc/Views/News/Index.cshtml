@@ -1,0 +1,125 @@
+﻿@using Varesin.Mvc.Models.News
+@using Varesin.Mvc.Models
+@using Varesin.Mvc.Models.Pagination
+@using DNTPersianUtils.Core
+
+@model SearchModel<NewsUserSearchViewModel, PaginationViewModel<NewsViewModel>>
+@{
+    ViewData["Title"] = "پروژه ها - گروه جهادی وارثین نون ولم";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var pageSizeSelector = (List<SelectListItem>)ViewBag.PageSizeSelector;
+    var typeSelector = (List<SelectListItem>)ViewBag.TypeSelector;
+}
+
+
+
+<div class="bread">
+    <div class="container">
+        <div class="col-md-12">
+            <div class="bread__item">
+                <div class="">شما این جا هستید :</div>
+                <ul class="breadcrumb">
+                    <li><a href="/">صفحه اصلی</a></li>
+                    <li class="active">پروژه های گروه جهادی وارثین </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="project" style="background-color: #fff;">
+    <div class="container">
+        <fieldset>
+            <legend>جستجو در پروژه ها : </legend>
+            <form>
+                <div class="row flex-end">
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label>نام پروژه : </label>
+                            <input name="Title" value="@(Model?.Search?.Title)" type="text" class="form-control" placeholder="جستجو بر اساس نام پروژه" />
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label for="pwd">نوع خبر : </label>
+                            <select name="PageSize" asp-items="@typeSelector" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <label for="pwd">تعداد آیتم نمایشی : </label>
+                            <select name="PageSize" asp-items="@pageSizeSelector" class="form-control"></select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <button type="submit" class="ladda-button btn btn-primary btn-block" data-style="zoom-in">
+                                <span class="ladda-label">جستجو <i class="fa fa-search"></i></span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-sm-4 col-xs-12">
+                        <div class="form-group">
+                            <a asp-action="Index" asp-controller="Post" class="btn btn-danger btn-block">
+                                حذف فیلتر <i class="fa fa-times"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </fieldset>
+
+        <hr />
+        <div class="row">
+            @if (Model.Data.Data.Count == 0)
+            {
+                <div class="col-md-12 alert alert-danger">
+                    <p class="text-center">داده ای یافت نشد</p>
+                </div>
+            }
+            else
+            {
+                foreach (var item in Model.Data.Data)
+                {
+                    <div class="col-md-3 col-sm-6 col-xs-12">
+                        <div class="project__item" style="margin:10px 0;">
+                            <div class="project__item__img">
+                                <img src="~/Files/News/@(item.PrimaryPicture)" alt="گروه جهادی وارثین" class="img-responsive" />
+                            </div>
+                            <div class="project__item__title">
+                                @(item.Title)
+                            </div>
+                            <div class="project__item__desc">
+                                <div class="row">
+                                    <div class="col-xs-6 text-left">
+                                        <span>
+                                            تاریخ ایجاد :
+
+                                        </span>
+                                        <span>@(item.CreateDate.ToPersianDateTextify())</span>
+                                        <!-- <i class="pe-7s-home"></i> -->
+                                    </div>
+
+                                </div>
+
+
+
+                            </div>
+                            <div class="text-center">
+                                <a asp-action="Detail" asp-controller="News" asp-route-id="@(item.Id)" class="btn btn-primary">مشاهده جزییات بیشتر</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+
+
+        </div>
+
+        @Html.Partial("_Pagination", Model.Data)
+    </div>
+</div>

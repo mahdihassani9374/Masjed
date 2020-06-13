@@ -195,5 +195,32 @@ namespace Varesin.Services
 
             return data.ToDto();
         }
+
+        public PaginationDto<PostDto> GetPosts(PostUserSearchDto searchDto)
+        {
+            var query = _context.Posts.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchDto.Title))
+                query = query.Where(c => c.Title.Contains(searchDto.Title));
+
+            var posts = query.OrderByDescending(c => c.Id).ToPaginated(searchDto.PageNumber, searchDto.PageSize);
+
+            return posts.ToDto();
+        }
+
+        public PaginationDto<NewsDto> GetNews(NewsUserSearchDto searchDto)
+        {
+            var query = _context.News.AsQueryable();
+
+            if (!string.IsNullOrEmpty(searchDto.Title))
+                query = query.Where(c => c.Title.Contains(searchDto.Title));
+
+            if (searchDto.Type.HasValue)
+                query = query.Where(c => c.Type == searchDto.Type);
+
+            var news = query.OrderByDescending(c => c.Id).ToPaginated(searchDto.PageNumber, searchDto.PageSize);
+
+            return news.ToDto();
+        }
     }
 }

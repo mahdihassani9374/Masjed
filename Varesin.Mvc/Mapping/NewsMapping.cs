@@ -61,7 +61,7 @@ namespace Varesin.Mvc.Mapping
                 Description = source.Description,
                 Title = source.Title,
                 PrimaryPicture = fileName,
-                 Type=source.Type
+                Type = source.Type
             };
         }
 
@@ -104,6 +104,17 @@ namespace Varesin.Mvc.Mapping
                 FileType = source.FileType,
                 Length = length,
                 NewsId = source.NewsId,
+                Title = source.Title
+            };
+        }
+
+        public static NewsUserSearchDto ToDto(this NewsUserSearchViewModel source)
+        {
+            return new NewsUserSearchDto
+            {
+                Type = source.Type,
+                PageNumber = source.PageNumber,
+                PageSize = source.PageSize,
                 Title = source.Title
             };
         }
