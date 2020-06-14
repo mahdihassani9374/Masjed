@@ -7,7 +7,7 @@
     ViewData["Title"] = "وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین علیه السلام";
     Layout = "~/Views/Shared/_HomeLayout.cshtml";
     var slideShows = (List<SlideShowViewModel>)ViewBag.SlideShows;
-    var nowEvents = (List<EventViewModel>)ViewBag.NowEvents;
+    var nowEvents = (List<string>)ViewBag.NowEvents;
     var lastMahalNews = (List<NewsViewModel>)ViewBag.LastMahalNews;
     var lastNews = (List<NewsViewModel>)ViewBag.LastNews;
     var lastPosts = (List<PostViewModel>)ViewBag.LastPosts;
@@ -39,7 +39,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
-                </button>
+                </button>               
             </div>
             <div class="collapse navbar-collapse" id="myNavbar">
                 <ul class="nav navbar-nav">
@@ -51,7 +51,7 @@
                     <li><a href="/Event"><i class="pe-7s-file"></i> گزارشات</a></li>
                     <li><a href="/FinancialSupport"><i class="pe-7s-credit" aria-hidden="true"></i> مساعدت مالی</a></li>
                 </ul>
-                <ul class="nav navbar-nav navbar-right">
+                <ul class="nav navbar-nav navbar-right">                   
                     <li><a asp-action="Login" asp-controller="Account"><span class="pe-7s-back"></span> ورود</a></li>
                 </ul>
             </div>
@@ -160,24 +160,67 @@
     </div>
 </div>
 
-
-
-@*<div class="project">
-        <div class="container">
-            <div class="row">
-                <div class=""></div>
-                @foreach (var item in nowEvents)
-                {
-                    <div class="project__title">@item</div>
-                }
-
+<div class="project">
+    <div class="container">
+        <div class="row">
+            <div class="project__title">اطلاع رسانی های وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)</div>
+            <div class="project__arrow">
+                <i data-role="slick-right" class="fa fa-arrow-circle-right"></i>
+                <i data-role="slick-left" class="fa fa-arrow-circle-left"></i>
+            </div>
+            <div class="project__slick">
+                <div class="col-xs-12">
+                    <div class="project__slick__item">
+                        <div class="project__slick__item__img">
+                            <img src="./img/p1.jpg" class="img-responsive" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" />
+                        </div>
+                        <div class="project__slick__item__title">
+                            عنوان پروژه مورد نظر
+                        </div>
+                        <div class="project__slick__item__desc">
+                            <div class="row">
+                                <div class="col-xs-12 text-left">
+                                    <span>برآورد هزینه : 100,000 تومان</span>
+                                    <i class="pe-7s-home"></i>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-6 text-left">
+                                    <span>محل پروژه : اصفهان</span>
+                                    <i class="pe-7s-home"></i>
+                                </div>
+                                <div class="col-xs-6 text-right">
+                                    <span>زمان : 12 اردیبهشت 1399</span>
+                                    <i class="pe-7s-home"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <a class="btn btn-primary">مشاهده جزئیات پروژه</a>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
-    </div>*@
+    </div>
+</div>
+
+@*<div class="project">
+    <div class="container">
+        <div class="row">
+            <div class=""></div>
+            @foreach (var item in nowEvents)
+            {
+                <div class="project__title">@item</div>
+            }
+
+        </div>
+    </div>
+</div>*@
 
 <div class="detail">
     <div class="container">
-        <div class="row">
+        <div class="">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">اخبار محله</a></li>
                 <li><a data-toggle="tab" href="#menu1">اخبار سیاسی و فرهنگی و ...</a></li>
@@ -194,7 +237,7 @@
                     {
                         foreach (var item in lastMahalNews)
                         {
-                            <div class="col-md-4 col-xs-6 col-sm-6">
+                            <div class="col-md-4 col-xs-12 col-sm-6">
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
@@ -214,20 +257,26 @@
                                     </div>
                                 </div>
                             </div>
-                        }
+                        } 
+
+                        <div style="clear:both;"></div>
+                        <div class="row text-center title-top" style="margin-top: 40px;">
+                            <p style="font-weight: 600;">برای مشاهده همه پروژه ها بر روی لینک زیر کلیک کنید </p>
+                            <a style="border-radius: 15px;" class="btn btn-primary" href="/Project">مشاهده همه پروژه ها</a>
+                        </div>                        
                     }
                 </div>
                 <div id="menu1" class="tab-pane fade">
                     @if (lastNews.Count == 0)
                     {
-                        <div class="alert alert-danger">خبری وجود ندارد</div>
+                    <div class="alert alert-danger">خبری وجود ندارد</div>
                     }
                     else
                     {
                         foreach (var item in lastNews)
                         {
 
-                            <div class="col-md-4 col-xs-6 col-sm-6">
+                            <div class="col-md-4 col-xs-12 col-sm-6">
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
@@ -253,14 +302,14 @@
                 <div id="menu2" class="tab-pane fade">
                     @if (lastPosts.Count == 0)
                     {
-                        <div class="alert alert-danger">پستی وجود ندارد</div>
+                    <div class="alert alert-danger">پستی وجود ندارد</div>
                     }
                     else
                     {
                         foreach (var item in lastPosts)
                         {
 
-                            <div class="col-md-4 col-xs-6 col-sm-6">
+                            <div class="col-md-4 col-xs-12 col-sm-6">
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
@@ -288,10 +337,37 @@
     </div>
 </div>
 
+<div style="background-color: #eee;padding: 20px;">
+    <div class="container">
+        <div class="row" style="display: flex;align-items: center;justify-content: center;flex-wrap: wrap;">
+            <div class="col-md-3 col-xs-6 col-sm-6">
+                <a href="#">
+                    <img src="~/img/tabligh1.gif" class="img-responsive" style="margin:5px 0" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" />
+                </a>
+            </div>
+            <div class="col-md-3 col-xs-6 col-sm-6">
+                <a href="#">
+                    <img src="~/img/tabligh2.gif" class="img-responsive" style="margin:5px 0" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)"  />
+                </a>
+            </div>
+            <div class="col-md-3 col-xs-6 col-sm-6">
+                <a href="#">
+                    <img src="~/img/tabligh1.gif" class="img-responsive" style="margin:5px 0" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" />
+                </a>
+            </div>
+            <div class="col-md-3 col-xs-6 col-sm-6">
+                <a href="#">
+                    <img src="~/img/tabligh2.gif" class="img-responsive" style="margin:5px 0" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)"  />
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="report" style="background-color:#e3e3e3">
     <div class="container">
         <div class="report__title">
-            گزارشات تصویری وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام)
+            گزارشات تصویری وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین(علیه السلام) 
             <a asp-action="Index" asp-controller="Event" style="float: left;">مشاهده همه گزارشات</a>
         </div>
         <div class="row">
