@@ -27,7 +27,7 @@ namespace Varesin.Mvc.Controllers
             var lastEvents = _userService.GetLastEvent(8);
 
             ViewBag.SlideShows = slideShows.ToViewModel();
-            ViewBag.NowEvents = nowEvents;
+            ViewBag.NowEvents = nowEvents.ToViewModel();
             ViewBag.LastMahalNews = lastMahalNews.ToViewModel();
             ViewBag.LastNews = lastNews.ToViewModel();
             ViewBag.LastPosts = lastPosts.ToViewModel();

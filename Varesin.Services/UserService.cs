@@ -93,35 +93,21 @@ namespace Varesin.Services
             return serviceResult;
         }
 
-        public List<string> GetAllNowEvent()
+        public List<EventDto> GetAllNowEvent()
         {
             var query = _context.Events.AsQueryable();
 
             var data = query
                 .Where(c => (c.MultiDay == false && c.Date.HasValue && c.Date.Value.Date >= DateTime.Now.Date)
                 ||
-                (c.MultiDay && c.StartDate.HasValue && c.EndDate.HasValue && c.StartDate.Value.Date >= DateTime.Now.Date && c.EndDate.Value.Date <= DateTime.Now.Date))
+                (c.MultiDay && c.StartDate.HasValue && c.EndDate.HasValue && c.StartDate.Value.Date <= DateTime.Now.Date && c.EndDate.Value.Date >= DateTime.Now.Date)
+                ||
+                (c.MultiDay && c.StartDate.HasValue && c.EndDate.HasValue && c.StartDate.Value.Date >= DateTime.Now.Date && c.EndDate.Value.Date >= DateTime.Now.Date))
                 .ToList();
 
-            var result = new List<string>();
+            var dd = query.ToList();
 
-            foreach (var item in data)
-            {
-                var str = "";
-                str += $"{item.Title} - ";
-                if (!item.MultiDay)
-                {
-                    str += $"{item.Date?.ToPersianDateTextify()} - ";
-                    str += $"ساعت برگزاری : {item.Time?.ToPersianNumbers()}";
-                }
-                else
-                {
-                    str += $"از تاریخ : {item.StartDate?.ToPersianDateTextify()} - ";
-                    str += $"تا تاریخ : {item.EndDate?.ToPersianDateTextify()} - ";
-                }
-            }
-
-            return result;
+            return data.ToDto();
         }
 
         public ServiceResult SuccessPay(int id)
@@ -197,10 +183,11 @@ namespace Varesin.Services
 
             var data = query
                 .Where(c => !(c.MultiDay == false && c.Date.HasValue && c.Date.Value.Date >= DateTime.Now.Date)
-                ||
-                !(c.MultiDay && c.StartDate.HasValue && c.EndDate.HasValue && c.StartDate.Value.Date >= DateTime.Now.Date && c.EndDate.Value.Date <= DateTime.Now.Date))
+                &&
+                !(c.MultiDay && c.StartDate.HasValue && c.EndDate.HasValue && c.StartDate.Value.Date >= DateTime.Now.Date && c.EndDate.Value.Date <= DateTime.Now.Date)
+                &&
+                !(c.MultiDay && c.StartDate.HasValue && c.EndDate.HasValue && c.StartDate.Value.Date >= DateTime.Now.Date && c.EndDate.Value.Date >= DateTime.Now.Date))
                 .ToList();
-
 
             return data.ToDto();
         }

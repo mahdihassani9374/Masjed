@@ -19,7 +19,8 @@ namespace Varesin.Services.Mapping
                 PrimaryPicture = source.PrimaryPicture,
                 StartDate = source.StartDate,
                 Title = source.Title,
-                Time = source.Time
+                Time = source.Time,
+                MultiDay = source.MultiDay
             };
         }
 
