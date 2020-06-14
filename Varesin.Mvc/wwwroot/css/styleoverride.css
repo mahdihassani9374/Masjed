@@ -154,3 +154,18 @@ a {
 .datepicker-plot-are .header .header-row-cell {
     color: #fff !important;
 }
+
+.title-top {
+    position: relative;
+}
+
+.title-top::before {
+    position: absolute;
+    content: '';
+    width: 160px;
+    height: 2px;
+    top: -10px;
+    right: calc(50% - 80px);
+    transform: rotateY(180deg);
+    background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(42,72,108,1)), color-stop(100%, rgba(80,125,179,0)));
+}

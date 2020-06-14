@@ -202,10 +202,6 @@
                 </div>                
             </div>
         </div>
-        <div class="row text-center" style="margin-top: 30px;">
-            <p style="font-weight: 600;">برای مشاهده همه خبر ها بر روی لینک زیر کلیک کنید </p>
-            <a href="#" style="border-radius: 15px;" class="btn btn-primary">مشاهده همه خبر ها</a>
-        </div>
     </div>
 </div>
 
@@ -224,7 +220,7 @@
 
 <div class="detail">
     <div class="container">
-        <div class="row">
+        <div class="">
             <ul class="nav nav-tabs">
                 <li class="active"><a data-toggle="tab" href="#home">اخبار محله</a></li>
                 <li><a data-toggle="tab" href="#menu1">اخبار سیاسی و فرهنگی و ...</a></li>
@@ -241,7 +237,7 @@
                     {
                         foreach (var item in lastMahalNews)
                         {
-                            <div class="col-md-4 col-xs-6 col-sm-6">
+                            <div class="col-md-4 col-xs-12 col-sm-6">
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
@@ -261,7 +257,13 @@
                                     </div>
                                 </div>
                             </div>
-                        }
+                        } 
+
+                        <div style="clear:both;"></div>
+                        <div class="row text-center title-top" style="margin-top: 40px;">
+                            <p style="font-weight: 600;">برای مشاهده همه پروژه ها بر روی لینک زیر کلیک کنید </p>
+                            <a style="border-radius: 15px;" class="btn btn-primary" href="/Project">مشاهده همه پروژه ها</a>
+                        </div>                        
                     }
                 </div>
                 <div id="menu1" class="tab-pane fade">
@@ -274,7 +276,7 @@
                         foreach (var item in lastNews)
                         {
 
-                            <div class="col-md-4 col-xs-6 col-sm-6">
+                            <div class="col-md-4 col-xs-12 col-sm-6">
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
@@ -307,7 +309,7 @@
                         foreach (var item in lastPosts)
                         {
 
-                            <div class="col-md-4 col-xs-6 col-sm-6">
+                            <div class="col-md-4 col-xs-12 col-sm-6">
                                 <div class="detail__post__item detail__post__item-box">
                                     <div class="row">
                                         <div class="col-xs-4">
@@ -330,6 +332,33 @@
                         }
                     }
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="background-color: #eee;padding: 20px;">
+    <div class="container">
+        <div class="row" style="display: flex;align-items: center;justify-content: center;flex-wrap: wrap;">
+            <div class="col-md-3 col-xs-6 col-sm-6">
+                <a href="#">
+                    <img src="~/img/tabligh1.gif" class="img-responsive" style="margin:5px 0" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" />
+                </a>
+            </div>
+            <div class="col-md-3 col-xs-6 col-sm-6">
+                <a href="#">
+                    <img src="~/img/tabligh2.gif" class="img-responsive" style="margin:5px 0" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)"  />
+                </a>
+            </div>
+            <div class="col-md-3 col-xs-6 col-sm-6">
+                <a href="#">
+                    <img src="~/img/tabligh1.gif" class="img-responsive" style="margin:5px 0" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)" />
+                </a>
+            </div>
+            <div class="col-md-3 col-xs-6 col-sm-6">
+                <a href="#">
+                    <img src="~/img/tabligh2.gif" class="img-responsive" style="margin:5px 0" alt="وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)"  />
+                </a>
             </div>
         </div>
     </div>
