@@ -8,9 +8,10 @@ namespace Varesin.Mvc.Models.Instagram
 {
     public class CreateInstaPostViewModel
     {
-        public List<int> FileIds { get; set; }
+        public List<string> FileIds { get; set; }
         public List<string> Tags { get; set; }
         public string Caption { get; set; }
         public bool DisableComment { get; set; }
+        public string Type { get; set; }
     }
 }

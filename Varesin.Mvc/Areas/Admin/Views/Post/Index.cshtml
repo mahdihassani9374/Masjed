@@ -97,7 +97,7 @@
                                     }
                                     @if (UserAccessService.UserIsInRole(User, AccessCode.InstagramSharing))
                                     {
-                                        <a asp-action="Instagram" asp-controller="Post" asp-area="Admin" asp-route-id="@(item.Id)" class="btn btn-primary">اشتراک گذاری در اینستاگرام</a>
+                                        <a asp-action="Share" asp-controller="Instagram" asp-area="Admin" asp-route-id="@(item.Id)" asp-route-type="post" class="btn btn-primary">اشتراک گذاری در اینستاگرام</a>
                                     }
 
                                 </td>

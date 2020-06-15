@@ -87,10 +87,38 @@
                                 @(item.Title)
                             </div>
                             <div class="project__item__desc">
-                                <div class="row">
-                                    
+                                @if (item.MultiDay)
+                                {
+                                    <div class="row">
+                                        <div class="col-xs-12 text-left">
+                                            <i class="pe-7s-date"></i>
+                                            <span>از تاریخ : @(item.StartDate?.ToPersianDateTextify())</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 text-left">
+                                            <i class="pe-7s-date"></i>
+                                            <span>تا تاریخ : @(item.EndDate?.ToPersianDateTextify())</span>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row">
+                                        <div class="col-xs-12 text-left">
+                                            <i class="pe-7s-date"></i>
+                                            <span>تاریخ شروع برنامه : @(item.Date?.ToPersianDateTextify())</span>
+                                        </div>
+                                    </div>
 
-                                </div>
+                                    <div class="row">
+                                        <div class="col-xs-12 text-left">
+                                            <i class="pe-7s-timer"></i>
+                                            <span>ساعت برگزاری : @(item.Time?.ToPersianNumbers())</span>
+                                        </div>
+                                    </div>
+
+                                }
 
 
 

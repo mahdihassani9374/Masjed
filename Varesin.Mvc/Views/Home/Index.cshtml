@@ -187,13 +187,13 @@
                                     @if (item.MultiDay)
                                     {
                                         <div class="row">
-                                            <div class="col-xs-6 text-right">
+                                            <div class="col-xs-12 text-left">
                                                 <span>از تاریخ : @(item.StartDate?.ToPersianDateTextify())</span>
                                                 <i class="pe-7s-date"></i>
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-xs-6 text-right">
+                                            <div class="col-xs-12 text-left">
                                                 <span>تا تاریخ : @(item.EndDate?.ToPersianDateTextify())</span>
                                                 <i class="pe-7s-date"></i>
                                             </div>
@@ -202,14 +202,14 @@
                                     else
                                     {
                                         <div class="row">
-                                            <div class="col-xs-6 text-right">
+                                            <div class="col-xs-12 text-left">
                                                 <span>تاریخ شروع برنامه : @(item.Date?.ToPersianDateTextify())</span>
                                                 <i class="pe-7s-date"></i>
                                             </div>
                                         </div>
 
                                         <div class="row">
-                                            <div class="col-xs-6 text-right">
+                                            <div class="col-xs-12 text-left">
                                                 <span>ساعت برگزاری : @(item.Time?.ToPersianNumbers())</span>
                                                 <i class="pe-7s-timer"></i>
                                             </div>

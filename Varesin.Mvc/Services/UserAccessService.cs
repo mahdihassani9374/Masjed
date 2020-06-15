@@ -383,6 +383,13 @@ namespace Varesin.Mvc.Services
                           Id=(int)AccessCode.InstagramTagManagement,
                           Enum= AccessCode.InstagramTagManagement,
                           Checked=roles.Any(i=>i==AccessCode.InstagramTagManagement.ToString())
+                     },
+                    new UserAccessItemModel
+                     {
+                          Title="اشتراک گذاری در اینستاگرام",
+                          Id=(int)AccessCode.InstagramSharing,
+                          Enum= AccessCode.InstagramSharing,
+                          Checked=roles.Any(i=>i==AccessCode.InstagramSharing.ToString())
                      }
                  }
             });

@@ -169,3 +169,13 @@ a {
     transform: rotateY(180deg);
     background-image: -webkit-gradient(linear, left top, right top, color-stop(0%, rgba(42,72,108,1)), color-stop(100%, rgba(80,125,179,0)));
 }
+
+.project .project__item .project__item__title,
+.project .project__slick .project__slick__item .project__slick__item__title {
+    line-height: 1.5em;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    width: 100%;
+    direction:rtl;
+}

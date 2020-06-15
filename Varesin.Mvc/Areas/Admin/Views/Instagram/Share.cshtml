@@ -1,0 +1,218 @@
+﻿@using Varesin.Mvc.Models
+@{
+    ViewData["Title"] = "اشتراک گذاری در اینستاگرام  - پنل مدیریتی وصی - پایگاه اطلاع رسانی مسجد امیرالمومنین (علیه السلام)";
+    Layout = "~/Areas/Admin/Views/Shared/_AdminLayout.cshtml";
+    var tags = (List<string>)ViewBag.Tags;
+    var files = (List<FileViewModel>)ViewBag.Files;
+    var type = (string)ViewBag.Type;
+}
+<script src="~/js/vue.js"></script>
+
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="/admin">پنل مدیریتی</a></li>
+        <li class="breadcrumb-item active" aria-current="page">اشتراک گذاری در اینستاگرام</li>
+    </ol>
+</nav>
+
+<div id="app">
+    <div class="table-responsive">
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>
+                        <button class="btn btn-danger" data-role="clear">حذف موارد انتخابی</button>
+                    </th>
+                    <th>نوع </th>
+                    <th>عکس یا فیلم</th>
+                    <th>عنوان</th>
+                    <th>جایگاه</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var file in files)
+                {
+                    <tr>
+                        <td>
+                            <input type="checkbox" data-role="checkbox" value="@(file.FileName)" />
+                        </td>
+                        <td>
+                            @if (file.Type == Varesin.Domain.Enumeration.FileType.Image)
+                            {
+                                <label>عکس</label>
+                            }
+                            else
+                            {
+                                <label>فیلم</label>
+                            }
+
+                        </td>
+                        <td>
+                            @if (file.Type == Varesin.Domain.Enumeration.FileType.Image)
+                            {
+                                if (file.FolderName == "EventFile")
+                                {
+                                    <img src="~/Files/EventFile/@(file.FileName)" style="width:70px" class="img-thumbnail" />
+                                }
+                                if (file.FolderName == "NewsFile")
+                                {
+                                    <img src="~/Files/NewsFile/@(file.FileName)" style="width:70px" class="img-thumbnail" />
+                                }
+                                if (file.FolderName == "PostFile")
+                                {
+                                    <img src="~/Files/PostFile/@(file.FileName)" style="width:70px" class="img-thumbnail" />
+                                }
+
+
+                            }
+                            else
+                            {
+                                <i class="fa fa-video-camera text-primary" style="font-size:40px" aria-hidden="true"></i>
+                            }
+                        </td>
+                        <td>@(file.Title) </td>
+                        <td data-role="number">
+                            <input type="number" disabled />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+
+        </table>
+    </div>
+
+    <hr />
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>توضیحاتی در مورد این پست : </label>
+                <textarea class="form-control" v-model="Caption" rows="8" placeholder="توضیحات"></textarea>
+            </div>
+
+
+        </div>
+        <div class="col-md-8">
+            <label>لطفا تگ های این پست رو انتخاب کنید </label>
+            @foreach (var tag in tags)
+            {
+                <div class="checkbox">
+                    <label><input data-role="tag" type="checkbox" value="@(tag)">@(tag)</label>
+                </div>
+            }
+        </div>
+    </div>
+
+    <hr />
+
+    <label>آیا کامنت این پست بسته شو د ؟؟</label>
+    <div class="checkbox">
+        <label><input type="checkbox" v-model="DisableComment">بستن کامنت این پست</label>
+    </div>
+
+    <hr />
+
+    <button type="submit" data-role="save" class="ladda-button btn btn-primary" data-style="zoom-in">
+        <span class="ladda-label">ثبت پست در اینستاگرام</span>
+    </button>
+</div>
+
+<script>
+
+    var app = new Vue({
+        el: '#app',
+        data: {
+            FileIds: [],
+            Tags: [],
+            Caption: '',
+            DisableComment: false,
+            Type:'@(type)'
+        }
+    })
+    $(function () {
+
+        $('input[type="checkbox"][data-role="checkbox"]').on('click', function () {
+            var checked = $(this).is(':checked');
+            var length = $('input[type="checkbox"][data-role="checkbox"]:checked').length;
+
+            if (length <= 10) {
+                if (checked) {
+                    $(this).closest('tr').find('[data-role="number"] > input').val(length);
+                    $(this).attr('disabled', 'disabled');
+                }
+            }
+
+            else {
+                alert('بیشتر از 10 مود نمی توانید انتخاب کنید');
+                $(this).prop('checked', false);
+            }
+        });
+
+        $('[data-role="clear"]').on('click', function () {
+            $('[data-role="number"] > input').val('');
+            $('input[type="checkbox"]').removeAttr('disabled').prop('checked', false);
+        });
+
+        $('[data-role="save"]').on('click', function () {
+            var length = $('input[type="checkbox"][data-role="checkbox"]:checked').length;
+            if (length == 0) {
+                alert('فایلی انتخاب نکردید ')
+            }
+            else {
+                var l = Ladda.create(document.querySelector('.ladda-button'));
+                l.start();
+                var numberArr = [];
+                var data = [];
+                var arr = [];
+                var tag = [];
+                $('input[type="checkbox"][data-role="checkbox"]:checked').map(function (index, item) {
+                    var value = $(item).val();
+                    var number = $(item).closest('tr').find('[data-role="number"] > input').val();
+                    arr.push({ order: number, value: value })
+                    numberArr.push(number);
+                });
+                numberArr.sort();
+                numberArr.map(function (item) {
+                    var value = arr.find(function (it) {
+                        return it.order == item;
+                    }).value;
+                    data.push(value);
+                });
+                app.FileIds = data;
+
+                $('input[type="checkbox"][data-role="tag"]:checked').map(function (index, item) {
+                    tag.push($(item).val())
+                })
+
+                app.Tags = tag;
+                $.ajax({
+                    type: "POST",
+                    url: '/Admin/Instagram/CreatePost',
+                    data: {
+                        FileIds: app.FileIds,
+                        Tags: app.Tags,
+                        Caption: app.Caption,
+                        DisableComment: app.DisableComment,
+                        Type:app.Type
+                    },
+                    success: function (response) {
+                        if (response.isSuccess) {
+                            alert('اشتراک گذاری با موفیقت انجام شد ')
+                            window.location.href = '/Admin/Home/Index'
+                        }
+                        else {
+                            alert(response.errors[0])
+                        }
+                        l.stop();
+                    },
+                    error: function (response) {
+                        l.stop();
+                        alert('سرور با خطا مواجه شد')
+                    }
+                });
+            }
+        });
+    })
+</script>
+

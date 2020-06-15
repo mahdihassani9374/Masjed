@@ -1117,5 +1117,21 @@ namespace Varesin.Services
             return serviceResult;
         }
 
+        public List<PostFileDto> GetAllPostFiles(List<string> fileNames)
+        {
+            var data = _context.PostFiles.Where(c => fileNames.Any(i => i == c.FileName)).ToList();
+            return data.ToDto();
+        }
+        public List<EventFileDto> GetAllEventFiles(List<string> fileNames)
+        {
+            var data = _context.EventFiles.Where(c => fileNames.Any(i => i == c.FileName)).ToList();
+            return data.ToDto();
+        }
+        public List<NewsFileDto> GetAllNewsFiles(List<string> fileNames)
+        {
+            var data = _context.NewsFiles.Where(c => fileNames.Any(i => i == c.FileName)).ToList();
+            return data.ToDto();
+        }
+
     }
 }
